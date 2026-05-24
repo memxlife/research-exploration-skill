@@ -1,0 +1,26 @@
+{
+  "name": "research-exploration-skill",
+  "version": "0.1.0",
+  "description": "Codex skill for disciplined evidence-driven research exploration loops.",
+  "type": "module",
+  "files": [
+    ".codex/skills/research-exploration/SKILL.md",
+    ".codex/skills/research-exploration/agents/",
+    ".codex/skills/research-exploration/references/",
+    "scripts/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "postinstall": "node ./scripts/install-codex-skill.mjs",
+    "check": "node --check scripts/install-codex-skill.mjs"
+  },
+  "keywords": [
+    "codex",
+    "skill",
+    "research",
+    "experiments",
+    "falsification"
+  ],
+  "license": "MIT"
+}
