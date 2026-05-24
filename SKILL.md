@@ -15,6 +15,15 @@ Do not treat a plausible idea as progress. Progress requires:
 hypothesis -> operational definition -> minimal test -> metric + visual evidence -> failure analysis -> refined hypothesis
 ```
 
+Research progress is conjecture refinement through falsification:
+
+```text
+conjecture -> rigorous falsification -> problem-structure discovery -> updated conjecture
+```
+
+A failed experiment is useful only when it reveals which assumption, stage, or
+prior was wrong.
+
 For multi-step algorithms, progress also requires inspectable intermediate
 outputs:
 
@@ -88,7 +97,26 @@ failure cases that are easy to interpret
 
 Change the benchmark when it cannot answer the question.
 
-### 5. Measure And Look
+### 5. Run The Conjecture Refinement Loop
+
+After each experiment, explicitly record:
+
+```text
+original conjecture
+expected evidence if true
+falsification test
+what survived
+what failed
+hidden problem structure revealed
+updated conjecture
+next uncertainty to isolate
+```
+
+Do not merely report whether the experiment worked. Use falsification to make
+the next conjecture more physically, mathematically, and computationally
+appropriate.
+
+### 6. Measure And Look
 
 Every experiment needs both numbers and visual evidence.
 
@@ -109,7 +137,7 @@ next experiment
 For spatial or vision work, include frame-by-frame or interactive 3D
 visualization whenever possible.
 
-### 6. Instrument Multi-Step Algorithms
+### 7. Instrument Multi-Step Algorithms
 
 When the algorithm has multiple stages, treat each stage as a falsifiable
 sub-task. Before trusting the full pipeline, create stage-local diagnostics.
@@ -139,7 +167,7 @@ Each arrow must have debug evidence. If final anchors fail, inspect candidate
 selection, matching, triangulation, merge, and promotion separately before
 changing the model.
 
-### 7. Diagnose Failures Before Adding Complexity
+### 8. Diagnose Failures Before Adding Complexity
 
 Classify failures before changing the algorithm.
 
@@ -158,7 +186,7 @@ model limitation
 
 Prefer one targeted change over many simultaneous changes.
 
-### 8. Record The Research State
+### 9. Record The Research State
 
 End each loop with:
 
