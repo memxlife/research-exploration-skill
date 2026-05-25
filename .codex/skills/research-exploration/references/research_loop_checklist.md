@@ -47,6 +47,16 @@ Use this checklist when planning or reviewing a research experiment.
 - Can the viewer distinguish prediction, ground truth, and uncertainty?
 - Are colors chosen to avoid confusion with object colors?
 
+## Stage Contract
+
+- Are input assumptions stated before implementing the sub-task?
+- Is the sub-task objective narrow enough to falsify locally?
+- Is the expected intermediate output defined before running the code?
+- Is there a pass/fail criterion for the intermediate output?
+- Is there a debug artifact that a human can inspect?
+- Are representative success and failure cases named or saved?
+- Is the next-stage handoff contract explicit?
+
 ## Implementation
 
 - Are code paths listed?

@@ -188,16 +188,26 @@ visualization whenever possible.
 When the algorithm has multiple stages, treat each stage as a falsifiable
 sub-task. Before trusting the full pipeline, create stage-local diagnostics.
 
-For each stage, record:
+Before implementing or trusting each stage, write a stage contract:
+
+```text
+input assumptions
+sub-task objective
+expected intermediate output
+pass/fail criterion
+debug artifact
+representative pass examples
+representative fail examples
+next-stage handoff contract
+```
+
+After running the stage, record runtime evidence against that contract:
 
 ```text
 input count and distribution
 accepted output count and distribution
 rejected output count by reason
 intermediate artifacts saved to disk
-representative pass examples
-representative fail examples
-handoff contract to the next stage
 ```
 
 For frame/sequence/spatial algorithms, include per-frame or per-region debug
