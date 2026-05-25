@@ -35,6 +35,18 @@ Do not debug only the final output of a pipeline. Each stage must expose enough
 evidence to explain why examples pass, fail, or become uncertain before the next
 stage consumes them.
 
+For large failures, falsification is recursive decomposition. Do not ask only
+"why did the whole system fail?" Break the failure into smaller sub-problems,
+test each sub-problem, and keep decomposing until the true bottleneck becomes
+local, observable, and fixable:
+
+```text
+big failure -> sub-problems -> stage-local tests -> verified bottleneck -> targeted fix
+```
+
+Each decomposition level must produce an answer, even if that answer is "not the
+cause." Negative answers are progress because they remove false explanations.
+
 ## Workflow
 
 ### 1. State The Claim
@@ -116,7 +128,41 @@ Do not merely report whether the experiment worked. Use falsification to make
 the next conjecture more physically, mathematically, and computationally
 appropriate.
 
-### 6. Measure And Look
+### 6. Recursively Decompose Failures
+
+When the failure is broad or confusing, turn it into a hierarchy of smaller
+questions before changing the algorithm.
+
+For each decomposition level, record:
+
+```text
+parent failure
+candidate sub-problems
+test for each sub-problem
+answer for each sub-problem
+evidence supporting each answer
+remaining bottleneck
+```
+
+Use this pattern:
+
+```text
+Is the viewer wrong?
+Is the benchmark missing the target behavior?
+Are candidates missing?
+Is the correct match outside the search region?
+Is matching ambiguous?
+Is geometry rejecting correct matches?
+Is final promotion too permissive?
+```
+
+The exact questions depend on the domain, but the rule is general: a big failure
+is solved by recursively isolating which sub-problem is actually false.
+
+Only change the algorithm after the decomposition identifies a specific failed
+sub-problem. If multiple sub-problems remain plausible, instrument them first.
+
+### 7. Measure And Look
 
 Every experiment needs both numbers and visual evidence.
 
@@ -137,7 +183,7 @@ next experiment
 For spatial or vision work, include frame-by-frame or interactive 3D
 visualization whenever possible.
 
-### 7. Instrument Multi-Step Algorithms
+### 8. Instrument Multi-Step Algorithms
 
 When the algorithm has multiple stages, treat each stage as a falsifiable
 sub-task. Before trusting the full pipeline, create stage-local diagnostics.
@@ -167,7 +213,7 @@ Each arrow must have debug evidence. If final anchors fail, inspect candidate
 selection, matching, triangulation, merge, and promotion separately before
 changing the model.
 
-### 8. Diagnose Failures Before Adding Complexity
+### 9. Diagnose Failures Before Adding Complexity
 
 Classify failures before changing the algorithm.
 
@@ -186,7 +232,7 @@ model limitation
 
 Prefer one targeted change over many simultaneous changes.
 
-### 9. Record The Research State
+### 10. Record The Research State
 
 End each loop with:
 
@@ -204,6 +250,12 @@ tested.
 
 When a failure is found in a multi-stage pipeline, say exactly which stage is
 verified as the bottleneck and which alternative explanations were falsified.
+
+When a recursive decomposition resolves a problem, record the final causal path:
+
+```text
+big failure -> falsified explanations -> verified bottleneck -> fix -> remaining unsolved problem
+```
 
 ## Writing Research Documents
 

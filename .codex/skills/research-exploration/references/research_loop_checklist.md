@@ -24,6 +24,15 @@ Use this checklist when planning or reviewing a research experiment.
 - Does the setup contain enough variation to expose the prior?
 - Are textures and camera motion intentionally designed, not incidental?
 
+## Recursive Decomposition
+
+- Is the big failure decomposed into smaller possible failure points?
+- Does each sub-problem have its own falsification test?
+- Are negative answers recorded as evidence, not discarded?
+- Did the decomposition continue until the bottleneck became local and fixable?
+- Is the final causal path stated from big failure to verified bottleneck?
+- Were algorithm changes delayed until the failed sub-problem was identified?
+
 ## Metrics
 
 - Does each metric answer a specific question?
