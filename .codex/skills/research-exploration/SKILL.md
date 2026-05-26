@@ -24,6 +24,17 @@ conjecture -> rigorous falsification -> problem-structure discovery -> updated c
 A failed experiment is useful only when it reveals which assumption, stage, or
 prior was wrong.
 
+Research documentation is part of the falsification machinery. For nontrivial
+research problems, write the research object so the causal chain is inspectable:
+
+```text
+conjecture -> physical priors -> mathematical model -> implementation contract -> experiment -> failure analysis -> updated conjecture
+```
+
+The document should not be a log. It should show how each prior becomes a model,
+how each model becomes code, and how experiments can falsify or refine the
+conjecture.
+
 For multi-step algorithms, progress also requires inspectable intermediate
 outputs:
 
@@ -127,6 +138,36 @@ next uncertainty to isolate
 Do not merely report whether the experiment worked. Use falsification to make
 the next conjecture more physically, mathematically, and computationally
 appropriate.
+
+### 5.5 Write The Research Object As A Testable Argument
+
+When a research problem becomes more than a quick experiment, write a concise
+design document that regularizes the loop:
+
+```text
+conjecture
+task input and output
+core difficulty
+physical priors
+mathematical model for each prior
+implementation stage for each model
+experiment that can falsify the priors
+conjecture update from the result
+```
+
+Use a consistent subsection format when helpful:
+
+```text
+Objective: what this part tries to do
+Physical prior: why this step is plausible in the world
+Model: the equation or formal representation
+Implementation contract: the code stage, inputs, outputs, and pass/fail checks
+Evidence: metrics, visual examples, and failure cases
+```
+
+The writing standard is simple: every claim should connect to a prior, every
+prior should connect to a model, every model should connect to implementation,
+and every implementation should be falsifiable by experiment.
 
 ### 6. Recursively Decompose Failures
 
