@@ -22,7 +22,8 @@ conjecture -> rigorous falsification -> problem-structure discovery -> updated c
 ```
 
 A failed experiment is useful only when it reveals which assumption, stage, or
-prior was wrong.
+prior was wrong. A successful experiment is useful only when it explains why the
+result succeeded.
 
 Research documentation is part of the falsification machinery. For nontrivial
 research problems, write the research object so the causal chain is inspectable:
@@ -34,6 +35,10 @@ conjecture -> physical priors -> mathematical model -> implementation contract -
 The document should not be a log. It should show how each prior becomes a model,
 how each model becomes code, and how experiments can falsify or refine the
 conjecture.
+
+Do not stop at a yes/no outcome. The "why" comes from stage-level profiling:
+break the task into physical priors, mathematical modeling steps, computation
+stages, evidence at each stage, and the failure interpretation for each stage.
 
 For multi-step algorithms, progress also requires inspectable intermediate
 outputs:
@@ -57,6 +62,42 @@ big failure -> sub-problems -> stage-local tests -> verified bottleneck -> targe
 
 Each decomposition level must produce an answer, even if that answer is "not the
 cause." Negative answers are progress because they remove false explanations.
+
+## Enforcement Standard
+
+For nontrivial research work, do not deliver a final research answer unless the
+following artifacts exist in the notes, report, or response:
+
+```text
+falsifiable conjecture
+physical priors
+mathematical model for each prior
+implementation contract for each model
+stage-level profiling evidence
+failure interpretation for each stage
+conjecture update or next uncertainty
+claim boundary
+```
+
+If any artifact is missing, say that the research state is incomplete and name
+the missing artifact. Do not replace missing evidence with confident narrative.
+
+For each stage in a multi-step algorithm, enforce this minimum audit:
+
+```text
+question: what is this stage supposed to prove or falsify?
+input evidence: what entered the stage?
+output evidence: what was accepted, rejected, or uncertain?
+failure evidence: what failed and by which reason?
+artifact: what file, plot, table, screenshot, or viewer state lets a human inspect it?
+interpretation: what does this stage imply for the conjecture?
+```
+
+The final yes/no answer must be backed by the causal path:
+
+```text
+final result -> stage evidence -> bottleneck or support -> conjecture update
+```
 
 ## Workflow
 
@@ -139,6 +180,12 @@ Do not merely report whether the experiment worked. Use falsification to make
 the next conjecture more physically, mathematically, and computationally
 appropriate.
 
+For multi-step systems, record both the final answer and the causal path:
+
+```text
+final yes/no -> stage evidence -> bottleneck or support -> conjecture update
+```
+
 ### 5.5 Write The Research Object As A Testable Argument
 
 When a research problem becomes more than a quick experiment, write a concise
@@ -163,6 +210,15 @@ Physical prior: why this step is plausible in the world
 Model: the equation or formal representation
 Implementation contract: the code stage, inputs, outputs, and pass/fail checks
 Evidence: metrics, visual examples, and failure cases
+```
+
+For experiments, add a stage-level falsification and profiling plan:
+
+```text
+Question: what does this stage need to prove or falsify?
+Model and implementation: which prior, equation, and code stage are tested?
+Profiling evidence: what counts, distributions, visual examples, and timings are collected?
+Failure interpretation: what does each failure mode mean for the conjecture?
 ```
 
 The writing standard is simple: every claim should connect to a prior, every
@@ -257,7 +313,7 @@ views, not just aggregate metrics.
 Example:
 
 ```text
-candidate features -> matched tracklets -> triangulated points -> merged anchors -> surface regions
+candidate features -> matched observations -> triangulated points -> merged anchors -> surface regions
 ```
 
 Each arrow must have debug evidence. If final anchors fail, inspect candidate
