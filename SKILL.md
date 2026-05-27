@@ -78,6 +78,22 @@ implementation: exact code path, parameters, data, and outputs
 If the implementation has a heuristic that is not in the prior or math, either
 remove it or explicitly name it as an implementation heuristic.
 
+Before choosing an experiment, list the plausible physical parameters that
+could operationalize the prior. If a key construct can be interpreted in more
+than one way, name the competing interpretations instead of silently choosing
+one.
+
+When observations unfold over time or under changing conditions, distinguish:
+
+```text
+instantaneous evidence: what is true in one observation
+temporal evidence: what persists or changes across observations
+structural evidence: what is true after aggregating observations into a higher-level representation
+```
+
+Do not replace a temporal or structural parameter with an instantaneous proxy
+unless that simplification is explicitly the thing being tested.
+
 ### 3. Define Each Term Operationally
 
 Do not leave important words intuitive. Define them as tests.
@@ -115,6 +131,8 @@ After each experiment, explicitly record:
 
 ```text
 original conjecture
+candidate physical parameters considered
+chosen operationalization
 expected evidence if true
 falsification test
 what survived
@@ -127,6 +145,11 @@ next uncertainty to isolate
 Do not merely report whether the experiment worked. Use falsification to make
 the next conjecture more physically, mathematically, and computationally
 appropriate.
+
+When an experiment fails, say whether it falsified the physical prior itself or
+only one operationalization of that prior. A failed simple proxy may strengthen
+the case for a temporal or structural parameter rather than invalidating the
+original idea.
 
 ### 6. Recursively Decompose Failures
 
