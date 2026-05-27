@@ -22,7 +22,23 @@ conjecture -> rigorous falsification -> problem-structure discovery -> updated c
 ```
 
 A failed experiment is useful only when it reveals which assumption, stage, or
-prior was wrong.
+prior was wrong. A successful experiment is useful only when it explains why the
+result succeeded.
+
+Research documentation is part of the falsification machinery. For nontrivial
+research problems, write the research object so the causal chain is inspectable:
+
+```text
+conjecture -> physical priors -> mathematical model -> implementation contract -> experiment -> failure analysis -> updated conjecture
+```
+
+The document should not be a log. It should show how each prior becomes a model,
+how each model becomes code, and how experiments can falsify or refine the
+conjecture.
+
+Do not stop at a yes/no outcome. The "why" comes from stage-level profiling:
+break the task into physical priors, mathematical modeling steps, computation
+stages, evidence at each stage, and the failure interpretation for each stage.
 
 For multi-step algorithms, progress also requires inspectable intermediate
 outputs:
@@ -47,6 +63,42 @@ big failure -> sub-problems -> stage-local tests -> verified bottleneck -> targe
 Each decomposition level must produce an answer, even if that answer is "not the
 cause." Negative answers are progress because they remove false explanations.
 
+## Enforcement Standard
+
+For nontrivial research work, do not deliver a final research answer unless the
+following artifacts exist in the notes, report, or response:
+
+```text
+falsifiable conjecture
+physical priors
+mathematical model for each prior
+implementation contract for each model
+stage-level profiling evidence
+failure interpretation for each stage
+conjecture update or next uncertainty
+claim boundary
+```
+
+If any artifact is missing, say that the research state is incomplete and name
+the missing artifact. Do not replace missing evidence with confident narrative.
+
+For each stage in a multi-step algorithm, enforce this minimum audit:
+
+```text
+question: what is this stage supposed to prove or falsify?
+input evidence: what entered the stage?
+output evidence: what was accepted, rejected, or uncertain?
+failure evidence: what failed and by which reason?
+artifact: what file, plot, table, screenshot, or viewer state lets a human inspect it?
+interpretation: what does this stage imply for the conjecture?
+```
+
+The final yes/no answer must be backed by the causal path:
+
+```text
+final result -> stage evidence -> bottleneck or support -> conjecture update
+```
+
 ## Workflow
 
 ### 1. State The Claim
@@ -56,13 +108,13 @@ Write the claim in one sentence. Make it falsifiable.
 Prefer:
 
 ```text
-Distinctive early-layer visual anchors can be triangulated into persistent 3D points under known egocentric motion.
+A measurable signal remains stable under specified perturbations and predicts the target label above a defined threshold.
 ```
 
 Avoid:
 
 ```text
-The model understands 3D structure.
+The model understands the hidden structure.
 ```
 
 ### 2. Separate Prior, Math, And Implementation
@@ -106,7 +158,7 @@ distinctive: few nearby or epipolar candidates have similar descriptors
 persistent: repeated positive support creates one 3D hypothesis
 missing: no usable match; neutral evidence, not deletion
 ambiguous: too many plausible matches; invalid for 3D promotion
-boundary: sparse anchor with missing local 3D support on one side
+valid: evidence satisfies the acceptance rule for the current stage
 ```
 
 ### 4. Build The Smallest Diagnostic Benchmark
@@ -150,6 +202,85 @@ When an experiment fails, say whether it falsified the physical prior itself or
 only one operationalization of that prior. A failed simple proxy may strengthen
 the case for a temporal or structural parameter rather than invalidating the
 original idea.
+
+For multi-step systems, record both the final answer and the causal path:
+
+```text
+final yes/no -> stage evidence -> bottleneck or support -> conjecture update
+```
+
+### 5.5 Write The Research Object As A Testable Argument
+
+When a research problem becomes more than a quick experiment, write a concise
+design document that regularizes the loop:
+
+```text
+conjecture
+task input and output
+core difficulty
+physical priors
+mathematical model for each prior
+implementation stage for each model
+experiment that can falsify the priors
+conjecture update from the result
+```
+
+Separate current theory from research provenance:
+
+```text
+current-state document:
+  the latest clean problem definition, priors, model, implementation contract,
+  falsification plan, claim boundary, and current uncertainty;
+
+iteration ledger:
+  the append-only sequence of conjecture -> operationalization -> profiling ->
+  result -> interpretation -> conjecture update.
+```
+
+The current-state document should be rewritten as understanding improves. The
+iteration ledger should preserve how that understanding changed. Do not bury
+old failed operationalizations inside the current model; keep them in the
+ledger as evidence about what was falsified and why.
+
+Use a consistent subsection format when helpful:
+
+```text
+Objective: what this part tries to do
+Physical prior: why this step is plausible in the world
+Model: the equation or formal representation
+Implementation contract: the code stage, inputs, outputs, and pass/fail checks
+Evidence: metrics, visual examples, and failure cases
+```
+
+For experiments, add a stage-level falsification and profiling plan:
+
+```text
+Question: what does this stage need to prove or falsify?
+Model and implementation: which prior, equation, and code stage are tested?
+Profiling evidence: what counts, distributions, visual examples, and timings are collected?
+Failure interpretation: what does each failure mode mean for the conjecture?
+```
+
+The writing standard is simple: every claim should connect to a prior, every
+prior should connect to a model, every model should connect to implementation,
+and every implementation should be falsifiable by experiment.
+
+For each iteration, use this minimum record:
+
+```text
+Conjecture: what is currently believed.
+Physical parameterization: which measurable version of the idea is being tested.
+Operationalization: how the parameterization becomes variables, thresholds, or stages.
+Profiling plan: what intermediate evidence will explain success or failure.
+Result: metrics, artifacts, and representative examples.
+Interpretation: what succeeded, what failed, and why.
+Conjecture update: what changes in the current-state document.
+Next uncertainty: the smallest remaining uncertainty to isolate.
+```
+
+If an experiment tests only one possible operationalization of a broader prior,
+say that explicitly. A failed proxy should not be written as a failed prior
+unless the profiling evidence rules out the broader prior.
 
 ### 6. Recursively Decompose Failures
 
@@ -239,12 +370,12 @@ views, not just aggregate metrics.
 Example:
 
 ```text
-candidate features -> matched tracklets -> triangulated points -> merged anchors -> surface regions
+candidate generation -> matching -> estimation -> merging -> final prediction
 ```
 
-Each arrow must have debug evidence. If final anchors fail, inspect candidate
-selection, matching, triangulation, merge, and promotion separately before
-changing the model.
+Each arrow must have debug evidence. If the final prediction fails, inspect
+candidate generation, matching, estimation, merging, and promotion separately
+before changing the model.
 
 ### 9. Diagnose Failures Before Adding Complexity
 
@@ -277,8 +408,8 @@ what changed in the hypothesis
 what the next test should isolate
 ```
 
-Be explicit about claim boundaries. Do not call sparse anchors a dense surface
-model. Do not call boundary candidates object segmentation unless that was
+Be explicit about claim boundaries. Do not describe an intermediate artifact as
+a complete model, and do not claim a task was solved unless that exact task was
 tested.
 
 When a failure is found in a multi-stage pipeline, say exactly which stage is
