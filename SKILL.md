@@ -7,6 +7,28 @@ description: Guide disciplined research exploration loops for ambiguous scientif
 
 Use this skill to keep research work causal, testable, and evidence-driven.
 
+## Communication Rule
+
+Keep the conversation concrete and simple. Name the specific object, variable,
+file, metric, frame, stage, or decision being discussed. Avoid vague phrases
+such as "the signal," "the approach," or "the thing" when a concrete name is
+available.
+
+Use short sentences. Prefer plain words over jargon. If a technical term is
+needed, define it as a test or a computation. Do not use polished-sounding
+research language to cover an unclear idea.
+
+When explaining a result, say:
+
+```text
+what was tested
+what file or artifact contains the evidence
+what passed
+what failed
+why it failed, if known
+what the next concrete test is
+```
+
 ## Core Rule
 
 Do not treat a plausible idea as progress. Progress requires:
@@ -35,6 +57,24 @@ conjecture -> physical priors -> mathematical model -> implementation contract -
 The document should not be a log. It should show how each prior becomes a model,
 how each model becomes code, and how experiments can falsify or refine the
 conjecture.
+
+Do not run an experiment against a hand-waved algorithm. For any nontrivial
+algorithm, first write an executable specification in simple words:
+
+```text
+input
+parameters
+intermediate variables
+step-by-step procedure
+pass conditions
+fail conditions
+failure reasons
+outputs
+debug artifacts
+```
+
+The algorithm is part of the research claim. If the algorithm is vague, the
+experiment cannot falsify the conjecture because nobody knows what was tested.
 
 Do not stop at a yes/no outcome. The "why" comes from stage-level profiling:
 break the task into physical priors, mathematical modeling steps, computation
@@ -73,6 +113,7 @@ falsifiable conjecture
 physical priors
 mathematical model for each prior
 implementation contract for each model
+explicit algorithm specification for each nontrivial implementation stage
 stage-level profiling evidence
 failure interpretation for each stage
 conjecture update or next uncertainty
@@ -130,6 +171,23 @@ implementation: exact code path, parameters, data, and outputs
 If the implementation has a heuristic that is not in the prior or math, either
 remove it or explicitly name it as an implementation heuristic.
 
+Before coding or running a benchmark, check the alignment in plain language:
+
+```text
+physical prior:
+  what should happen in the world?
+math model:
+  what variables measure that thing?
+algorithm:
+  what exact steps compute those variables?
+experiment:
+  what result would support or falsify the model?
+```
+
+If the algorithm cannot be written as exact steps, stop and specify it first.
+Do not hide unclear reasoning behind words like "cluster," "match,"
+"consistent," "stable," "local," or "valid." Define the exact test.
+
 Before choosing an experiment, list the plausible physical parameters that
 could operationalize the prior. If a key construct can be interpreted in more
 than one way, name the competing interpretations instead of silently choosing
@@ -160,6 +218,18 @@ missing: no usable match; neutral evidence, not deletion
 ambiguous: too many plausible matches; invalid for 3D promotion
 valid: evidence satisfies the acceptance rule for the current stage
 ```
+
+For each operational definition, include the negative case:
+
+```text
+what counts as success?
+what counts as failure?
+what counts as insufficient evidence?
+which failure reason is recorded?
+```
+
+This matters because "no" is not enough. The research loop needs to know why
+the answer is no.
 
 ### 4. Build The Smallest Diagnostic Benchmark
 
@@ -251,6 +321,20 @@ Model: the equation or formal representation
 Implementation contract: the code stage, inputs, outputs, and pass/fail checks
 Evidence: metrics, visual examples, and failure cases
 ```
+
+For algorithm-heavy sections, use an explicit procedure block:
+
+```text
+Algorithm:
+1. Read these inputs.
+2. Compute these intermediate variables.
+3. Apply this decision rule.
+4. If the rule fails, record this failure reason.
+5. Save these outputs and debug artifacts.
+```
+
+Every parameter in the procedure must have a name, value, meaning, and expected
+effect when it is too small or too large.
 
 For experiments, add a stage-level falsification and profiling plan:
 
@@ -347,8 +431,10 @@ Before implementing or trusting each stage, write a stage contract:
 ```text
 input assumptions
 sub-task objective
+exact algorithm steps
 expected intermediate output
 pass/fail criterion
+named failure reasons
 debug artifact
 representative pass examples
 representative fail examples
@@ -366,6 +452,11 @@ intermediate artifacts saved to disk
 
 For frame/sequence/spatial algorithms, include per-frame or per-region debug
 views, not just aggregate metrics.
+
+For slow research loops, make a fast micro-test first. Use already-known good
+and bad examples, a small number of frames or cases, and stage-local artifacts.
+Full sweeps are useful only after the fast test shows the operationalization is
+worth scaling.
 
 Example:
 
@@ -442,6 +533,10 @@ definition
 reason for this value
 effect if too low or too high, when useful
 ```
+
+Write simply. Rigor means precise, not fancy. Prefer short sentences and common
+words. Avoid jargon unless it is defined as a concrete test. A reader should be
+able to implement the algorithm from the document without guessing.
 
 ## Extra Checklist
 
