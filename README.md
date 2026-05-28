@@ -20,14 +20,14 @@ Install from the repository:
 npm install -g .
 ```
 
-During `npm install`, the package automatically installs the skill to:
+During `npm install`, the package automatically links the skill to:
 
 ```text
 ~/.codex/skills/research-exploration
 ```
 
 If the skill already exists, the installer leaves it unchanged. To replace an
-existing local copy:
+existing local copy with a source link:
 
 ```bash
 RESEARCH_EXPLORATION_UPDATE_SKILL=1 npm install -g .
@@ -48,8 +48,9 @@ npm install -g github:memxlife/research-exploration-skill
 scripts/install-codex-skill.mjs
 ```
 
-The packaged skill under `.codex/skills/research-exploration` is the install
-source of truth.
+The packaged skill under `.codex/skills/research-exploration` is the only
+source of truth. The Codex runtime path should be a symlink to this directory,
+so the skill used by Codex is the same copy that is tracked by Git.
 
 ## Validate
 

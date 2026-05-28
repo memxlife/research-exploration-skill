@@ -5,7 +5,26 @@ description: Guide disciplined research exploration loops for ambiguous scientif
 
 # Research Exploration
 
-Use this skill to keep research work causal, testable, and evidence-driven.
+Use this skill to keep research work concrete, testable, and evidence-driven.
+
+## Communication Rule
+
+Use simple language. Be precise without using fancy words. Name the concrete
+object, variable, file, metric, stage, example, or decision being discussed.
+
+When explaining a result, say:
+
+```text
+what was tested
+where the evidence is
+what passed
+what failed
+why it failed, if known
+what the next concrete test is
+```
+
+Do not use polished research language to hide an unclear idea. If a term is
+important, define it as a test or computation.
 
 ## Core Rule
 
@@ -25,346 +44,103 @@ A failed experiment is useful only when it reveals which assumption, stage, or
 prior was wrong. A successful experiment is useful only when it explains why the
 result succeeded.
 
-Research documentation is part of the falsification machinery. For nontrivial
-research problems, write the research object so the causal chain is inspectable:
+Repeated failure can also mean the goal is wrong. If several precise algorithms
+fail in the same way, stop and ask whether the target label, metric, or success
+condition matches the downstream purpose.
+
+## Required Chain
+
+For nontrivial research work, keep this chain inspectable:
 
 ```text
 conjecture -> physical priors -> mathematical model -> implementation contract -> experiment -> failure analysis -> updated conjecture
 ```
 
-The document should not be a log. It should show how each prior becomes a model,
-how each model becomes code, and how experiments can falsify or refine the
-conjecture.
+The document should not be only a log. It should show how each prior becomes a
+model, how each model becomes code, and how experiments can falsify or refine
+the conjecture.
 
-Do not stop at a yes/no outcome. The "why" comes from stage-level profiling:
-break the task into physical priors, mathematical modeling steps, computation
-stages, evidence at each stage, and the failure interpretation for each stage.
+## Required Artifacts
 
-For multi-step algorithms, progress also requires inspectable intermediate
-outputs:
-
-```text
-stage -> artifact -> pass/fail criteria -> representative examples -> next-stage handoff
-```
-
-Do not debug only the final output of a pipeline. Each stage must expose enough
-evidence to explain why examples pass, fail, or become uncertain before the next
-stage consumes them.
-
-For large failures, falsification is recursive decomposition. Do not ask only
-"why did the whole system fail?" Break the failure into smaller sub-problems,
-test each sub-problem, and keep decomposing until the true bottleneck becomes
-local, observable, and fixable:
-
-```text
-big failure -> sub-problems -> stage-local tests -> verified bottleneck -> targeted fix
-```
-
-Each decomposition level must produce an answer, even if that answer is "not the
-cause." Negative answers are progress because they remove false explanations.
-
-## Enforcement Standard
-
-For nontrivial research work, do not deliver a final research answer unless the
-following artifacts exist in the notes, report, or response:
+Do not deliver a final research answer unless the notes, report, or response
+contain:
 
 ```text
 falsifiable conjecture
 physical priors
 mathematical model for each prior
 implementation contract for each model
+explicit algorithm specification for each nontrivial stage
 stage-level profiling evidence
 failure interpretation for each stage
 conjecture update or next uncertainty
 claim boundary
 ```
 
-If any artifact is missing, say that the research state is incomplete and name
-the missing artifact. Do not replace missing evidence with confident narrative.
+If an artifact is missing, say the research state is incomplete and name the
+missing artifact.
 
-For each stage in a multi-step algorithm, enforce this minimum audit:
+## Quick Workflow
 
-```text
-question: what is this stage supposed to prove or falsify?
-input evidence: what entered the stage?
-output evidence: what was accepted, rejected, or uncertain?
-failure evidence: what failed and by which reason?
-artifact: what file, plot, table, screenshot, or viewer state lets a human inspect it?
-interpretation: what does this stage imply for the conjecture?
-```
+1. State the claim in one falsifiable sentence.
+2. Separate the physical prior, math model, algorithm, and experiment.
+3. Define important terms as tests, including success, failure, and insufficient evidence.
+4. Write the exact algorithm before running the experiment.
+5. Build the smallest diagnostic benchmark or micro-test.
+6. Measure both numbers and visual evidence.
+7. Inspect stage-level evidence before changing the algorithm.
+8. Decompose broad failures into smaller tests.
+9. Audit the goal when repeated reasonable fixes fail.
+10. Update the current-state document and the iteration ledger.
 
-The final yes/no answer must be backed by the causal path:
+## Non-Negotiable Rules
 
-```text
-final result -> stage evidence -> bottleneck or support -> conjecture update
-```
-
-## Workflow
-
-### 1. State The Claim
-
-Write the claim in one sentence. Make it falsifiable.
-
-Prefer:
+Do not run an experiment against a hand-waved algorithm. For any nontrivial
+algorithm, first write:
 
 ```text
-Distinctive early-layer visual anchors can be triangulated into persistent 3D points under known egocentric motion.
-```
-
-Avoid:
-
-```text
-The model understands 3D structure.
-```
-
-### 2. Separate Prior, Math, And Implementation
-
-Keep three layers aligned.
-
-```text
-physical prior: what must be true in the world
-mathematical model: how that prior is represented and tested
-implementation: exact code path, parameters, data, and outputs
-```
-
-If the implementation has a heuristic that is not in the prior or math, either
-remove it or explicitly name it as an implementation heuristic.
-
-### 3. Define Each Term Operationally
-
-Do not leave important words intuitive. Define them as tests.
-
-Examples:
-
-```text
-stable: target descriptor remains similar across frames
-distinctive: few nearby or epipolar candidates have similar descriptors
-persistent: repeated positive support creates one 3D hypothesis
-missing: no usable match; neutral evidence, not deletion
-ambiguous: too many plausible matches; invalid for 3D promotion
-boundary: sparse anchor with missing local 3D support on one side
-```
-
-### 4. Build The Smallest Diagnostic Benchmark
-
-Design the benchmark to isolate one claim.
-
-Require:
-
-```text
-known controllable setup
-clear ground truth for the tested concept
-enough variation to expose the prior
-simple visual patterns that humans can inspect
-failure cases that are easy to interpret
-```
-
-Change the benchmark when it cannot answer the question.
-
-### 5. Run The Conjecture Refinement Loop
-
-After each experiment, explicitly record:
-
-```text
-original conjecture
-expected evidence if true
-falsification test
-what survived
-what failed
-hidden problem structure revealed
-updated conjecture
-next uncertainty to isolate
-```
-
-Do not merely report whether the experiment worked. Use falsification to make
-the next conjecture more physically, mathematically, and computationally
-appropriate.
-
-For multi-step systems, record both the final answer and the causal path:
-
-```text
-final yes/no -> stage evidence -> bottleneck or support -> conjecture update
-```
-
-### 5.5 Write The Research Object As A Testable Argument
-
-When a research problem becomes more than a quick experiment, write a concise
-design document that regularizes the loop:
-
-```text
-conjecture
-task input and output
-core difficulty
-physical priors
-mathematical model for each prior
-implementation stage for each model
-experiment that can falsify the priors
-conjecture update from the result
-```
-
-Use a consistent subsection format when helpful:
-
-```text
-Objective: what this part tries to do
-Physical prior: why this step is plausible in the world
-Model: the equation or formal representation
-Implementation contract: the code stage, inputs, outputs, and pass/fail checks
-Evidence: metrics, visual examples, and failure cases
-```
-
-For experiments, add a stage-level falsification and profiling plan:
-
-```text
-Question: what does this stage need to prove or falsify?
-Model and implementation: which prior, equation, and code stage are tested?
-Profiling evidence: what counts, distributions, visual examples, and timings are collected?
-Failure interpretation: what does each failure mode mean for the conjecture?
-```
-
-The writing standard is simple: every claim should connect to a prior, every
-prior should connect to a model, every model should connect to implementation,
-and every implementation should be falsifiable by experiment.
-
-### 6. Recursively Decompose Failures
-
-When the failure is broad or confusing, turn it into a hierarchy of smaller
-questions before changing the algorithm.
-
-For each decomposition level, record:
-
-```text
-parent failure
-candidate sub-problems
-test for each sub-problem
-answer for each sub-problem
-evidence supporting each answer
-remaining bottleneck
-```
-
-Use this pattern:
-
-```text
-Is the viewer wrong?
-Is the benchmark missing the target behavior?
-Are candidates missing?
-Is the correct match outside the search region?
-Is matching ambiguous?
-Is geometry rejecting correct matches?
-Is final promotion too permissive?
-```
-
-The exact questions depend on the domain, but the rule is general: a big failure
-is solved by recursively isolating which sub-problem is actually false.
-
-Only change the algorithm after the decomposition identifies a specific failed
-sub-problem. If multiple sub-problems remain plausible, instrument them first.
-
-### 7. Measure And Look
-
-Every experiment needs both numbers and visual evidence.
-
-Minimum report:
-
-```text
-purpose
-setup
+input
 parameters
-metrics
-good examples
-bad examples
-visualization of the current state
-interpretation
-next experiment
+intermediate variables
+step-by-step procedure
+pass conditions
+fail conditions
+failure reasons
+outputs
+debug artifacts
 ```
 
-For spatial or vision work, include frame-by-frame or interactive 3D
-visualization whenever possible.
+Do not debug only the final output of a pipeline. Each stage must expose enough
+evidence to explain why examples pass, fail, or become uncertain before the next
+stage consumes them.
 
-### 8. Instrument Multi-Step Algorithms
-
-When the algorithm has multiple stages, treat each stage as a falsifiable
-sub-task. Before trusting the full pipeline, create stage-local diagnostics.
-
-Before implementing or trusting each stage, write a stage contract:
+Do not stop at a yes/no outcome. The "why" comes from stage-level profiling:
 
 ```text
-input assumptions
-sub-task objective
-expected intermediate output
-pass/fail criterion
-debug artifact
-representative pass examples
-representative fail examples
-next-stage handoff contract
+stage -> artifact -> pass/fail criteria -> representative examples -> next-stage handoff
 ```
 
-After running the stage, record runtime evidence against that contract:
+When an experiment fails, say whether it falsified the physical prior itself or
+only one operationalization of that prior.
 
-```text
-input count and distribution
-accepted output count and distribution
-rejected output count by reason
-intermediate artifacts saved to disk
-```
+When observations unfold over time or changing conditions, do not replace that
+with a single-observation proxy unless the proxy itself is being tested.
 
-For frame/sequence/spatial algorithms, include per-frame or per-region debug
-views, not just aggregate metrics.
+For slow research loops, run a fast micro-test first. Use known good and bad
+examples, a small number of observations or cases, and stage-local artifacts.
 
-Example:
+## Reference Files
 
-```text
-candidate features -> matched observations -> triangulated points -> merged anchors -> surface regions
-```
+Load only the reference file needed for the task:
 
-Each arrow must have debug evidence. If final anchors fail, inspect candidate
-selection, matching, triangulation, merge, and promotion separately before
-changing the model.
+- `references/algorithm_specification.md`: when an algorithm has multiple steps, thresholds, matching, clustering, fitting, ranking, or hidden heuristics.
+- `references/profiling_and_evidence.md`: when planning experiments, running tests, reviewing results, or deciding what evidence is missing.
+- `references/failure_decomposition.md`: when a failure is broad, confusing, or could have several causes.
+- `references/goal_audit.md`: when several reasonable fixes fail, when labels may not match the downstream purpose, or when false positives and false negatives have different costs.
+- `references/research_documentation.md`: when writing or revising a research document, design note, experiment note, or iteration ledger.
+- `references/research_loop_checklist.md`: when a short checklist is enough for planning or review.
 
-### 9. Diagnose Failures Before Adding Complexity
-
-Classify failures before changing the algorithm.
-
-Common categories:
-
-```text
-wrong prior
-unclear term definition
-bad benchmark
-bad ground truth
-insufficient visualization
-implementation bug
-hyperparameter mismatch
-model limitation
-```
-
-Prefer one targeted change over many simultaneous changes.
-
-### 10. Record The Research State
-
-End each loop with:
-
-```text
-what is validated
-what failed
-what remains uncertain
-what changed in the hypothesis
-what the next test should isolate
-```
-
-Be explicit about claim boundaries. Do not call sparse anchors a dense surface
-model. Do not call boundary candidates object segmentation unless that was
-tested.
-
-When a failure is found in a multi-stage pipeline, say exactly which stage is
-verified as the bottleneck and which alternative explanations were falsified.
-
-When a recursive decomposition resolves a problem, record the final causal path:
-
-```text
-big failure -> falsified explanations -> verified bottleneck -> fix -> remaining unsolved problem
-```
-
-## Writing Research Documents
+## Writing Standard
 
 Use concise causal structure:
 
@@ -375,18 +151,9 @@ Objective and conclusion
 3. Computational implementation and results
 ```
 
-Every mathematical equation must map to a physical prior and a code path.
-Every hyperparameter must have:
+Every equation must map to a physical prior and a code path. Every
+hyperparameter must have a name, value, definition, reason for the value, and
+expected effect when it is too low or too high when that effect matters.
 
-```text
-name
-value
-definition
-reason for this value
-effect if too low or too high, when useful
-```
-
-## Extra Checklist
-
-For detailed checklists, read `references/research_loop_checklist.md` only when
-the task needs experiment planning, report review, or methodology auditing.
+Write simply. Rigor means precise, not fancy. A reader should be able to
+implement the algorithm from the document without guessing.

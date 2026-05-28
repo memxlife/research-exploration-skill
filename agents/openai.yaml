@@ -1,4 +1,0 @@
-interface:
-  display_name: "Research Exploration"
-  short_description: "Disciplined hypothesis-test research loops"
-  default_prompt: "Use $research-exploration to guide a research exploration from hypothesis to evidence-backed next steps."

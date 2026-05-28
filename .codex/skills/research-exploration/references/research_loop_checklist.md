@@ -22,7 +22,7 @@ Use this checklist when planning or reviewing a research experiment.
 - Is ground truth available for the exact thing being evaluated?
 - Can a human visually inspect the setup?
 - Does the setup contain enough variation to expose the prior?
-- Are textures and camera motion intentionally designed, not incidental?
+- Are the important variations intentionally designed, not incidental?
 
 ## Recursive Decomposition
 
@@ -39,13 +39,15 @@ Use this checklist when planning or reviewing a research experiment.
 - Are thresholds and units stated?
 - Are top-line metrics supported by examples?
 - Are false positives and false negatives shown separately?
+- Do false positives and false negatives have the same cost?
+- Does the metric match the downstream purpose?
 
 ## Visualization
 
 - Are good and bad cases shown?
 - For spatial work, is there a 3D or frame-by-frame view?
 - Can the viewer distinguish prediction, ground truth, and uncertainty?
-- Are colors chosen to avoid confusion with object colors?
+- Are visual encodings chosen so the evidence is not confused with the raw data?
 
 ## Stage Contract
 
