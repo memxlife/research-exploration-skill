@@ -1,6 +1,6 @@
 ---
 name: research-exploration
-description: Guide disciplined research exploration loops for ambiguous scientific, ML, robotics, computer vision, or algorithm-design work. Use when Codex needs to turn hypotheses into testable claims, design benchmarks, run experiments, inspect visual/quantitative evidence, diagnose failure modes, refine priors or models, write research notes, or decide the next experiment without drifting into vague speculation.
+description: Guide disciplined research exploration loops for ambiguous scientific, ML, robotics, computer vision, or algorithm-design work. Use when Codex needs to turn hypotheses into testable claims, design benchmarks, run experiments, inspect visual/quantitative evidence, build or revise experiment result viewers, diagnose failure modes, refine priors or models, write research notes, or decide the next experiment without drifting into vague speculation.
 ---
 
 # Research Exploration
@@ -138,6 +138,7 @@ Load only the reference file needed for the task:
 - `references/failure_decomposition.md`: when a failure is broad, confusing, or could have several causes.
 - `references/goal_audit.md`: when several reasonable fixes fail, when labels may not match the downstream purpose, or when false positives and false negatives have different costs.
 - `references/research_documentation.md`: when writing or revising a research document, design note, experiment note, or iteration ledger.
+- `references/research_viewer_design.md`: when creating or revising an experiment visualization viewer, dashboard, HTML report, or plot set.
 - `references/research_loop_checklist.md`: when a short checklist is enough for planning or review.
 
 ## Writing Standard
