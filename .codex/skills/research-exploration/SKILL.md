@@ -11,6 +11,8 @@ Use this skill to keep research work concrete, testable, and evidence-driven.
 
 Use simple language. Be precise without using fancy words. Name the concrete
 object, variable, file, metric, stage, example, or decision being discussed.
+Do not use buzzwords, project nicknames, vague abstractions, or compressed
+phrases when a concrete description is possible.
 
 When explaining a result, say:
 
@@ -25,6 +27,12 @@ what the next concrete test is
 
 Do not use polished research language to hide an unclear idea. If a term is
 important, define it as a test or computation.
+
+For visualization and result analysis, do not try to save words. The purpose of
+the viewer is to provide feedback that helps the researcher understand the
+problem structure. Each result should explain enough context for a careful
+undergraduate reader to understand what was measured, how to read it, what was
+observed, and what conclusion is allowed.
 
 ## Core Rule
 
@@ -101,6 +109,12 @@ docs/visualization_results.md
 The visualization/results document is not a screenshot dump. It must explain
 what each plot proves, what it does not prove, and how the viewer supports the
 current claim boundary.
+
+The same standard applies to the viewer itself. Every visible plot should carry
+its own explanation. A plot caption that only says "higher is better" is not
+enough. State the exact comparison, the metric definition, the axis meaning, the
+observed numbers or pattern, and the take-home conclusion. If the plot cannot be
+explained clearly, remove it from the main viewer.
 
 ## Quick Workflow
 

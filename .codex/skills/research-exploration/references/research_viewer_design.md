@@ -21,6 +21,18 @@ Do not assume the reader remembers the conversation, code names, file names,
 internal variables, or previous experiment history. Every term visible in the
 viewer must either be common language or defined before it is used.
 
+Do not be brief at the cost of understanding. The viewer is part of the
+profiling and falsification process, not a decorative chart gallery. It should
+teach the reader what feedback the experiment gives. If a plot needs five
+sentences to explain the purpose, setup, axis meaning, observed result, and
+claim boundary, write the five sentences.
+
+Avoid buzzwords and compressed labels. Do not use terms such as "viral",
+"phase", "magic", "diagnostic score", "bottleneck", "alignment", or "mass"
+unless the page defines exactly how the quantity is computed and why it matters
+for this experiment. Prefer literal names that describe the data-generating
+process or computation.
+
 ## Required Page Structure
 
 Every experiment viewer must start with an overview section containing these
@@ -104,11 +116,12 @@ Every plot must have these visible fields:
 
 ```text
 Title
-One-sentence purpose
+Purpose
 Setup
 How to read
 Observed result
 Take-home
+Remaining uncertainty, when the result is not enough to settle the question
 ```
 
 Use this template:
@@ -116,8 +129,12 @@ Use this template:
 ```html
 <section>
   <h2>Plain plot title</h2>
-  <p>One-sentence purpose of this plot.</p>
+  <p>One or more clear sentences explaining what question this plot answers.</p>
   <div class="explain">
+    <div>
+      <strong>Purpose</strong>
+      <p>What problem this plot is meant to resolve.</p>
+    </div>
     <div>
       <strong>Setup</strong>
       <p>What data and computation produced this plot.</p>
@@ -134,12 +151,21 @@ Use this template:
       <strong>Take-home</strong>
       <p>The narrow conclusion this plot supports.</p>
     </div>
+    <div>
+      <strong>Remaining uncertainty</strong>
+      <p>What this plot does not prove, if anything important remains open.</p>
+    </div>
   </div>
 </section>
 ```
 
 If a plot cannot support a clear take-home, remove it from the main viewer or
 move it to an appendix/debug section.
+
+For comparison plots, the take-home must focus on the comparison. For example,
+a validation-loss plot should compare validation loss across methods; it should
+not jump directly to a spectral conclusion. Put the spectral conclusion on the
+spectral plot.
 
 ## Naming Rules
 
@@ -155,6 +181,9 @@ H_i
 S_i
 rank-grid
 condition A/B/C
+bottleneck score
+alignment metric
+mass curve
 ```
 
 Prefer:
@@ -166,6 +195,9 @@ largest output-head direction
 loss change after removing one direction
 loss sensitivity to one direction
 number of singular directions included
+validation CE
+validation token accuracy
+mean singular value in rank bin
 ```
 
 Mathematical symbols are allowed only after the plain-language meaning appears.
@@ -220,6 +252,8 @@ Bad:
 ```text
 x-axis: k
 y-axis: p
+y-axis: mass
+y-axis: score
 ```
 
 Legends must use the same condition names as the overview table. Do not mix
@@ -253,6 +287,19 @@ This means: label smoothing learned the rare fact while using a smaller largest
 output-head direction.
 ```
 
+When the plot is central to the argument, add one sentence starting with:
+
+```text
+What this does not prove:
+```
+
+Example:
+
+```text
+What this does not prove: this plot does not prove that rare features improved;
+it only shows that validation loss is similar across methods.
+```
+
 ## Quantitative Reporting
 
 When possible, include the important numbers in text next to the plot:
@@ -272,11 +319,15 @@ Before finishing a viewer, check:
 
 ```text
 no undefined code names are visible;
+no buzzwords or project nicknames are used as visible terms;
 no raw LaTeX appears in a non-math-rendered page;
-each plot has purpose, setup, how-to-read, observation, and take-home;
+each plot has purpose, setup, how-to-read, observation, take-home, and remaining
+  uncertainty when needed;
 all axis labels are plain language;
 all legends use human-readable names;
 every conclusion is supported by a visible number or plot;
+each plot conclusion discusses the metric shown in that plot before drawing any
+  cross-plot conclusion;
 unclear plots are removed or moved to appendix;
 the page loads without console errors;
 interactive controls visibly change the selected result;
