@@ -1,4 +1,4 @@
 interface:
   display_name: "Research Exploration"
   short_description: "Disciplined hypothesis-test research loops"
-  default_prompt: "Use $research-exploration to guide a research exploration from hypothesis to evidence-backed next steps."
+  default_prompt: "Use $research-exploration to guide a research exploration from hypothesis to evidence-backed next steps. For each self-contained research subproblem, maintain docs/design.md, docs/experiment_design.md, and docs/visualization_results.md; make each viewer/result self-explanatory with purpose, exact setup, observed result, take-home conclusion, and claim boundary."

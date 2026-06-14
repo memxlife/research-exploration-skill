@@ -11,6 +11,39 @@ The skill emphasizes:
 - metrics plus visual evidence,
 - stage-by-stage debugging for multi-step algorithms,
 - verified failure analysis before adding complexity.
+- self-contained subproblem documentation with three primary documents:
+  `docs/design.md`, `docs/experiment_design.md`, and
+  `docs/visualization_results.md`.
+
+## Research Subproblem Standard
+
+Each self-contained research subproblem should maintain three documents:
+
+```text
+docs/design.md
+```
+
+Problem definition, physical priors, mathematical model, and computation
+implementation contract.
+
+```text
+docs/experiment_design.md
+```
+
+Detailed experiment design for falsification and profiling. Profiling evidence
+must explain why a result passed, failed, or remained uncertain.
+
+```text
+docs/visualization_results.md
+```
+
+Problem-specific viewer description and actual results. Each result should
+state the problem being tested, exact setup, observed result, take-home
+conclusion, and claim boundary.
+
+The viewer is part of the research method. Every plot should be readable by a
+careful undergraduate without reading the source code or remembering prior
+conversation.
 
 ## Install With npm
 

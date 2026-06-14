@@ -80,6 +80,28 @@ claim boundary
 If an artifact is missing, say the research state is incomplete and name the
 missing artifact.
 
+## Subproblem Document Standard
+
+For each self-contained research subproblem, create or maintain exactly these
+three primary documents unless the user requests a different structure:
+
+```text
+docs/design.md
+  problem definition, physical priors, math model, and computation contract
+
+docs/experiment_design.md
+  detailed falsification and profiling plan, including pass/fail/insufficient
+  evidence conditions
+
+docs/visualization_results.md
+  problem-specific viewer description, actual experiment results, how to read
+  each result, observed result, take-home conclusion, and remaining uncertainty
+```
+
+The visualization/results document is not a screenshot dump. It must explain
+what each plot proves, what it does not prove, and how the viewer supports the
+current claim boundary.
+
 ## Quick Workflow
 
 1. State the claim in one falsifiable sentence.
