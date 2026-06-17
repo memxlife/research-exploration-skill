@@ -17,6 +17,11 @@ problem structure. A reader should learn:
 
 Every viewer must be self-explanatory to a careful undergraduate reader.
 
+This is a hard gate. A plot that is not self-explanatory must not be shown in
+the main viewer. The agent must evaluate every plot before presenting it. If
+the plot fails the evaluation, the agent must revise, split, relabel, annotate,
+or remove the plot before showing the viewer to the user.
+
 Do not assume the reader remembers the conversation, code names, file names,
 internal variables, or previous experiment history. Every term visible in the
 viewer must either be common language or defined before it is used.
@@ -26,6 +31,12 @@ profiling and falsification process, not a decorative chart gallery. It should
 teach the reader what feedback the experiment gives. If a plot needs five
 sentences to explain the purpose, setup, axis meaning, observed result, and
 claim boundary, write the five sentences.
+
+Never combine metrics with different units on one axis unless the transformation
+is the object being tested. Do not hide scaling factors in code or legend text.
+If one metric is an angle and another is a probability, percentage, loss, count,
+or normalized score, use separate plots or separate axes with explicit units.
+Separate plots are preferred.
 
 Avoid buzzwords and compressed labels. Do not use terms such as "viral",
 "phase", "magic", "diagnostic score", "bottleneck", "alignment", or "mass"
@@ -235,6 +246,128 @@ For exploratory work, put unclear plots under an appendix titled:
 ```text
 Debug plots not used for the current conclusion
 ```
+
+## Mandatory Pre-Publish Plot Audit
+
+Before a plot is visible in the main viewer, write or mentally verify this
+audit. If any answer is missing or confusing, the plot fails and must not be
+shown.
+
+```text
+Plot title:
+Question answered:
+Metric definition:
+Formula, if any:
+Unit:
+Data source:
+Exact setup:
+X-axis meaning:
+Y-axis meaning:
+Color/shape/legend meaning:
+Whether larger is better, smaller is better, or neither:
+Observed result in numbers:
+Allowed conclusion:
+What this plot does not prove:
+Possible reader confusion:
+Fix applied before showing:
+```
+
+The plot fails automatically if:
+
+```text
+two metrics with different units share one axis;
+a metric is scaled or transformed but the title, axis label, and explanation do
+  not state the transformation;
+the legend is clipped, ambiguous, or uses internal names;
+the metric name is not defined before the plot;
+the reader must inspect code to know what was computed;
+the conclusion depends on a number not visible in the plot or nearby text;
+the plot looks technically correct but is hard to explain in one plain sentence.
+```
+
+When a viewer is updated after a user reports confusion, first fix the metric
+definitions and plot audit failure, then regenerate the viewer. Do not defend
+the old plot.
+
+## Required Viewer Harness
+
+Every viewer update must produce a harness record. Prefer:
+
+```text
+docs/viewer_audit.md
+```
+
+The audit must contain one entry per visible plot. Each entry must include:
+
+```text
+plot title
+status: pass, fail, removed, or debug-only
+metric definition
+unit
+axis check
+legend check
+unit compatibility check
+visible-number check
+reader-confusion risk
+fix applied
+allowed conclusion
+remaining uncertainty
+```
+
+A plot cannot be marked `pass` if:
+
+```text
+metric definition is absent from the viewer;
+unit is absent from the viewer;
+two metrics with different units share the same axis;
+the plot uses a hidden scaling factor;
+the legend is clipped or ambiguous;
+the plot needs source-code knowledge to understand;
+the conclusion is broader than the plotted evidence;
+important numeric values are only inferable by estimating from the chart.
+```
+
+For metrics that are new, abstract, or easy to misunderstand, the viewer must
+show a metric definition block before any plot that uses the metric. The
+definition block must include:
+
+```text
+plain-language meaning
+formula, if useful
+unit
+whether higher or lower is better
+one concrete example number
+what the metric does not measure
+```
+
+If the viewer contains more than one plot, the agent must decide whether each
+plot answers a different question. If two plots answer the same question, keep
+the clearer plot and remove the other one.
+
+## Independent Review Gate
+
+When multi-agent or reviewer tools are available and the current tool policy
+permits delegation, use an independent reviewer before delivering a research
+viewer. The reviewer should inspect the rendered artifact as a fresh reader,
+not the source code first.
+
+Reviewer prompt:
+
+```text
+Read the rendered viewer as if you did not see the conversation.
+For every visible plot, answer:
+- What metric is shown?
+- What is the unit?
+- What does each axis mean?
+- What does the legend mean?
+- What number or pattern matters?
+- What conclusion is allowed?
+- What remains uncertain?
+Flag any plot that is not self-explanatory.
+```
+
+If independent review is not used, record why in `docs/viewer_audit.md` and run
+the same checklist manually.
 
 ## Axis and Legend Rules
 

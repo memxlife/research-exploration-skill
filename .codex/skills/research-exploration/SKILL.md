@@ -165,6 +165,119 @@ with a single-observation proxy unless the proxy itself is being tested.
 For slow research loops, run a fast micro-test first. Use known good and bad
 examples, a small number of observations or cases, and stage-local artifacts.
 
+## Non-Negotiable Viewer Rule
+
+Every plot in a research viewer must pass a self-explanation audit before it is
+shown to the user. This is a MUST rule, not a style preference.
+
+Before adding or keeping any visible plot, evaluate it as if the reader has not
+seen the conversation, code, metric implementation, or prior plots. The plot is
+allowed in the main viewer only if a careful undergraduate reader can answer all
+of these from the visible page:
+
+```text
+what question this plot answers;
+the exact metric definition, including formula and unit;
+what data produced the plot;
+what each axis, color, bar, line, point, or legend item means;
+which direction is better, worse, larger, smaller, or more stable;
+the key observed numbers or pattern;
+the narrow conclusion supported by this plot;
+what the plot does not prove.
+```
+
+If any item is missing, do not show the plot. Rewrite it, split it into simpler
+plots, add a metric definition table, add direct numeric labels, or move it to a
+debug appendix explicitly marked as not supporting the current conclusion.
+
+Do not combine metrics with different units on one axis. Do not rescale one
+metric to make it fit beside another unless the viewer states the transformation
+in the plot title, axis label, legend, and explanation. Prefer separate plots
+when two metrics answer different questions.
+
+For every viewer update, perform and report a self-explanation audit before the
+final answer. If the plot is still hard to explain in plain language, remove it.
+
+## Viewer Harness Requirement
+
+For research viewers, the agent must use a harness that prevents unclear plots
+from being delivered. The harness has three required gates:
+
+```text
+Gate 1: Plot contract before plotting
+Gate 2: Rendered artifact audit after plotting
+Gate 3: Independent review before delivery, when delegation tools are available
+  and tool policy permits their use
+```
+
+Gate 1 requires a plot contract for every planned plot:
+
+```text
+plot title
+research question answered
+metric name
+metric formula
+metric unit
+data source
+aggregation level
+x-axis meaning
+y-axis meaning
+legend meaning
+allowed conclusion
+known limitation
+```
+
+Do not implement the plot until the contract is clear. If the metric cannot be
+defined in one or two plain sentences plus a formula when needed, the metric is
+not ready to plot.
+
+Gate 2 requires a rendered artifact audit. The agent must inspect the generated
+viewer, not only the source code. The audit must check:
+
+```text
+page renders
+no raw LaTeX is visible unless that is intended
+legend is not clipped
+axis labels are readable
+units are visible
+metric definitions appear before plots
+each plot has one primary unit on the y-axis
+important numbers are shown in text or a table near the plot
+the plot can be explained without reading code
+```
+
+Gate 3 requires independent review when possible. If multi-agent or reviewer
+tools are available and the current tool policy permits delegation, spawn or
+ask an independent reviewer to inspect the viewer for reader confusion before
+delivery. The reviewer task must be concrete:
+
+```text
+Read the rendered viewer as a new reader.
+List any undefined metric, mixed unit, clipped legend, unclear axis, unsupported
+conclusion, or plot that requires code knowledge.
+Approve only if every plot is self-explanatory.
+```
+
+If no independent reviewer can be used, the agent must run the same checklist
+itself and explicitly say that no independent reviewer was used.
+
+The output of the harness must be recorded in the project, for example in:
+
+```text
+docs/viewer_audit.md
+```
+
+The final response after viewer work must include:
+
+```text
+where the audit is recorded
+whether independent review was used
+which plots were changed or removed
+which metric definitions were added
+what the viewer now supports
+what remains uncertain
+```
+
 ## Reference Files
 
 Load only the reference file needed for the task:
