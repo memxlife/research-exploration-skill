@@ -34,6 +34,13 @@ problem structure. Each result should explain enough context for a careful
 undergraduate reader to understand what was measured, how to read it, what was
 observed, and what conclusion is allowed.
 
+Do not rely on repeated post-hoc checking to rescue unclear visualization work.
+The viewer should be designed from explicit plot contracts before code is
+written. Verification is still required, but it must be bounded: render once,
+inspect against the audit checklist, fix concrete failures, and stop when the
+viewer satisfies the contract. Do not spend research time repeatedly refreshing
+or manually checking a viewer whose plot definitions were never made clear.
+
 ## Core Rule
 
 Do not treat a plausible idea as progress. Progress requires:
@@ -201,12 +208,14 @@ final answer. If the plot is still hard to explain in plain language, remove it.
 ## Viewer Harness Requirement
 
 For research viewers, the agent must use a harness that prevents unclear plots
-from being delivered. The harness has three required gates:
+from being delivered. The harness has five required gates:
 
 ```text
 Gate 1: Plot contract before plotting
-Gate 2: Rendered artifact audit after plotting
-Gate 3: Independent review before delivery, when delegation tools are available
+Gate 2: Self-explanatory viewer implementation
+Gate 3: Bounded rendered artifact audit after plotting
+Gate 4: Stable local serving for browser-based viewers
+Gate 5: Independent review before delivery, when delegation tools are available
   and tool policy permits their use
 ```
 
@@ -231,8 +240,23 @@ Do not implement the plot until the contract is clear. If the metric cannot be
 defined in one or two plain sentences plus a formula when needed, the metric is
 not ready to plot.
 
-Gate 2 requires a rendered artifact audit. The agent must inspect the generated
-viewer, not only the source code. The audit must check:
+Gate 2 requires building the visible explanation into the viewer itself. Do not
+put the real interpretation only in the final chat response or in source-code
+comments. For each plot, the visible page must include:
+
+```text
+purpose
+exact setup
+metric definition
+how to read axes, colors, signs, and groups
+observed result with concrete numbers when available
+take-home conclusion
+what the plot does not prove, if important
+```
+
+Gate 3 requires a bounded rendered artifact audit. The agent must inspect the
+generated viewer, not only the source code. This audit is a finite checklist,
+not an open-ended manual debugging loop. The audit must check:
 
 ```text
 page renders
@@ -246,7 +270,20 @@ important numbers are shown in text or a table near the plot
 the plot can be explained without reading code
 ```
 
-Gate 3 requires independent review when possible. If multi-agent or reviewer
+Gate 4 requires stable local serving for browser-based viewers. A research
+viewer should not depend on an ad-hoc shell process that dies after the turn.
+For static viewers, prefer a durable local HTTP server with a stable port and a
+restart command recorded in the project. Use the helper script in this skill
+when appropriate:
+
+```text
+scripts/ensure_static_viewer_server.sh
+```
+
+The final answer must include the stable URL and a command that checks or
+restarts the server.
+
+Gate 5 requires independent review when possible. If multi-agent or reviewer
 tools are available and the current tool policy permits delegation, spawn or
 ask an independent reviewer to inspect the viewer for reader confusion before
 delivery. The reviewer task must be concrete:
@@ -289,6 +326,37 @@ Load only the reference file needed for the task:
 - `references/research_documentation.md`: when writing or revising a research document, design note, experiment note, or iteration ledger.
 - `references/research_viewer_design.md`: when creating or revising an experiment visualization viewer, dashboard, HTML report, or plot set.
 - `references/research_loop_checklist.md`: when a short checklist is enough for planning or review.
+
+## Local Viewer Server Reliability
+
+When the user is using an in-app browser or asks to see results in a viewer,
+the viewer URL must be stable enough for iterative research. Do not leave the
+user with a page that only works while a temporary terminal command is alive.
+
+For static HTML viewers, use one of these serving modes:
+
+```text
+Preferred for repeated research work:
+  a macOS LaunchAgent created by scripts/ensure_static_viewer_server.sh
+
+Acceptable for a one-off check:
+  a foreground or tmux server, with the command shown to the user
+
+Avoid:
+  a background process started with shell job control and no restart policy
+```
+
+For each project, keep one stable port when possible. Record the URL and restart
+command in the result document or viewer audit. If a port changes, state the
+new URL explicitly.
+
+Before telling the user the viewer is ready, run a bounded server check:
+
+```text
+HTTP status is 200
+the expected index.html is being served
+the server has a restart policy or a documented restart command
+```
 
 ## Writing Standard
 

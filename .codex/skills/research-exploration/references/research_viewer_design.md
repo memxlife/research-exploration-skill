@@ -44,6 +44,42 @@ unless the page defines exactly how the quantity is computed and why it matters
 for this experiment. Prefer literal names that describe the data-generating
 process or computation.
 
+## Build The Explanation Before The Plot
+
+Do not create a chart first and then try to explain it afterward. For every
+plot, write the visible explanation first. The plot should be the picture of
+that explanation.
+
+Use this order:
+
+```text
+1. Write the research question answered by this plot.
+2. Write the exact data and checkpoint source.
+3. Define the metric in plain language.
+4. Define the formula and unit when useful.
+5. Define the axis meaning and legend meaning.
+6. State the expected pattern if the hypothesis is right.
+7. State the expected pattern if the hypothesis is wrong or incomplete.
+8. Only then draw the plot.
+```
+
+This prevents the common failure mode where the viewer contains a technically
+correct chart but the reader cannot tell what it means.
+
+## Bounded Verification, Not Endless Checking
+
+Verification is required, but it should not become the main activity. The
+research viewer workflow is:
+
+```text
+plot contract -> implementation -> one rendered audit -> concrete fixes -> final viewer
+```
+
+Do not repeatedly refresh, screenshot, and patch a viewer without changing the
+plot contract. If a plot remains confusing after one audit, the likely problem
+is the metric, title, axis, legend, or conclusion. Rewrite the plot contract,
+split the plot, or remove the plot.
+
 ## Required Page Structure
 
 Every experiment viewer must start with an overview section containing these
@@ -58,6 +94,10 @@ Key observations
 Current conclusion
 Remaining uncertainty
 ```
+
+The overview must be long enough to make the page usable without the chat
+history. One paragraph can be enough for a simple experiment. A multi-condition
+research viewer often needs a table plus several paragraphs.
 
 ### Purpose
 
@@ -135,6 +175,37 @@ Take-home
 Remaining uncertainty, when the result is not enough to settle the question
 ```
 
+The text under a plot is part of the result. Do not compress it into a short
+caption when the experiment is subtle. For important plots, use this full
+teaching structure:
+
+```text
+Purpose:
+  The specific question this plot answers.
+
+Exact setup:
+  Model, data, checkpoint, matrix, loss, probe set, and grouping used for this
+  plot. Include values such as number of training steps, epsilon, bin size, or
+  top-k cutoff when they matter.
+
+Metric:
+  Plain-language definition, formula if needed, unit, and direction of
+  interpretation.
+
+How to read:
+  What x-axis, y-axis, line color, bar color, sign, or marker means.
+
+Observed result:
+  The main numbers or visual pattern. Do not force the reader to estimate the
+  key comparison from the chart.
+
+Take-home:
+  The narrow conclusion supported by this plot.
+
+What this does not prove:
+  The most important limitation or alternative explanation.
+```
+
 Use this template:
 
 ```html
@@ -177,6 +248,45 @@ For comparison plots, the take-home must focus on the comparison. For example,
 a validation-loss plot should compare validation loss across methods; it should
 not jump directly to a spectral conclusion. Put the spectral conclusion on the
 spectral plot.
+
+## Stable Static Viewer Serving
+
+Research viewers are often revisited across many turns. A viewer that works
+only because a temporary terminal command is still alive is not reliable enough.
+
+For static HTML viewers, prefer a persistent local server. The skill provides:
+
+```text
+scripts/ensure_static_viewer_server.sh
+```
+
+Use it like this:
+
+```bash
+bash .codex/skills/research-exploration/scripts/ensure_static_viewer_server.sh \
+  --root /absolute/path/to/project \
+  --port 4182 \
+  --label com.representation-space.viewer
+```
+
+The script installs or refreshes a macOS LaunchAgent that serves the project
+directory with `python3 -m http.server`, keeps the process alive, verifies that
+the URL returns HTTP 200, and prints restart/check commands.
+
+Record these in `docs/viewer_audit.md` or `docs/visualization_results.md`:
+
+```text
+viewer URL
+server label
+project root served
+port
+restart command
+last HTTP status check
+```
+
+If a project cannot use a LaunchAgent, use `tmux` or a foreground process and
+write the exact restart command in the final response. Do not leave the user
+with only "try reload" as the recovery plan.
 
 ## Naming Rules
 
