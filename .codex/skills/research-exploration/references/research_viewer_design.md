@@ -135,6 +135,30 @@ checkpoint source
 Do not hide important setup in scripts or file names. The viewer must describe
 the setup in visible text.
 
+For research results, the setup must be detailed enough to stand on its own as
+a paper-style experimental setup section. Include:
+
+```text
+dataset construction or data-generating process
+model architecture
+input representation
+position encoding, if any
+loss function
+optimizer or update rule
+training length and snapshot interval
+random seed or deterministic setting
+conditions being compared
+variables changed between conditions
+variables held fixed across conditions
+metric definitions and thresholds
+script and result artifact paths
+setup limitations
+```
+
+Define every condition name before using it in a plot. A reader should not have
+to infer what "orthogonal conflict", "strong overlap", "aligned", or "90/10"
+means from the plot legend.
+
 ### What Is Being Compared
 
 If the experiment compares conditions, use a small table. Use plain condition

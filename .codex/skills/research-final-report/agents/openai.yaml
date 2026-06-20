@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Final Report"
+  short_description: "Write final paper-style research subproblem reports"
+  default_prompt: "Use $research-final-report to synthesize a solved research subproblem into a self-contained paper-style final report with problem formulation, priors, math model, implementation, experiments, results, analysis, limitations, and conclusion."

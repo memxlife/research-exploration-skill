@@ -1,6 +1,6 @@
 ---
 name: research-exploration
-description: Guide disciplined research exploration loops for ambiguous scientific, ML, robotics, computer vision, or algorithm-design work. Use when Codex needs to turn hypotheses into testable claims, design benchmarks, run experiments, inspect visual/quantitative evidence, build or revise experiment result viewers, diagnose failure modes, refine priors or models, write research notes, or decide the next experiment without drifting into vague speculation.
+description: Guide disciplined research exploration loops for ambiguous scientific, ML, robotics, computer vision, or algorithm-design work. Use when Codex needs to turn hypotheses into testable claims, design benchmarks, run experiments, inspect visual/quantitative evidence, build or revise experiment result viewers, diagnose failure modes, refine priors or models, write research notes, decide the next experiment, or prepare a subproblem for final paper-style synthesis without drifting into vague speculation.
 ---
 
 # Research Exploration
@@ -33,6 +33,29 @@ the viewer is to provide feedback that helps the researcher understand the
 problem structure. Each result should explain enough context for a careful
 undergraduate reader to understand what was measured, how to read it, what was
 observed, and what conclusion is allowed.
+
+Learning should have no barrier. When presenting experimental results, write
+patiently. Do not assume the reader remembers the conversation, knows why a
+metric matters, or can infer the lesson from a table. For each important result,
+include the missing bridge between the number and the conclusion:
+
+```text
+what the model/data looked like in plain language
+what the metric means before showing the value
+what value would be expected if the hypothesis were true
+what value would be expected if the hypothesis were false
+the actual values
+how to compare the values
+the narrow conclusion from that comparison
+what a student should remember
+```
+
+Avoid compressed phrases such as "confirms the mechanism" unless the mechanism
+has just been restated in plain language. Prefer concrete sentences like:
+"The rare example learned later because the common update pointed partly toward
+the wrong answer." Do not use unexplained labels, abbreviations, or shorthand.
+If a table has more than three columns of metrics, explain each metric before
+the table and tell the reader which one to inspect first.
 
 Do not rely on repeated post-hoc checking to rescue unclear visualization work.
 The viewer should be designed from explicit plot contracts before code is
@@ -85,6 +108,7 @@ falsifiable conjecture
 physical priors
 mathematical model for each prior
 implementation contract for each model
+publication-grade experimental setup
 explicit algorithm specification for each nontrivial stage
 stage-level profiling evidence
 failure interpretation for each stage
@@ -95,10 +119,15 @@ claim boundary
 If an artifact is missing, say the research state is incomplete and name the
 missing artifact.
 
+When a self-contained subproblem reaches a stable conclusion, automatically use
+the sibling `research-final-report` skill to create `docs/final_report.md`.
+This final report is required before treating the subproblem as closed. The
+final report is a synthesis article, not another experiment log.
+
 ## Subproblem Document Standard
 
 For each self-contained research subproblem, create or maintain exactly these
-three primary documents unless the user requests a different structure:
+three primary working documents unless the user requests a different structure:
 
 ```text
 docs/design.md
@@ -113,9 +142,54 @@ docs/visualization_results.md
   each result, observed result, take-home conclusion, and remaining uncertainty
 ```
 
+After the subproblem reaches a stable conclusion, create a fourth synthesis
+document:
+
+```text
+docs/final_report.md
+  final paper-style report that merges problem formulation, physical priors,
+  mathematical modeling, computational implementation, experiment design,
+  results, analysis, claim boundary, conclusion, and next research question
+```
+
+Use `docs/final_report.md` only after the working documents and evidence are
+stable enough to tell the whole story end to end. It should be rigorous,
+student-readable, and self-contained. A new reader should not need the chat
+history, raw logs, or private context to understand the subproblem.
+
 The visualization/results document is not a screenshot dump. It must explain
 what each plot proves, what it does not prove, and how the viewer supports the
 current claim boundary.
+
+Every research report and viewer must include a dedicated experimental setup
+section before the result plots. This section should read like the experiment
+setup section of a research paper, not like a short caption. It must define the
+objects being compared before any result label uses them.
+
+The setup section must include, when applicable:
+
+```text
+research question
+dataset construction or data-generating process
+train/validation/test split or probe set
+model architecture
+input representation and position encoding
+loss function
+optimizer or update rule
+training steps, tokens, batch size, and checkpoint interval
+random seed and deterministic/stochastic choice
+all conditions being compared, with plain-language labels
+which variables are changed between conditions
+which variables are held fixed
+metric definitions, units, and thresholds
+script path and output artifact path
+known limitations of the setup
+```
+
+If a condition name appears in a plot or table, it must be defined in the setup
+section before the plot. Labels like "orthogonal conflict" or "strong overlap"
+are not self-explanatory unless the page states the exact values and plain
+meaning.
 
 The same standard applies to the viewer itself. Every visible plot should carry
 its own explanation. A plot caption that only says "higher is better" is not
@@ -135,6 +209,8 @@ explained clearly, remove it from the main viewer.
 8. Decompose broad failures into smaller tests.
 9. Audit the goal when repeated reasonable fixes fail.
 10. Update the current-state document and the iteration ledger.
+11. When the subproblem reaches a stable conclusion, use `research-final-report`
+    to create `docs/final_report.md`.
 
 ## Non-Negotiable Rules
 
