@@ -34,6 +34,31 @@ problem structure. Each result should explain enough context for a careful
 undergraduate reader to understand what was measured, how to read it, what was
 observed, and what conclusion is allowed.
 
+## Result-First Rule
+
+When the user asks for a concrete experimental result, number, accuracy, loss,
+metric, status, or comparison, return the direct first-hand result as soon as it
+is available. Do not delay the answer in order to polish the viewer, update a
+document, reorganize files, or add extra analysis.
+
+Research is an iterative exploration process. Fast turnaround is part of the
+method, not a convenience. Prefer the shortest reliable measurement that can
+answer the current question, report it immediately, and only then decide whether
+larger experiments, cleaner plots, or deeper documents are worth the time.
+
+For experiment questions, use this order:
+
+```text
+1. get the minimal measurement needed to answer the question
+2. report the first-hand result immediately
+3. then refine visualization, documents, interpretation, or follow-up analysis
+```
+
+If the result is already known from a completed command, JSON file, log, or
+viewer artifact, answer with the number first. Then mention where the result
+came from and whether a caveat matters. Only after that should you propose or
+perform viewer/document cleanup.
+
 Learning should have no barrier. When presenting experimental results, write
 patiently. Do not assume the reader remembers the conversation, knows why a
 metric matters, or can infer the lesson from a table. For each important result,
