@@ -1,4 +1,4 @@
 interface:
   display_name: "Research Exploration"
-  short_description: "Problem-first, evidence-driven research loops"
-  default_prompt: "Use $research-exploration to establish why this problem matters, discover the structure a solution can exploit, and carry the resulting conjecture through modeling, implementation, evidence, and bounded conclusions."
+  short_description: "Question-first evidence-driven research"
+  default_prompt: "Use $research-exploration to form and explore this research question, conjecture physical structure, derive mathematical and computational models, and refine the question when researcher input, causal reasoning, or evidence reveals smaller problems."

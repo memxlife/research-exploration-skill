@@ -6,18 +6,27 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const packageDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const skillName = "research-exploration";
-const sourceDir = path.join(packageDir, ".codex", "skills", skillName);
+const skillNames = ["research-exploration", "research-final-report"];
 const codexHome = process.env.CODEX_HOME || path.join(os.homedir(), ".codex");
 const targetRoot = path.join(codexHome, "skills");
-const targetDir = path.join(targetRoot, skillName);
 const force = process.env.RESEARCH_EXPLORATION_UPDATE_SKILL === "1";
 
-async function installSkill() {
+async function getPathStat(targetPath) {
+  try {
+    return await lstat(targetPath);
+  } catch (error) {
+    if (error.code === "ENOENT") return null;
+    throw error;
+  }
+}
+
+async function installSkill(skillName) {
+  const sourceDir = path.join(packageDir, ".codex", "skills", skillName);
+  const targetDir = path.join(targetRoot, skillName);
   if (!existsSync(sourceDir)) return;
   await mkdir(targetRoot, { recursive: true });
-  if (existsSync(targetDir)) {
-    const targetStat = await lstat(targetDir);
+  const targetStat = await getPathStat(targetDir);
+  if (targetStat) {
     if (targetStat.isSymbolicLink()) {
       const currentTarget = path.resolve(path.dirname(targetDir), await readlink(targetDir));
       if (currentTarget === sourceDir) {
@@ -36,6 +45,21 @@ async function installSkill() {
   console.log(`[research-exploration-skill] Linked Codex skill: ${targetDir} -> ${sourceDir}`);
 }
 
-installSkill().catch((error) => {
-  console.warn(`[research-exploration-skill] Could not install Codex skill: ${error.message}`);
+async function installSkills() {
+  const failures = [];
+  for (const skillName of skillNames) {
+    try {
+      await installSkill(skillName);
+    } catch (error) {
+      failures.push(`${skillName}: ${error.message}`);
+    }
+  }
+  if (failures.length > 0) {
+    throw new Error(failures.join("; "));
+  }
+}
+
+installSkills().catch((error) => {
+  console.error(`[research-exploration-skill] Could not install Codex skill: ${error.message}`);
+  process.exitCode = 1;
 });

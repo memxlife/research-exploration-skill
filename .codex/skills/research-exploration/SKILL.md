@@ -1,6 +1,6 @@
 ---
 name: research-exploration
-description: Guide problem-first research exploration for ambiguous scientific, systems, ML, robotics, computer vision, or algorithm-design work. Use when Codex must justify why a problem matters, discover the structure that a solution can exploit, turn that structure into testable models, design benchmarks, run experiments, inspect evidence, diagnose failures, refine hypotheses, or prepare paper-style synthesis without drifting into mechanism-first speculation.
+description: Guide problem-first research exploration for ambiguous scientific, systems, ML, robotics, computer vision, or algorithm-design work. Use when Codex must form and explore research questions, conjecture physical structure, turn that structure into mathematical models and computation, design falsification and profiling experiments, inspect evidence, or recursively refine questions only when reasoning or evidence reveals smaller problems.
 ---
 
 # Research Exploration
@@ -94,14 +94,17 @@ or manually checking a viewer whose plot definitions were never made clear.
 Do not begin with a proposed model, optimizer, cache, language, architecture,
 benchmark, or implementation. First establish:
 
-1. **Importance:** name the affected person or system, the present limitation
+1. **Research question:** state what must be understood or achieved without
+   choosing a solution.
+2. **Importance:** name the affected person or system, the present limitation
    or cost, the decision that a solution would change, and the consequence of
    leaving the problem unsolved.
-2. **Structure:** identify what is stable or changing, local or global, sparse
-   or dense, bounded or open, known early or known late, authoritative or
-   advisory, and cheap or costly to get wrong.
-3. **Mechanism mapping:** state exactly which discovered property each proposed
-   mechanism exploits and why that property should improve the target outcome.
+3. **Candidate structure:** identify what may be stable or changing, local or
+   global, sparse or dense, bounded or open, known early or known late,
+   authoritative or advisory, and cheap or costly to get wrong.
+4. **Mechanism mapping:** after forming a physical prior and mathematical model,
+   state exactly which property each proposed mechanism exploits and why that
+   property should improve the target outcome.
 
 If importance is weak, narrow or stop the work. If the structure is unknown,
 investigate it before optimizing. If a mechanism cannot be mapped to a named
@@ -116,19 +119,61 @@ the problem is new, the proposed mechanism arrived before the model, several
 optimizations appear plausible, or an experiment produced a result that does
 not answer the user's real question.
 
+## Recursive Research-Question Refinement
+
+Treat the research state as an evolving hierarchy whose center is the
+**current research question**. Keep every active research unit in exactly four
+parts:
+
+```text
+1. Problem Definition
+2. Physical Priors
+3. Mathematical Model
+4. Computational Implementation
+```
+
+Research-question refinement is not a fifth part. It is a possible
+evidence-driven transition between recursive four-part units.
+
+In `Problem Definition`, state the current research question first, then its
+importance and scope, parent question, child questions and relations, current
+bounded answer, and active frontier. A child must be a research question. It
+may name a target object or capability, such as extracting a transformation or
+constructing invariant features, but it must not prematurely choose the solver,
+architecture, loss, implementation, dataset, or numeric threshold. Do not
+silently add these to the question when the researcher did not specify them.
+For every child, record whether it came from the researcher, initial causal
+reasoning, or experimental evidence; `children: none (current leaf)` is valid.
+
+In `Physical Priors`, state the conjectured structure of the world or workload.
+Make each prior falsifiable by stating the observable consequence expected if
+it holds. Then derive the mathematical model and computational implementation
+used to falsify and profile that conjecture.
+
+Use researcher input, explicit causal reasoning, or evidence to decide whether
+to refine the question hierarchy. Do not invent a large tree upfront. When one
+child or a coupled set becomes active, give each question its own recursive
+four-part unit and name any shared prior, model, or experiment. Preserve
+refinement, dependency, and coupling relations, and propagate bounded answers
+through every affected edge.
+
+Read [references/problem_refinement.md](references/problem_refinement.md) when
+creating or revising a question hierarchy, choosing the active frontier, or
+turning profiling evidence into smaller research questions.
+
 ## Core Rule
 
-Do not treat a plausible idea as progress. Progress requires:
+Do not treat a plausible idea as progress. Use this research loop:
 
 ```text
-hypothesis -> operational definition -> minimal test -> metric + visual evidence -> failure analysis -> refined hypothesis
+research question -> physical-structure conjecture -> mathematical model
+-> computational implementation -> falsification + profiling -> evidence
+-> refined understanding, question, or conjecture
 ```
 
-Research progress is conjecture refinement through falsification:
-
-```text
-conjecture -> rigorous falsification -> problem-structure discovery -> updated conjecture
-```
+The physical prior is the structural core of the conjecture. The full
+falsifiable conjecture also states what observable consequence should follow
+if that structure is real.
 
 A failed experiment is useful only when it reveals which assumption, stage, or
 prior was wrong. A successful experiment is useful only when it explains why the
@@ -143,14 +188,17 @@ condition matches the downstream purpose.
 For nontrivial research work, keep this chain inspectable:
 
 ```text
-importance -> problem structure -> falsifiable conjecture
--> mathematical model -> implementation contract
--> experiment -> failure analysis -> updated conjecture
+current research question -> conjectured physical structure
+-> predicted observable consequence -> mathematical model
+-> computational implementation -> falsification + profiling
+-> evidence -> refined question, structure, model, or implementation
 ```
 
-The document should not be only a log. It should show how each prior becomes a
-model, how each model becomes code, and how experiments can falsify or refine
-the conjecture.
+Show how each prior becomes a model, how each model becomes code, and how
+profiling evidence improves understanding of the problem structure. Evidence
+may answer or reframe the current question, create child questions, change
+relations among existing questions, or update an ancestor. Keep history in the
+iteration ledger rather than hiding it in the current design.
 
 ## Required Artifacts
 
@@ -158,60 +206,85 @@ Do not deliver a final research answer unless the notes, report, or response
 contain:
 
 ```text
-falsifiable conjecture
-why the problem is important and which decision it changes
-physical priors
-explicit mapping from each mechanism to the structure it exploits
-mathematical model for each prior
+current research question, importance, scope, and current bounded answer
+parent question and required upward answer
+child research questions with refinement source, or an explicit current-leaf state
+typed relations and active frontier or an explicit answered/blocked state
+physical priors and predicted observable consequences
+relations among independent, dependent, coupled, or competing priors
+joint contract for every coupled question or prior set
+explicit mapping from each mechanism to the physical structure it exploits
+mathematical model for each prior or coupled set of priors
 implementation contract for each model
 publication-grade experimental setup
 explicit algorithm specification for each nontrivial stage
 stage-level profiling evidence
 failure interpretation for each stage
-conjecture update or next uncertainty
+question, hierarchy, or conjecture update
 claim boundary
 ```
 
 If an artifact is missing, say the research state is incomplete and name the
 missing artifact.
 
-When a self-contained subproblem reaches a stable conclusion, automatically use
-the sibling `research-final-report` skill to create `docs/final_report.md`.
-This final report is required before treating the subproblem as closed. The
-final report is a synthesis article, not another experiment log.
+When a self-contained research question reaches a stable conclusion,
+automatically use the sibling `research-final-report` skill to create its
+`final_report.md`. This final report is required before treating the node as
+closed. It is a synthesis article, not another experiment log.
 
-## Subproblem Document Standard
+## Research-Question Document Standard
 
-For each self-contained research subproblem, create or maintain exactly these
-three primary working documents unless the user requests a different structure:
+For a single research question, use `docs/` as `node-dir`. When refinement
+creates multiple retained questions, add `docs/research_map.md`, assign stable
+IDs such as `P0` and `P0.1`, and use `docs/problems/<ID>/` for each newly active
+node. Map any existing root documents to `P0`; do not duplicate them only to
+change layout. In a multi-question program, `docs/research_map.md` is
+authoritative for graph relations and the program active frontier. Each node
+design is authoritative for that node's question, priors, models, bounded
+answer, and local frontier.
+
+For each active research question, maintain exactly these three primary
+working documents unless the user requests a different structure:
 
 ```text
-docs/design.md
-  problem definition, physical priors, math model, and computation contract
+<node-dir>/design.md
+  1. Problem Definition
+     1.1 Current research question
+     1.2 Importance and scope
+     1.3 Parent question and upward-answer contract
+     1.4 Child research questions and typed relations
+     1.5 Current bounded answer and claim boundary
+     1.6 Local frontier or explicit answered/blocked state
+  2. Physical Priors
+  3. Mathematical Model
+  4. Computational Implementation
 
-docs/experiment_design.md
+<node-dir>/experiment_design.md
   detailed falsification and profiling plan, including pass/fail/insufficient
   evidence conditions
 
-docs/visualization_results.md
+<node-dir>/visualization_results.md
   problem-specific viewer description, actual experiment results, how to read
   each result, observed result, take-home conclusion, and remaining uncertainty
 ```
 
-After the subproblem reaches a stable conclusion, create a fourth synthesis
+Also keep the append-only research history in `<node-dir>/iterations.md`. It is
+an auxiliary ledger, not a fourth current-state document.
+
+After the research question reaches a stable conclusion, create a fourth synthesis
 document:
 
 ```text
-docs/final_report.md
+<node-dir>/final_report.md
   final paper-style report that merges problem formulation, physical priors,
   mathematical modeling, computational implementation, experiment design,
   results, analysis, claim boundary, conclusion, and next research question
 ```
 
-Use `docs/final_report.md` only after the working documents and evidence are
+Use `final_report.md` only after the working documents and evidence are
 stable enough to tell the whole story end to end. It should be rigorous,
 student-readable, and self-contained. A new reader should not need the chat
-history, raw logs, or private context to understand the subproblem.
+history, raw logs, or private context to understand the research question.
 
 The visualization/results document is not a screenshot dump. It must explain
 what each plot proves, what it does not prove, and how the viewer supports the
@@ -255,20 +328,19 @@ explained clearly, remove it from the main viewer.
 
 ## Quick Workflow
 
-1. State why the problem matters and which decision a solution changes.
-2. Identify the structure that a solution may exploit.
-3. State the structure-dependent claim in one falsifiable sentence.
-4. Separate the physical prior, math model, algorithm, and experiment.
-5. Define important terms as tests, including success, failure, and insufficient evidence.
-6. Write the exact algorithm before running the experiment.
-7. Build the smallest diagnostic benchmark or micro-test.
-8. Measure both numbers and visual evidence.
-9. Inspect stage-level evidence before changing the algorithm.
-10. Decompose broad failures into smaller tests.
-11. Audit the goal when repeated reasonable fixes fail.
-12. Update the current-state document and the iteration ledger.
-13. When the subproblem reaches a stable conclusion, use `research-final-report`
-    to create `docs/final_report.md`.
+1. State the current research question and why answering it matters.
+2. Locate it relative to known parent, child, dependency, and coupling relations.
+3. Conjecture the physical structure that may make an answer possible.
+4. State the observable consequence expected if that structure holds.
+5. Derive the mathematical model, then the computational implementation.
+6. Define success, failure, invalid-test, and insufficient-evidence outcomes.
+7. Run the smallest useful falsification and expose stage-level profiling.
+8. Report the direct result, then classify what the evidence changes.
+9. Refine the question hierarchy only where the evidence reveals a smaller question.
+10. Propagate bounded answers through affected relations and select the next frontier.
+11. Update the current-state document and iteration ledger.
+12. When a question reaches a stable conclusion, use `research-final-report`
+    to create its `final_report.md`.
 
 ## Non-Negotiable Rules
 
@@ -286,6 +358,16 @@ failure reasons
 outputs
 debug artifacts
 ```
+
+Do not confuse a research question with a mechanism. “How can a shared spatial
+transformation be extracted?” is a research question. “Use Kabsch with RANSAC”
+is a proposed mechanism. Preserve the open question until physical priors and a
+mathematical model justify a particular mechanism.
+
+Do not silently turn qualitative language in a research question into an
+arbitrary number. If “substantially more data-efficient” must become a threshold
+for one experiment, record the chosen value and rationale as an operational
+definition. Keep the broader research question unchanged.
 
 Do not debug only the final output of a pipeline. Each stage must expose enough
 evidence to explain why examples pass, fail, or become uncertain before the next
@@ -306,43 +388,19 @@ with a single-observation proxy unless the proxy itself is being tested.
 For slow research loops, run a fast micro-test first. Use known good and bad
 examples, a small number of observations or cases, and stage-local artifacts.
 
-## Non-Negotiable Viewer Rule
+## Non-Negotiable Viewer Harness
 
-Every plot in a research viewer must pass a self-explanation audit before it is
-shown to the user. This is a MUST rule, not a style preference.
+Before creating or revising a research viewer, read
+[references/research_viewer_design.md](references/research_viewer_design.md)
+and use its complete plot contract and audit.
 
-Before adding or keeping any visible plot, evaluate it as if the reader has not
-seen the conversation, code, metric implementation, or prior plots. The plot is
-allowed in the main viewer only if a careful undergraduate reader can answer all
-of these from the visible page:
+Every visible plot must let a new reader identify the question, data, metric
+formula and unit, axes and legend, observed result, allowed conclusion, and
+important limitation without reading code or chat history. Revise, split,
+relabel, or remove any plot that fails. Never combine different units on one
+axis without an explicit transformation that is itself being tested.
 
-```text
-what question this plot answers;
-the exact metric definition, including formula and unit;
-what data produced the plot;
-what each axis, color, bar, line, point, or legend item means;
-which direction is better, worse, larger, smaller, or more stable;
-the key observed numbers or pattern;
-the narrow conclusion supported by this plot;
-what the plot does not prove.
-```
-
-If any item is missing, do not show the plot. Rewrite it, split it into simpler
-plots, add a metric definition table, add direct numeric labels, or move it to a
-debug appendix explicitly marked as not supporting the current conclusion.
-
-Do not combine metrics with different units on one axis. Do not rescale one
-metric to make it fit beside another unless the viewer states the transformation
-in the plot title, axis label, legend, and explanation. Prefer separate plots
-when two metrics answer different questions.
-
-For every viewer update, perform and report a self-explanation audit before the
-final answer. If the plot is still hard to explain in plain language, remove it.
-
-## Viewer Harness Requirement
-
-For research viewers, the agent must use a harness that prevents unclear plots
-from being delivered. The harness has five required gates:
+Use all five gates:
 
 ```text
 Gate 1: Plot contract before plotting
@@ -353,101 +411,9 @@ Gate 5: Independent review before delivery, when delegation tools are available
   and tool policy permits their use
 ```
 
-Gate 1 requires a plot contract for every planned plot:
-
-```text
-plot title
-research question answered
-metric name
-metric formula
-metric unit
-data source
-aggregation level
-x-axis meaning
-y-axis meaning
-legend meaning
-allowed conclusion
-known limitation
-```
-
-Do not implement the plot until the contract is clear. If the metric cannot be
-defined in one or two plain sentences plus a formula when needed, the metric is
-not ready to plot.
-
-Gate 2 requires building the visible explanation into the viewer itself. Do not
-put the real interpretation only in the final chat response or in source-code
-comments. For each plot, the visible page must include:
-
-```text
-purpose
-exact setup
-metric definition
-how to read axes, colors, signs, and groups
-observed result with concrete numbers when available
-take-home conclusion
-what the plot does not prove, if important
-```
-
-Gate 3 requires a bounded rendered artifact audit. The agent must inspect the
-generated viewer, not only the source code. This audit is a finite checklist,
-not an open-ended manual debugging loop. The audit must check:
-
-```text
-page renders
-no raw LaTeX is visible unless that is intended
-legend is not clipped
-axis labels are readable
-units are visible
-metric definitions appear before plots
-each plot has one primary unit on the y-axis
-important numbers are shown in text or a table near the plot
-the plot can be explained without reading code
-```
-
-Gate 4 requires stable local serving for browser-based viewers. A research
-viewer should not depend on an ad-hoc shell process that dies after the turn.
-For static viewers, prefer a durable local HTTP server with a stable port and a
-restart command recorded in the project. Use the helper script in this skill
-when appropriate:
-
-```text
-scripts/ensure_static_viewer_server.sh
-```
-
-The final answer must include the stable URL and a command that checks or
-restarts the server.
-
-Gate 5 requires independent review when possible. If multi-agent or reviewer
-tools are available and the current tool policy permits delegation, spawn or
-ask an independent reviewer to inspect the viewer for reader confusion before
-delivery. The reviewer task must be concrete:
-
-```text
-Read the rendered viewer as a new reader.
-List any undefined metric, mixed unit, clipped legend, unclear axis, unsupported
-conclusion, or plot that requires code knowledge.
-Approve only if every plot is self-explanatory.
-```
-
-If no independent reviewer can be used, the agent must run the same checklist
-itself and explicitly say that no independent reviewer was used.
-
-The output of the harness must be recorded in the project, for example in:
-
-```text
-docs/viewer_audit.md
-```
-
-The final response after viewer work must include:
-
-```text
-where the audit is recorded
-whether independent review was used
-which plots were changed or removed
-which metric definitions were added
-what the viewer now supports
-what remains uncertain
-```
+Record the audit in `<node-dir>/viewer_audit.md`. In the final response, name the
+audit, review method, important plot or metric changes, supported conclusion,
+and remaining uncertainty.
 
 ## Reference Files
 
@@ -461,8 +427,10 @@ Load only the reference file needed for the task:
 - `references/research_viewer_design.md`: when creating or revising an experiment visualization viewer, dashboard, HTML report, or plot set.
 - `references/research_loop_checklist.md`: when a short checklist is enough for planning or review.
 - `references/problem_discovery.md`: when establishing importance, discovering
-  exploitable structure, or checking that a proposed mechanism follows from
-  the problem rather than preceding it.
+  exploitable structure, or deriving a mechanism from that structure.
+- `references/problem_refinement.md`: when managing current, parent, and child
+  research questions or propagating evidence through the refinement hierarchy.
+- `references/latex_toolchain.md`: when building or auditing a LaTeX paper.
 
 ## Writing Standard
 
@@ -470,9 +438,10 @@ Use concise causal structure:
 
 ```text
 Objective and conclusion
-1. Physical modeling
-2. Mathematical modeling
-3. Computational implementation and results
+1. Problem Definition
+2. Physical Priors
+3. Mathematical Model
+4. Computational Implementation and Results
 ```
 
 Every equation must map to a physical prior and a code path. Every
@@ -481,17 +450,3 @@ expected effect when it is too low or too high when that effect matters.
 
 Write simply. Rigor means precise, not fancy. A reader should be able to
 implement the algorithm from the document without guessing.
-
-## LaTeX Paper Builds
-
-For LaTeX research papers, use the skill-local compiler and build helper
-documented in `references/latex_toolchain.md`. For an ICLR project with
-`paper/main.tex`, run:
-
-```bash
-~/.codex/skills/research-exploration/scripts/build_iclr_paper.sh paper
-```
-
-Inspect the generated PDF and build log before delivery. Record unresolved
-citations, overfull boxes, page-limit failures, and missing experiment metadata
-instead of hiding them.

@@ -1,30 +1,32 @@
 ---
 name: research-final-report
-description: Create the final paper-style report for a research subproblem after it reaches a stable conclusion. Use automatically when a research subproblem has enough design, experiment, profiling, visualization, and analysis evidence to summarize the whole story end to end; use when the user asks for a final article, final report, paper-style writeup, final synthesis, or to put an end to a research story.
+description: Create the final paper-style report for a research question after it reaches a stable conclusion. Use automatically when an active research question has enough design, experiment, profiling, visualization, and analysis evidence to summarize its bounded answer end to end; use when the user asks for a final article, final report, paper-style writeup, final synthesis, or to close one node in a research-question hierarchy.
 ---
 
 # Research Final Report
 
-Use this skill to turn a solved or mostly settled research subproblem into a
+Use this skill to turn a solved or mostly settled research question into a
 self-contained research-paper-style report.
 
 This skill is not for daily experiment notes. It is used after the working
 documents have converged enough that a careful reader can learn the whole
-subproblem without reading the chat history, raw code, raw logs, or every
+question without reading the chat history, raw code, raw logs, or every
 intermediate document.
 
 ## Automatic Trigger
 
-When a research subproblem reaches a stable conclusion, automatically create:
+Determine the current question's `node-dir` from `docs/research_map.md` when it
+exists. For a single root question without a map, use `docs/`. When the question
+reaches a stable conclusion, automatically create:
 
 ```text
-docs/final_report.md
+<node-dir>/final_report.md
 ```
 
 Do this even if the user does not explicitly ask for a final report. The final
 report does not replace the working documents. It synthesizes them.
 
-A subproblem has reached a stable conclusion when all of these are true:
+A research question has reached a stable conclusion when all of these are true:
 
 ```text
 the main conjecture is stated clearly
@@ -32,7 +34,8 @@ the claim boundary is known
 the main experiments have been run
 the important plots or tables have been interpreted
 major contradictions have either been resolved or written as limitations
-the next question is different enough to become a new subproblem
+the bounded answer can be returned to its parent, when a parent exists
+any remaining question is a separate hierarchy node, or none (terminal)
 ```
 
 If any of these are missing, do not write a final report yet. Say which missing
@@ -40,13 +43,15 @@ piece prevents final synthesis.
 
 ## Required Inputs
 
-Before writing the final report, inspect the subproblem artifacts that exist:
+Before writing the final report, inspect the question artifacts that exist:
 
 ```text
-docs/design.md
-docs/experiment_design.md
-docs/visualization_results.md
-docs/result_analysis.md, if present
+<node-dir>/design.md
+<node-dir>/experiment_design.md
+<node-dir>/visualization_results.md
+<node-dir>/result_analysis.md, if present
+docs/research_map.md and any linked coupled-set contract, when present
+shared experiment and result paths named by that coupled-set contract
 viewer files or generated result summaries, if they contain conclusions
 experiment scripts and result JSON/CSV files, when needed to verify a number
 ```
@@ -101,13 +106,14 @@ Use this structure unless the user requests a different paper format:
 One paragraph stating the question, method, main finding, and limitation.
 
 ## 1. Motivation
-Why this subproblem matters and what confusion it tries to resolve.
+Why this research question matters and what confusion it tries to resolve.
 
 ## 2. Problem Formulation
-Objects, variables, model setting, and the exact question.
+The exact research question, scope, parent, child, dependency, and coupling
+relations, objects, variables, model setting, and current bounded answer.
 
 ## 3. Physical Priors
-Plain-language assumptions about the mechanism being tested.
+Plain-language conjectures about the structure of the world or workload.
 
 ## 4. Mathematical Model
 Equations that formalize the priors. Define every symbol.
@@ -129,12 +135,15 @@ supports, weakens, or refines the conjecture.
 
 ## 9. Claim Boundary And Limitations
 State exactly where the conclusion applies and where it should not be assumed.
+If evidence is joint across a coupled set, state what answer is supported for
+each member and what remains non-identifiable independently.
 
 ## 10. Conclusion
 Summarize the final answer in simple language.
 
 ## 11. Next Research Question
-State the next question opened by the result and why it is separate.
+State the next question opened by the result and why it is separate. If there
+is no justified next question, record `none (terminal)` rather than inventing one.
 
 ## Reproducibility Appendix
 List scripts, result files, viewer URL or path, important commands, seeds,
@@ -202,7 +211,10 @@ all equations render as LaTeX
 all conditions and metrics are defined before results use them
 each result has a setup and a take-home conclusion
 the conclusion does not overclaim beyond the experiments
-the next research question is clearly separated from the solved subproblem
+the next research question is clearly separated, or recorded as none (terminal)
+the bounded answer and claim boundary can be propagated to the parent
+joint evidence is not reported as an independently identified conclusion
+every coupled member receives a bounded answer or explicit unresolved state
 the appendix contains enough paths or commands to reproduce the evidence
 ```
 

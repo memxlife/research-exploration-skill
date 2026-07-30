@@ -1,13 +1,14 @@
 {
   "name": "research-exploration-skill",
-  "version": "0.1.0",
-  "description": "Codex skill for disciplined evidence-driven research exploration loops.",
+  "version": "0.2.0",
+  "description": "Codex skill for evidence-driven research questions with recursive refinement when needed.",
   "type": "module",
   "files": [
     ".codex/skills/research-exploration/SKILL.md",
     ".codex/skills/research-exploration/agents/",
     ".codex/skills/research-exploration/references/",
     ".codex/skills/research-exploration/scripts/",
+    ".codex/skills/research-final-report/",
     "scripts/",
     "README.md",
     "LICENSE"

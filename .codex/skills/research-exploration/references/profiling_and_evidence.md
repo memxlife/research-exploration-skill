@@ -1,5 +1,13 @@
 # Profiling And Evidence
 
+## Contents
+
+1. Use profiling to explain results
+2. Record the minimum experiment report
+3. Preserve fast turnaround
+4. Compare against strong evidence
+5. Instrument multi-step pipelines
+
 Use this reference when planning, running, or reviewing experiments.
 
 ## Why Profiling Exists

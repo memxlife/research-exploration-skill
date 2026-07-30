@@ -1,5 +1,13 @@
 # Algorithm Specification
 
+## Contents
+
+1. Reject hand-waved algorithms
+2. Record the required specification
+3. Align physical, mathematical, and computational layers
+4. Define stage contracts and algorithm blocks
+5. Complete the pre-run check
+
 Use this reference when the research task contains a nontrivial algorithm.
 
 ## No Hand-Waving

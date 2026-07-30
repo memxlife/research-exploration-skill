@@ -1,4 +1,4 @@
 interface:
   display_name: "Research Final Report"
-  short_description: "Write final paper-style research subproblem reports"
-  default_prompt: "Use $research-final-report to synthesize a solved research subproblem into a self-contained paper-style final report with problem formulation, priors, math model, implementation, experiments, results, analysis, limitations, and conclusion."
+  short_description: "Synthesize answered research questions"
+  default_prompt: "Use $research-final-report to turn an answered research question and its evidence into a self-contained paper-style report at the question node path."

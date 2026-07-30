@@ -13,6 +13,19 @@ problem structure. A reader should learn:
 5. what conclusion is allowed;
 6. what uncertainty remains.
 
+## Contents
+
+1. Explain the question, setup, and metric before plotting
+2. Use explicit page and plot contracts
+3. Serve, name, and include plots reliably
+4. Run the bounded audit, five-gate harness, and independent review
+5. Check axes, legends, teaching text, and quantitative reporting
+6. Complete the error checklist and final response contract
+
+Use the current research question's `node-dir` for viewer documentation. For a
+single root question this is `docs/`; for a mapped hierarchy, read the path from
+`docs/research_map.md`.
+
 ## Main Rule
 
 Every viewer must be self-explanatory to a careful undergraduate reader.
@@ -297,7 +310,8 @@ The script installs or refreshes a macOS LaunchAgent that serves the project
 directory with `python3 -m http.server`, keeps the process alive, verifies that
 the URL returns HTTP 200, and prints restart/check commands.
 
-Record these in `docs/viewer_audit.md` or `docs/visualization_results.md`:
+Record these in `<node-dir>/viewer_audit.md` or
+`<node-dir>/visualization_results.md`:
 
 ```text
 viewer URL
@@ -428,7 +442,7 @@ the old plot.
 Every viewer update must produce a harness record. Prefer:
 
 ```text
-docs/viewer_audit.md
+<node-dir>/viewer_audit.md
 ```
 
 The audit must contain one entry per visible plot. Each entry must include:
@@ -500,7 +514,8 @@ For every visible plot, answer:
 Flag any plot that is not self-explanatory.
 ```
 
-If independent review is not used, record why in `docs/viewer_audit.md` and run
+If independent review is not used, record why in
+`<node-dir>/viewer_audit.md` and run
 the same checklist manually.
 
 ## Axis and Legend Rules
