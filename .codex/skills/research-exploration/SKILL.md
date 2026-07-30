@@ -1,6 +1,6 @@
 ---
 name: research-exploration
-description: Guide disciplined research exploration loops for ambiguous scientific, ML, robotics, computer vision, or algorithm-design work. Use when Codex needs to turn hypotheses into testable claims, design benchmarks, run experiments, inspect visual/quantitative evidence, build or revise experiment result viewers, diagnose failure modes, refine priors or models, write research notes, decide the next experiment, or prepare a subproblem for final paper-style synthesis without drifting into vague speculation.
+description: Guide problem-first research exploration for ambiguous scientific, systems, ML, robotics, computer vision, or algorithm-design work. Use when Codex must justify why a problem matters, discover the structure that a solution can exploit, turn that structure into testable models, design benchmarks, run experiments, inspect evidence, diagnose failures, refine hypotheses, or prepare paper-style synthesis without drifting into mechanism-first speculation.
 ---
 
 # Research Exploration
@@ -89,6 +89,33 @@ inspect against the audit checklist, fix concrete failures, and stop when the
 viewer satisfies the contract. Do not spend research time repeatedly refreshing
 or manually checking a viewer whose plot definitions were never made clear.
 
+## Problem-First Gate
+
+Do not begin with a proposed model, optimizer, cache, language, architecture,
+benchmark, or implementation. First establish:
+
+1. **Importance:** name the affected person or system, the present limitation
+   or cost, the decision that a solution would change, and the consequence of
+   leaving the problem unsolved.
+2. **Structure:** identify what is stable or changing, local or global, sparse
+   or dense, bounded or open, known early or known late, authoritative or
+   advisory, and cheap or costly to get wrong.
+3. **Mechanism mapping:** state exactly which discovered property each proposed
+   mechanism exploits and why that property should improve the target outcome.
+
+If importance is weak, narrow or stop the work. If the structure is unknown,
+investigate it before optimizing. If a mechanism cannot be mapped to a named
+property, treat it as premature.
+
+This gate applies to open-ended research, design, and optimization. Do not
+burden a routine deterministic operation—such as formatting a file or running
+an already specified command—with a new research justification.
+
+Read [references/problem_discovery.md](references/problem_discovery.md) when
+the problem is new, the proposed mechanism arrived before the model, several
+optimizations appear plausible, or an experiment produced a result that does
+not answer the user's real question.
+
 ## Core Rule
 
 Do not treat a plausible idea as progress. Progress requires:
@@ -116,7 +143,9 @@ condition matches the downstream purpose.
 For nontrivial research work, keep this chain inspectable:
 
 ```text
-conjecture -> physical priors -> mathematical model -> implementation contract -> experiment -> failure analysis -> updated conjecture
+importance -> problem structure -> falsifiable conjecture
+-> mathematical model -> implementation contract
+-> experiment -> failure analysis -> updated conjecture
 ```
 
 The document should not be only a log. It should show how each prior becomes a
@@ -130,7 +159,9 @@ contain:
 
 ```text
 falsifiable conjecture
+why the problem is important and which decision it changes
 physical priors
+explicit mapping from each mechanism to the structure it exploits
 mathematical model for each prior
 implementation contract for each model
 publication-grade experimental setup
@@ -224,17 +255,19 @@ explained clearly, remove it from the main viewer.
 
 ## Quick Workflow
 
-1. State the claim in one falsifiable sentence.
-2. Separate the physical prior, math model, algorithm, and experiment.
-3. Define important terms as tests, including success, failure, and insufficient evidence.
-4. Write the exact algorithm before running the experiment.
-5. Build the smallest diagnostic benchmark or micro-test.
-6. Measure both numbers and visual evidence.
-7. Inspect stage-level evidence before changing the algorithm.
-8. Decompose broad failures into smaller tests.
-9. Audit the goal when repeated reasonable fixes fail.
-10. Update the current-state document and the iteration ledger.
-11. When the subproblem reaches a stable conclusion, use `research-final-report`
+1. State why the problem matters and which decision a solution changes.
+2. Identify the structure that a solution may exploit.
+3. State the structure-dependent claim in one falsifiable sentence.
+4. Separate the physical prior, math model, algorithm, and experiment.
+5. Define important terms as tests, including success, failure, and insufficient evidence.
+6. Write the exact algorithm before running the experiment.
+7. Build the smallest diagnostic benchmark or micro-test.
+8. Measure both numbers and visual evidence.
+9. Inspect stage-level evidence before changing the algorithm.
+10. Decompose broad failures into smaller tests.
+11. Audit the goal when repeated reasonable fixes fail.
+12. Update the current-state document and the iteration ledger.
+13. When the subproblem reaches a stable conclusion, use `research-final-report`
     to create `docs/final_report.md`.
 
 ## Non-Negotiable Rules
@@ -427,37 +460,9 @@ Load only the reference file needed for the task:
 - `references/research_documentation.md`: when writing or revising a research document, design note, experiment note, or iteration ledger.
 - `references/research_viewer_design.md`: when creating or revising an experiment visualization viewer, dashboard, HTML report, or plot set.
 - `references/research_loop_checklist.md`: when a short checklist is enough for planning or review.
-
-## Local Viewer Server Reliability
-
-When the user is using an in-app browser or asks to see results in a viewer,
-the viewer URL must be stable enough for iterative research. Do not leave the
-user with a page that only works while a temporary terminal command is alive.
-
-For static HTML viewers, use one of these serving modes:
-
-```text
-Preferred for repeated research work:
-  a macOS LaunchAgent created by scripts/ensure_static_viewer_server.sh
-
-Acceptable for a one-off check:
-  a foreground or tmux server, with the command shown to the user
-
-Avoid:
-  a background process started with shell job control and no restart policy
-```
-
-For each project, keep one stable port when possible. Record the URL and restart
-command in the result document or viewer audit. If a port changes, state the
-new URL explicitly.
-
-Before telling the user the viewer is ready, run a bounded server check:
-
-```text
-HTTP status is 200
-the expected index.html is being served
-the server has a restart policy or a documented restart command
-```
+- `references/problem_discovery.md`: when establishing importance, discovering
+  exploitable structure, or checking that a proposed mechanism follows from
+  the problem rather than preceding it.
 
 ## Writing Standard
 
@@ -476,3 +481,17 @@ expected effect when it is too low or too high when that effect matters.
 
 Write simply. Rigor means precise, not fancy. A reader should be able to
 implement the algorithm from the document without guessing.
+
+## LaTeX Paper Builds
+
+For LaTeX research papers, use the skill-local compiler and build helper
+documented in `references/latex_toolchain.md`. For an ICLR project with
+`paper/main.tex`, run:
+
+```bash
+~/.codex/skills/research-exploration/scripts/build_iclr_paper.sh paper
+```
+
+Inspect the generated PDF and build log before delivery. Record unresolved
+citations, overfull boxes, page-limit failures, and missing experiment metadata
+instead of hiding them.

@@ -5,3 +5,4 @@ build/
 .env
 .env.*
 *.log
+.codex/skills/research-exploration/tools/tectonic

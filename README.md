@@ -78,12 +78,17 @@ npm install -g github:memxlife/research-exploration-skill
 .codex/skills/research-exploration/SKILL.md
 .codex/skills/research-exploration/agents/openai.yaml
 .codex/skills/research-exploration/references/research_loop_checklist.md
+.codex/skills/research-exploration/scripts/build_iclr_paper.sh
 scripts/install-codex-skill.mjs
 ```
 
 The packaged skill under `.codex/skills/research-exploration` is the only
 source of truth. The Codex runtime path should be a symlink to this directory,
 so the skill used by Codex is the same copy that is tracked by Git.
+
+Platform-specific local tools such as `.codex/skills/research-exploration/tools/tectonic`
+remain untracked. The LaTeX build helper uses that local executable when
+present, then falls back to `tectonic` from `PATH`.
 
 ## Validate
 
