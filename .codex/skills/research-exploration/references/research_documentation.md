@@ -143,6 +143,66 @@ implementation stage
 experiment or profiling artifact
 ```
 
+For Markdown research documents, distinguish the LaTeX expression from the
+Markdown container and from the renderer. Delimiters are viewer-specific:
+`$...$`, standalone `$$`, `\(...\)`, `\[...\]`, and fenced blocks are not
+interchangeable, and no one form is a safe universal default.
+
+Use this rendering workflow:
+
+1. Name the primary viewing surface precisely, including the application,
+   extension or renderer, and version when known.
+2. In a disposable file of the same type, test one representative inline
+   expression and one representative multiline display expression.
+3. Open that probe in the primary viewer. Record which container syntax
+   rendered successfully and retain a screenshot or equivalent evidence.
+4. Only after the probe passes, apply that syntax to the full document.
+5. Run `scripts/check_markdown_math.py <changed-markdown-files>` to inventory
+   the math and check source structure. Its success is a source pass, not a
+   rendering pass.
+6. Open the final document in the same viewer and inspect every inline and
+   display occurrence. Compare the count with the source inventory.
+7. Fail the render audit if any command or delimiter is visible, an equation is
+   styled as code, a parse error appears, or notation is clipped or overflows.
+8. Record a render receipt with the viewer, version when known, syntax,
+   equation counts, checker command/result, evidence, and final `RENDER PASS`
+   or `RENDER FAIL`.
+
+The source checker inventories recognized containers without assuming that any
+of them render. After a viewer probe succeeds, its optional profile can make
+the checker reject containers that were not verified:
+
+```json
+{
+  "viewer": "application, renderer or extension, and version",
+  "verified_on": "YYYY-MM-DD",
+  "evidence": "render-receipt or screenshot path",
+  "inline_containers": ["dollar"],
+  "display_containers": ["double-dollar"]
+}
+```
+
+Run the profile-aware check as:
+
+```text
+scripts/check_markdown_math.py \
+  --profile-file <viewer-profile.json> \
+  <changed-markdown-files>
+```
+
+Recognized inline container names are `dollar` and `parenthesis`. Recognized
+display names are `double-dollar`, `double-dollar-inline`, `bracket`,
+`bracket-inline`, `fenced-math`, `fenced-latex`, and `fenced-tex`. A fenced
+container is acceptable only when the target viewer probe and profile permit
+that exact form. A profile records the result of a render probe; it does not
+replace the final visual audit.
+
+If the exact target viewer is unavailable or automation cannot inspect it, say
+that rendering remains incomplete. If none of the minimal probes renders,
+preserve the LaTeX source, stop before bulk conversion, and offer an alternate
+verified artifact or viewer. Never infer successful rendering from balanced
+delimiters, from a source checker, or from a different rendering surface.
+
 Every hyperparameter must have:
 
 ```text

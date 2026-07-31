@@ -89,6 +89,30 @@ inspect against the audit checklist, fix concrete failures, and stop when the
 viewer satisfies the contract. Do not spend research time repeatedly refreshing
 or manually checking a viewer whose plot definitions were never made clear.
 
+## Non-Negotiable Math Rendering Gate
+
+When writing a Markdown research document containing equations, read
+[references/research_documentation.md](references/research_documentation.md)
+before editing it. Treat the LaTeX expression, its Markdown container, and the
+target renderer as three separate concerns. Before changing a full document,
+name the exact primary viewing surface and verify one inline and one display
+probe in that same surface. Use only the container syntax proven there; never
+assume that `$...$`, standalone `$$`, `\(...\)`, `\[...\]`, or a fenced block
+is portable.
+
+Run `scripts/check_markdown_math.py` on every changed Markdown research
+document, then open the actual document in the named target viewer and inspect
+every math occurrence. Record the viewer and version when known, the selected
+container syntax, the equation inventory, the checker result, and the rendered
+evidence. Raw commands or delimiters, code-box styling, parse errors, overflow,
+or clipping are failures. Do not deliver, commit, or claim completion until
+both the source gate and the render gate pass.
+
+If no candidate syntax renders, or the exact target viewer cannot be inspected,
+stop after the minimal probe. Preserve the LaTeX source, report rendering as
+blocked or incomplete, and offer an alternate verified artifact or viewer. Do
+not bulk-rewrite the document with another unverified delimiter.
+
 ## Problem-First Gate
 
 Do not begin with a proposed model, optimizer, cache, language, architecture,

@@ -105,6 +105,7 @@ npm install -g github:memxlife/research-exploration-skill
 .codex/skills/research-exploration/references/research_documentation.md
 .codex/skills/research-exploration/references/research_loop_checklist.md
 .codex/skills/research-exploration/scripts/build_iclr_paper.sh
+.codex/skills/research-exploration/scripts/check_markdown_math.py
 .codex/skills/research-final-report/SKILL.md
 scripts/install-codex-skill.mjs
 ```
