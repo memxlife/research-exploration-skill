@@ -5,10 +5,11 @@ Use this checklist when planning or reviewing a research experiment.
 ## Contents
 
 1. Check the question hierarchy, claim, and physical priors
-2. Check operational definitions and the benchmark
-3. Check recursive decomposition and metrics
-4. Check visualization and stage contracts
-5. Check implementation and interpretation
+2. Check the Learnable-Model Completion Gate when it applies
+3. Check operational definitions and the benchmark
+4. Check recursive decomposition and metrics
+5. Check visualization and stage contracts
+6. Check implementation and interpretation
 
 ## Problem Hierarchy
 
@@ -44,6 +45,30 @@ Use this checklist when planning or reviewing a research experiment.
 - Are its scope and boundary conditions explicit?
 - Are independent, dependent, coupled, and competing priors distinguished?
 - Does each mathematical model name the prior or coupled set it represents?
+
+## Learnable-Model Completion Gate
+
+- Is the stage active, and has it selected a parameterized representation,
+  dynamics model, estimator, or policy to learn? If not, do not force a loss.
+- If it is learnable, are observed inputs, latent variables, learned parameters,
+  and outputs/state explicit?
+- Does every objective term realize a named physical prior or coupled prior set?
+- Is the exact constrained objective, likelihood, or posterior objective stated,
+  with term meanings, units, and normalizations where relevant?
+- Are the admissible state space and hard geometry, group, causal, or action
+  constraints explicit?
+- Are collapse, memorization, gauge, reflection, future leakage, privileged-
+  label, and term-scaling shortcuts named with their intended exclusions?
+- Are permitted supervision and forbidden fields enforced by separate
+  operational, training, and evaluation-only schemas?
+- Are training terms distinct from untouched held-out falsification evidence?
+- Does every objective term and constraint map to a code path, training
+  artifact, and profiling or held-out artifact?
+- If the active stage is a fixed baseline, does it explicitly state no
+  learnable objective, the mechanism isolated, its claim boundary, and the
+  later learned stage that must pass the gate?
+- Would a document that claims to learn a representation but contains only
+  desired-property equations and evaluation tests be rejected as incomplete?
 
 ## Operational Definitions
 

@@ -224,6 +224,23 @@ may answer or reframe the current question, create child questions, change
 relations among existing questions, or update an ancestor. Keep history in the
 iteration ledger rather than hiding it in the current design.
 
+## Learnable-Model Completion Gate
+
+Apply this gate only when an **active** stage selects a parameterized model to learn.
+Do not force a loss, architecture, solver, dataset, or threshold into an inactive
+question, open conjecture, or fixed diagnostic baseline. Before coding or training,
+read [references/learnable_model_completion.md](references/learnable_model_completion.md).
+The Mathematical Model must identify observed, latent, learned, and output
+variables; map every term to a physical prior; give the exact constrained
+objective or declared likelihood/posterior; state units and normalizations,
+hard constraints, admissible state, known shortcuts and exclusions, permitted
+supervision and forbidden fields, training versus untouched held-out terms, and
+the objective-to-code/artifact map.
+
+Desired-property equations and evaluation residuals without trainable variables and an objective are FAIL for a claimed learnable model. For a fixed baseline,
+declare no learnable objective, the mechanism isolated, and which later learned
+stage must pass this gate.
+
 ## Required Artifacts
 
 Do not deliver a final research answer unless the notes, report, or response
@@ -239,6 +256,7 @@ relations among independent, dependent, coupled, or competing priors
 joint contract for every coupled question or prior set
 explicit mapping from each mechanism to the physical structure it exploits
 mathematical model for each prior or coupled set of priors
+learnable-model gate result, or an explicit fixed-baseline no-objective declaration
 implementation contract for each model
 publication-grade experimental setup
 explicit algorithm specification for each nontrivial stage
@@ -356,14 +374,16 @@ explained clearly, remove it from the main viewer.
 2. Locate it relative to known parent, child, dependency, and coupling relations.
 3. Conjecture the physical structure that may make an answer possible.
 4. State the observable consequence expected if that structure holds.
-5. Derive the mathematical model, then the computational implementation.
-6. Define success, failure, invalid-test, and insufficient-evidence outcomes.
-7. Run the smallest useful falsification and expose stage-level profiling.
-8. Report the direct result, then classify what the evidence changes.
-9. Refine the question hierarchy only where the evidence reveals a smaller question.
-10. Propagate bounded answers through affected relations and select the next frontier.
-11. Update the current-state document and iteration ledger.
-12. When a question reaches a stable conclusion, use `research-final-report`
+5. Derive the mathematical model; when a selected active model is learnable,
+   pass the Learnable-Model Completion Gate before deriving its implementation.
+6. Derive the computational implementation.
+7. Define success, failure, invalid-test, and insufficient-evidence outcomes.
+8. Run the smallest useful falsification and expose stage-level profiling.
+9. Report the direct result, then classify what the evidence changes.
+10. Refine the question hierarchy only where the evidence reveals a smaller question.
+11. Propagate bounded answers through affected relations and select the next frontier.
+12. Update the current-state document and iteration ledger.
+13. When a question reaches a stable conclusion, use `research-final-report`
     to create its `final_report.md`.
 
 ## Non-Negotiable Rules
@@ -444,6 +464,7 @@ and remaining uncertainty.
 Load only the reference file needed for the task:
 
 - `references/algorithm_specification.md`: when an algorithm has multiple steps, thresholds, matching, clustering, fitting, ranking, or hidden heuristics.
+- `references/learnable_model_completion.md`: when an active stage selects or reviews a learnable representation, dynamics model, estimator, or policy.
 - `references/profiling_and_evidence.md`: when planning experiments, running tests, reviewing results, or deciding what evidence is missing.
 - `references/failure_decomposition.md`: when a failure is broad, confusing, or could have several causes.
 - `references/goal_audit.md`: when several reasonable fixes fail, when labels may not match the downstream purpose, or when false positives and false negatives have different costs.
@@ -468,9 +489,11 @@ Objective and conclusion
 4. Computational Implementation and Results
 ```
 
-Every equation must map to a physical prior and a code path. Every
-hyperparameter must have a name, value, definition, reason for the value, and
-expected effect when it is too low or too high when that effect matters.
+Every equation must map to a physical prior and a code path. For an active
+learnable model, every objective term and constraint must also map to its
+training code, permitted data, and profiling artifact. Every hyperparameter
+must have a name, value, definition, reason for the value, and expected effect
+when it is too low or too high when that effect matters.
 
 Write simply. Rigor means precise, not fancy. A reader should be able to
 implement the algorithm from the document without guessing.

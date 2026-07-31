@@ -5,8 +5,9 @@
 1. Reject hand-waved algorithms
 2. Record the required specification
 3. Align physical, mathematical, and computational layers
-4. Define stage contracts and algorithm blocks
-5. Complete the pre-run check
+4. Map active learnable objectives into code
+5. Define stage contracts and algorithm blocks
+6. Complete the pre-run check
 
 Use this reference when the research task contains a nontrivial algorithm.
 
@@ -76,6 +77,29 @@ summary evidence: what is true after combining observations
 Do not replace change evidence or summary evidence with a single-observation
 proxy unless that simplification is the test.
 
+## Learnable Objective To Code
+
+When the active stage has selected a learnable model, do not implement or train
+it until the Learnable-Model Completion Gate in
+[learnable_model_completion.md](learnable_model_completion.md) passes. For every
+objective term and hard constraint, specify:
+
+```text
+mathematical name and physical prior
+permitted input fields and split
+exact function or module that computes it
+aggregation, units, normalization, and coefficient
+constraint enforcement or rejection path
+logged training artifact
+separate profiling or held-out falsification artifact
+```
+
+The learner, objective, checkpoint selector, and threshold tuner must be unable
+to read evaluation-only fields. A held-out result cannot also select the model
+for the same claimed test. If code contains a loss or regularizer absent from
+the mathematical model, stop and add its physical role or mark it as an
+implementation heuristic before running.
+
 ## Stage Contract
 
 For each stage in a multi-step algorithm, write:
@@ -125,6 +149,10 @@ Before running the algorithm, make sure a reader can answer:
 ```text
 What exact data enters the algorithm?
 What exact data is ignored?
+If the model learns, which objective term does each training computation realize?
+How is each hard constraint enforced?
+Which shortcut or collapse does each exclusion prevent?
+Can any training or selection code access evaluation-only fields?
 What does each step compute?
 What can make the step say yes?
 What can make the step say no?

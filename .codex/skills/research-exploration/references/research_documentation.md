@@ -6,9 +6,10 @@ Use this reference when writing or revising a research document.
 
 1. Separate current state from history
 2. Write the four-part testable argument
-3. Maintain the program research map
-4. Record each iteration
-5. Map equations and parameters to evidence
+3. Complete active learnable mathematical models
+4. Maintain the program research map
+5. Record each iteration
+6. Map equations and parameters to evidence
 
 ## Current State And History
 
@@ -47,6 +48,9 @@ When a research problem becomes more than a quick experiment, write it as:
    conjectured structure and predicted observable consequences
    relations among independent, dependent, coupled, or competing priors
 3. Mathematical Model
+   variables, state, relations, constraints, and testable predictions
+   for an active selected learnable model: the completion-gate contract
+   for a fixed baseline: the explicit no-learnable-objective declaration
 4. Computational Implementation
    falsification and stage-level profiling support
 ```
@@ -71,6 +75,24 @@ sought. Add operational variables, thresholds, and pass conditions when forming
 the conjecture and experiment. Keep any dataset or numeric threshold supplied
 by the operationalization out of the broader question unless the researcher
 defined it there.
+
+## Active Learnable Mathematical Models
+
+When an active stage selects a learnable representation, dynamics model,
+estimator, or policy, read
+[learnable_model_completion.md](learnable_model_completion.md) and record an
+explicit `PASS` or `FAIL` for its completion gate. The Mathematical Model must
+define the observed, latent, learned, and output variables; exact constrained
+objective or declared likelihood/posterior objective; admissible state and hard
+constraints; known degenerate or shortcut solutions and their exclusions;
+permitted supervision and forbidden fields; training versus untouched held-out
+terms; and the objective-to-code/artifact map.
+
+Desired-property equations and evaluation residuals do not substitute for the
+objective that fits the learnable parameters. Conversely, do not add a loss to
+an inactive question or fixed diagnostic baseline. For an active fixed
+baseline, state `learnable objective: none`, the mechanism isolated, the claim
+boundary, and which later learnable stage will need the gate.
 
 ## Research Map
 
@@ -142,6 +164,13 @@ model variable
 implementation stage
 experiment or profiling artifact
 ```
+
+For an active learnable model, every objective term and hard constraint must
+also map to its permitted training fields, exact code path, logged training
+artifact, and distinct held-out falsification artifact. If the document claims
+to learn a representation but has no optimized variables and no constrained
+objective, the mathematical-model review fails even when the source contains
+equations and evaluation tests.
 
 For Markdown research documents, distinguish the LaTeX expression from the
 Markdown container and from the renderer. Delimiters are viewer-specific:
