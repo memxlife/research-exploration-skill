@@ -15,58 +15,63 @@ The skill emphasizes:
 - stage-by-stage debugging for multi-step algorithms,
 - verified failure analysis before adding complexity,
 - evidence-driven recursive question refinement,
-- self-contained research-question documentation with three primary documents:
-  `docs/design.md`, `docs/experiment_design.md`, and
-  `docs/visualization_results.md`.
+- one authoritative design document per active research question, with linked
+  experiment-control details only when execution requires them.
 
 ## Research Question Standard
 
 For a single question, `node-dir` is `docs/`. For a mapped hierarchy, read each
-question's `node-dir` from `docs/research_map.md`. Every active question should
-maintain three documents:
+question's `node-dir` from `docs/research_map.md`. Every active question owns
+one authoritative design document:
 
 ```text
 <node-dir>/design.md
 ```
 
-The current research unit in four parts:
+For a material-literature child question, the canonical design has six parts:
 
-1. Problem Definition, centered on the current research question and its
-   importance, parent, child questions, relations, bounded answer, and frontier.
-2. Physical Priors, including the conjectured structure and predicted
-   observable consequence.
-3. Mathematical Model derived from the selected prior or coupled priors.
-4. Computational Implementation for falsification and profiling.
+1. Problem Definition.
+2. Physical Priors.
+3. Mathematical Model.
+4. Related Work and Computational Design Decisions.
+5. Computational Implementation.
+6. Experiments and Iterative Evidence.
+
+A routine fixed question may use the documented reduced four-part form when the
+literature gate does not trigger. The skill defines section ownership,
+mathematical-problem, learned-model, constructible-computation, evidence, and
+plain-language completion gates for both forms.
 
 When researcher input, causal reasoning, or evidence makes a child question
-active, it becomes the center of a new recursive four-part research unit. Do
-not generate a large question tree upfront.
+active, it becomes the center of a new recursive research unit. Do not generate
+a large question tree upfront.
 
-For a multi-question program, maintain `docs/research_map.md` and use stable
-node IDs with working documents and `iterations.md` ledgers under
-`docs/problems/<ID>/`. Existing root documents may remain mapped to `P0`.
-The research map owns the program frontier and shared coupled-set contracts. A
-frontier may contain a coupled set when its questions cannot be interpreted
-independently.
+For a multi-question program, use stable node IDs and place an activated child
+under `docs/problems/<ID>/`. The parent design links the child and records its
+relationship; do not create empty child documents or a competing source of
+research truth.
 
 ```text
 <node-dir>/experiment_design.md
 ```
 
-Detailed experiment design for falsification and profiling. Profiling evidence
-must explain why a result passed, failed, or remained uncertain.
+Detailed experiment-control design for falsification and profiling. Use this
+companion only when execution requires protocol, command, schema, receipt, or
+resource detail that would obscure the design. The main design still records
+each round's scientific question, setup, data, result, interpretation, claim
+boundary, and next decision.
 
 ```text
 <node-dir>/visualization_results.md
 ```
 
-Problem-specific viewer description and actual results. Each result should
-state the problem being tested, exact setup, observed result, take-home
-conclusion, and claim boundary.
+Optional problem-specific viewer description when visual diagnosis is
+material. It is not a mandatory document for an early design or a NOT RUN
+round.
 
-The viewer is part of the research method. Every plot should be readable by a
-careful undergraduate without reading the source code or remembering prior
-conversation.
+When visual evidence is required, the viewer is part of the research method.
+Every plot should be readable by a careful undergraduate without reading the
+source code or remembering prior conversation.
 
 ## Install With npm
 
