@@ -7,9 +7,10 @@ Use this reference when writing or revising a research document.
 1. Separate current state from history
 2. Write the four-part testable argument
 3. Complete active learnable mathematical models
-4. Maintain the program research map
-5. Record each iteration
-6. Map equations and parameters to evidence
+4. Complete the conditional literature/prior-art decision
+5. Maintain the program research map
+6. Record each iteration
+7. Map equations and parameters to evidence
 
 ## Current State And History
 
@@ -51,8 +52,10 @@ When a research problem becomes more than a quick experiment, write it as:
    variables, state, relations, constraints, and testable predictions
    for an active selected learnable model: the completion-gate contract
    for a fixed baseline: the explicit no-learnable-objective declaration
+   then, when selecting computation for a nontrivial open problem:
+   the Literature / Prior-Art Evidence Gate and decision record
 4. Computational Implementation
-   falsification and stage-level profiling support
+   cited adopted/adapted mechanism, falsification, and stage-level profiling
 ```
 
 Use this subsection format inside the four-part design when helpful:
@@ -93,6 +96,27 @@ objective that fits the learnable parameters. Conversely, do not add a loss to
 an inactive question or fixed diagnostic baseline. For an active fixed
 baseline, state `learnable objective: none`, the mechanism isolated, the claim
 boundary, and which later learnable stage will need the gate.
+
+## Literature / Prior-Art Decision
+
+When a nontrivial open research problem is about to select, adapt, compare, or
+reject a computational mechanism, read
+[literature_prior_art_evidence.md](literature_prior_art_evidence.md). Search
+after the mathematical constraints and supervision boundary are explicit, then
+record the exact problem, physical structure, demonstrated benefit,
+assumptions, supervision/data, failures, boundary compatibility, role, and
+adopt/adapt/reject decision for each retained mechanism.
+
+Computational Implementation must cite that decision record. Keep a compact
+table in the four-part design when possible; create one bounded standalone
+receipt only when the evidence is material. Do not add a mandatory fifth design
+part or proliferate files against the researcher's document request.
+
+Return `FAIL` and block implementation when a selected mechanism lacks the
+record or has an unresolved supervision conflict. Return `NOT_APPLICABLE` only
+for routine work or a fully prescribed deterministic baseline, with the source
+of that prescription stated. For learned work, this result and the
+Learnable-Model Completion Gate result are independent requirements.
 
 ## Research Map
 

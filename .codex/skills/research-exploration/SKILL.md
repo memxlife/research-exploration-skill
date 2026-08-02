@@ -214,7 +214,8 @@ For nontrivial research work, keep this chain inspectable:
 ```text
 current research question -> conjectured physical structure
 -> predicted observable consequence -> mathematical model
--> computational implementation -> falsification + profiling
+-> conditional literature/prior-art decision -> computational implementation
+-> falsification + profiling
 -> evidence -> refined question, structure, model, or implementation
 ```
 
@@ -241,6 +242,28 @@ Desired-property equations and evaluation residuals without trainable variables 
 declare no learnable objective, the mechanism isolated, and which later learned
 stage must pass this gate.
 
+## Literature / Prior-Art Evidence Gate
+
+Apply this gate after the mathematical constraints are explicit and before
+selecting or adapting computation for a nontrivial open research problem. Read
+[references/literature_prior_art_evidence.md](references/literature_prior_art_evidence.md).
+Use a targeted question-to-literature search, prefer primary sources, audit
+hidden supervision, and record for each retained mechanism its exact problem,
+physical structure, demonstrated benefit, assumptions, data/supervision,
+failure modes, boundary compatibility, role, and decision. Classify it as a
+boundary-compatible baseline, adaptation candidate, external upper
+bound/diagnostic, or context only.
+
+The Computational Implementation must cite the adopted/adapted/rejected
+decision record and its practical reason. This workflow gate is not a fifth
+design-document part; keep the record proportional and avoid extra documents
+when the researcher requested one design. A selected mechanism with no record
+is `FAIL` and blocked. Routine work or a fully prescribed deterministic
+baseline may be `NOT_APPLICABLE` only with the prescription stated. For a
+learnable model, this gate and the Learnable-Model Completion Gate must pass
+independently; neither substitutes for the other. Distinguish practical
+leverage from any bounded novelty note.
+
 ## Required Artifacts
 
 Do not deliver a final research answer unless the notes, report, or response
@@ -257,6 +280,7 @@ joint contract for every coupled question or prior set
 explicit mapping from each mechanism to the physical structure it exploits
 mathematical model for each prior or coupled set of priors
 learnable-model gate result, or an explicit fixed-baseline no-objective declaration
+literature/prior-art gate result and cited decision record, or explicit non-applicability
 implementation contract for each model
 publication-grade experimental setup
 explicit algorithm specification for each nontrivial stage
@@ -376,15 +400,17 @@ explained clearly, remove it from the main viewer.
 4. State the observable consequence expected if that structure holds.
 5. Derive the mathematical model; when a selected active model is learnable,
    pass the Learnable-Model Completion Gate before deriving its implementation.
-6. Derive the computational implementation.
-7. Define success, failure, invalid-test, and insufficient-evidence outcomes.
-8. Run the smallest useful falsification and expose stage-level profiling.
-9. Report the direct result, then classify what the evidence changes.
-10. Refine the question hierarchy only where the evidence reveals a smaller question.
-11. Propagate bounded answers through affected relations and select the next frontier.
-12. Update the current-state document and iteration ledger.
-13. When a question reaches a stable conclusion, use `research-final-report`
-    to create its `final_report.md`.
+6. When selecting computation for a nontrivial open problem, pass the
+   Literature / Prior-Art Evidence Gate and cite its decision record.
+7. Derive the computational implementation.
+8. Define success, failure, invalid-test, and insufficient-evidence outcomes.
+9. Run the smallest useful falsification and expose stage-level profiling.
+10. Report the direct result, then classify what the evidence changes.
+11. Refine the question hierarchy only where the evidence reveals a smaller question.
+12. Propagate bounded answers through affected relations and select the next frontier.
+13. Update the current-state document and iteration ledger.
+14. When a question reaches a stable conclusion, use `research-final-report`
+   to create its `final_report.md`.
 
 ## Non-Negotiable Rules
 
@@ -465,6 +491,7 @@ Load only the reference file needed for the task:
 
 - `references/algorithm_specification.md`: when an algorithm has multiple steps, thresholds, matching, clustering, fitting, ranking, or hidden heuristics.
 - `references/learnable_model_completion.md`: when an active stage selects or reviews a learnable representation, dynamics model, estimator, or policy.
+- `references/literature_prior_art_evidence.md`: when a nontrivial open research problem is about to select, adapt, compare, or reject a computational mechanism.
 - `references/profiling_and_evidence.md`: when planning experiments, running tests, reviewing results, or deciding what evidence is missing.
 - `references/failure_decomposition.md`: when a failure is broad, confusing, or could have several causes.
 - `references/goal_audit.md`: when several reasonable fixes fail, when labels may not match the downstream purpose, or when false positives and false negatives have different costs.

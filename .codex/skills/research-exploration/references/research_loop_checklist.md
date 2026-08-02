@@ -6,10 +6,11 @@ Use this checklist when planning or reviewing a research experiment.
 
 1. Check the question hierarchy, claim, and physical priors
 2. Check the Learnable-Model Completion Gate when it applies
-3. Check operational definitions and the benchmark
-4. Check recursive decomposition and metrics
-5. Check visualization and stage contracts
-6. Check implementation and interpretation
+3. Check the Literature / Prior-Art Evidence Gate when it applies
+4. Check operational definitions and the benchmark
+5. Check recursive decomposition and metrics
+6. Check visualization and stage contracts
+7. Check implementation and interpretation
 
 ## Problem Hierarchy
 
@@ -69,6 +70,33 @@ Use this checklist when planning or reviewing a research experiment.
   later learned stage that must pass the gate?
 - Would a document that claims to learn a representation but contains only
   desired-property equations and evaluation tests be rejected as incomplete?
+
+## Literature / Prior-Art Evidence Gate
+
+- Is this a nontrivial open problem selecting, adapting, comparing, or rejecting
+  a computational mechanism after its mathematical constraints are explicit?
+- If yes, was a targeted search run from the current question, priors,
+  constraints, and supervision boundary, using primary sources where available?
+- For every retained mechanism, are its exact problem, physical structure,
+  demonstrated benefit, assumptions, supervision/pretraining/data, failures,
+  boundary compatibility, role classification, and decision recorded?
+- Were hidden pose, trajectory, transform, depth, mask, identity,
+  correspondence, optical-flow, reconstruction, synthetic-warp, demonstration,
+  pretraining, future-data, and fit/evaluation teachers explicitly audited?
+- Are boundary-compatible baselines, adaptation candidates, external upper
+  bounds/diagnostics, and context-only work distinguished?
+- Does the decision optimize practical falsification leverage before discussing
+  any bounded novelty claim?
+- Does Computational Implementation cite what was adopted, adapted, rejected,
+  or deferred and why?
+- If a standalone literature receipt is material, is there only one bounded
+  report linked from the design? If one design was requested, is the compact
+  record kept inside it instead?
+- Is a selected mechanism with no decision record rejected as `FAIL`?
+- Is `NOT_APPLICABLE` limited to routine work or a fully prescribed
+  deterministic baseline whose prescription is stated?
+- For learned work, did both this gate and the Learnable-Model Completion Gate
+  pass independently?
 
 ## Operational Definitions
 
