@@ -17,6 +17,10 @@ loss, dataset, or threshold.
 - Can a cold reader summarize each major section in one sentence?
 - Does Section 6 contain a rolling summary derived from its experiment rounds
   rather than an independent status narrative?
+- If the child has a stable bounded conclusion, was the living design compacted
+  to its summary, final claim boundary, decision-changing findings, and links
+  while every complete round remains preserved exactly once in a final report
+  or append-only evidence ledger?
 
 ## Physical Priors
 
@@ -191,4 +195,14 @@ FAIL — protocol-only round:
 PASS — complete round:
   Question, exact model/controls, training data, confirmation split, linked
   result or NOT RUN, and insight/claim update are all explicit.
+
+FAIL — destructive or duplicative closure:
+  A long completed program either deletes full round evidence after writing a
+  summary, or copies all full rounds into both the living design and final
+  report.
+
+PASS — compacted closure:
+  The living design retains a short evidence summary, final claim boundary,
+  decision-changing findings, and links. The linked final report or append-only
+  ledger preserves every complete round and artifact exactly once.
 ```

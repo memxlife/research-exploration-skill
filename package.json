@@ -1,6 +1,6 @@
 {
   "name": "research-exploration-skill",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Codex skill for evidence-driven research questions with recursive refinement when needed.",
   "type": "module",
   "files": [

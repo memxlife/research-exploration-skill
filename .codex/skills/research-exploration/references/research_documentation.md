@@ -224,6 +224,23 @@ remain in a linked experiment-control document. The main design still carries
 the scientific setup, training data, confirmation data, result, interpretation,
 and resulting claim boundary for every round.
 
+### Closure-time evidence compaction
+
+The rule above applies while the child is active and its answer is changing.
+After the child reaches a stable bounded conclusion, the living design keeps:
+
+```text
+short rolling evidence summary
+final claim boundary
+findings that changed the selected model, mechanism, or conclusion
+links to the complete preserved round records and artifacts
+```
+
+Move the full per-round question, setup, data, result, and insight records to a
+linked final report or append-only evidence ledger. Preserve every round and
+its artifacts; compaction is not deletion or reinterpretation. Do not retain the
+same complete history in both the living design and the linked record.
+
 ## Plain-Language Audit
 
 Before delivery:
@@ -288,6 +305,16 @@ FAIL — incomplete experiment record:
 PASS — experiment round:
   The round states its question, exact model/controls, training data,
   confirmation split, linked result or NOT RUN, and insight/claim update.
+
+FAIL — closed-program evidence history:
+  A stable child either replaces its rounds with an unsupported summary and no
+  preserved linked record, or leaves every full round duplicated in both the
+  living design and final report.
+
+PASS — closed-program evidence compaction:
+  The living design keeps the final rolling summary, claim boundary,
+  decision-changing findings, and links; a final report or append-only ledger
+  preserves every complete round and artifact without duplication.
 
 PASS — evidence boundary:
   evaluator truth is physically separate and scores only frozen decisions.

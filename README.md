@@ -57,9 +57,11 @@ research truth.
 
 Detailed experiment-control design for falsification and profiling. Use this
 companion only when execution requires protocol, command, schema, receipt, or
-resource detail that would obscure the design. The main design still records
-each round's scientific question, setup, data, result, interpretation, claim
-boundary, and next decision.
+resource detail that would obscure the design. While the question remains
+active, the main design records each round's scientific question, setup, data,
+result, interpretation, claim boundary, and next decision. After a stable
+bounded conclusion, compact that history into the final summary and links;
+preserve every complete round in the linked final report or append-only ledger.
 
 ```text
 <node-dir>/visualization_results.md
@@ -95,11 +97,16 @@ replace existing local copies with source links:
 RESEARCH_EXPLORATION_UPDATE_SKILL=1 npm install -g .
 ```
 
-After this project is published to GitHub, install directly from the repository:
+The default `main` branch is the current audited release. A branchless GitHub
+installation therefore resolves that release:
 
 ```bash
 npm install -g github:memxlife/research-exploration-skill
 ```
+
+The package version and Git commit together identify the installed release.
+Development branches may be published for review, but they are not the default
+installation source until promoted to `main` without rewriting history.
 
 ## Layout
 

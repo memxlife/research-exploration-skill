@@ -231,6 +231,15 @@ artifact, but keep the scientific setup, data, result, and insight in the main
 design. Maintain one concise rolling summary derived from the rounds rather
 than a duplicate status narrative.
 
+### Closure-time evidence compaction
+
+After a child reaches a stable bounded conclusion, compact its living design.
+Keep the rolling evidence summary, final claim boundary, decision-changing
+findings, and links to the preserved record. Move the complete per-round
+question, setup, data, result, and insight records to a linked final report or
+append-only evidence ledger. Do not delete evidence, change results, or keep the
+same full round history duplicated in both places.
+
 Report the direct result first. Then localize what changed:
 
 ```text
