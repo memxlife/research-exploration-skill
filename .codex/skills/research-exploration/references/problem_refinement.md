@@ -1,301 +1,129 @@
-# Recursive Research-Question Refinement
+# Research-Question Refinement
 
-Use this reference to manage coarse-to-fine research without losing the causal
-relationship between the motivating question and the experiment being run.
+Use this reference to refine a question only when reasoning or evidence reveals
+a smaller uncertainty, dependency, coupling, or boundary.
 
-## Contents
+## Stable Problem Definition
 
-1. Center each unit on a research question
-2. Separate questions from mechanisms
-3. Follow the four-part research loop
-4. Refine only when exploration reveals a reason
-5. Represent relations and the active frontier
-6. Model relations among physical priors
-7. Preserve the hierarchy on disk
-8. Propagate evidence through the graph
-9. Physical-AI example
-
-## Center each unit on a research question
-
-For every active research unit, write `Problem Definition` in this order:
+For each active node, Problem Definition owns:
 
 ```text
-1. Current research question
-   The open question being answered now.
-
-2. Importance and scope
-   Why the answer matters, what decision it changes, and what is in scope.
-
-3. Parent question and upward-answer contract
-   The larger question that created this one and the bounded answer this unit
-   must return.
-
-4. Child research questions and relations
-   Smaller questions already revealed by reasoning or evidence, with explicit
-   refinement, dependency, and coupling relations.
-
-5. Current bounded answer and claim boundary
-   What is currently supported, including "unanswered" at the start.
-
-6. Local frontier
-   The smallest descendant question or coupled set suggested by this node.
+current research question
+importance and stable scope
+parent/root question and upward-answer obligation
+already revealed child questions and typed relations
 ```
 
-A root uses `parent: none (root)`. A current leaf may use
-`children: none (current leaf)`. An answered node may use
-`local frontier: none (answered)`. A blocked node names the missing evidence
-or dependency rather than inventing a next step.
+Changing results, claim boundaries, current status, blockers, and the next test
+belong in `Experiments and Iterative Evidence`, not in Problem Definition.
 
-## Separate questions from mechanisms
+A research question may name a target capability such as recovering a
+transformation or constructing invariant features. It must not silently select
+an architecture, solver, loss, dataset, or numerical threshold.
 
-A research question may explicitly name the object or capability being sought:
+## When To Refine
 
-```text
-How can distinguishable visual features be captured across observations?
-How can those features be physically grounded?
-How can a shared spatial transformation be extracted?
-How can transformation-invariant visual features be generated?
-How can this structure improve data efficiency?
-```
+Create or revise a child only when:
 
-These remain research questions. They do not become mechanisms until a solver,
-architecture, loss, representation, or algorithm is selected. Do not weaken a
-clear research question into vague language merely because it names a
-transformation, feature, representation, or capability.
-
-At the inspiration stage, do not force every question into a closed benchmark
-specification. State enough scope to know what is being sought. Add precise
-variables, thresholds, and pass conditions when deriving a falsifiable
-conjecture and experiment. Do not insert a dataset, numeric target, or solution
-assumption into the research question unless the researcher supplied it. When
-qualitative language needs an experimental threshold, label and justify that
-operational choice without rewriting the broader question.
-
-## Follow the four-part research loop
-
-Every active question uses:
-
-```text
-1. Problem Definition
-2. Physical Priors
-3. Mathematical Model
-4. Computational Implementation
-```
-
-Problem refinement is not a fifth section. It is a feedback operation that may
-create or reconnect four-part research units after reasoning or evidence changes
-the question graph.
-
-Apply the loop as:
-
-```text
-research question
-  -> conjecture about physical structure
-  -> predicted observable consequence
-  -> mathematical model
-  -> computational implementation
-  -> falsification and profiling
-  -> improved understanding of the structure
-  -> refined question or conjecture
-```
-
-The physical prior is the structural core of the conjecture. The full
-falsifiable conjecture combines that prior with a predicted observation and
-the conditions under which the prediction should hold.
-
-Computational implementation is not only construction of a proposed solution.
-It must make falsification and profiling possible. Expose intermediate
-artifacts that reveal whether the question framing, prior, model, algorithm,
-data, or measurement explains the result.
-
-## Refine only when exploration reveals a reason
-
-Do not generate a large problem tree at the beginning. Create or revise child
-questions when reasoning, falsification, or profiling reveals that:
-
-- the current question contains separable causal questions;
+- the parent contains separable causal questions;
 - several assumptions prevent one experiment from being interpreted;
-- a pipeline failure cannot be localized without a smaller question;
-- an exception or boundary condition requires its own investigation;
-- two questions or priors are coupled and must be studied together; or
+- a pipeline failure cannot be localized;
+- an exception or boundary needs its own investigation;
+- two questions are coupled and cannot yet be concluded independently; or
 - a bounded answer exposes the next question required by the parent.
 
-When a child becomes active, make it the current research question of a new
-four-part unit. Initially record inactive children as questions and relations
-only. Do not pre-fill their priors, equations, algorithms, or experiments.
+Do not generate a large tree in advance. Keep inactive children as questions
+and relations only; do not pre-fill their priors, equations, algorithms, or
+experiments.
 
-For each proposed child, record:
-
-```text
-child research question:
-why answering it changes the parent answer:
-answer returned to the parent:
-known relations to other questions:
-evidence or reasoning that caused this refinement:
-```
-
-## Represent relations and the active frontier
-
-Use stable identifiers such as `P0`, `P0.1`, and `P0.2`. Keep different edge
-types explicit:
+For each new child, record:
 
 ```text
-refines:      the child opens one part of a broader question
-depends-on:   one answer is needed to interpret another
-coupled-with: the questions cannot currently be concluded independently
+child research question
+why its answer changes the parent
+bounded answer it must return upward
+refinement, dependency, and coupling relations
+reasoning or evidence that caused activation
 ```
 
-Do not force these relations into a strict tree. Refinement, dependency, and
-coupling form a graph.
+## Relations And Coupling
 
-The active frontier is usually one question. When questions cannot be tested or
-interpreted independently, use the smallest coupled set required. The frontier
-may also use oracle inputs to test a downstream conjecture early; record the
-oracle assumption and do not treat that result as end-to-end evidence.
-
-For every coupled question or prior set, create a first-class joint contract:
+Use stable IDs when the program needs them. Distinguish:
 
 ```text
-coupled-set ID:
-member question and prior IDs:
-why the members are not currently identifiable independently:
-joint predicted consequence and falsifier:
-joint mathematical model:
-shared experiment and result path:
-answer obligation for each member:
-pointer to each member's authoritative bounded answer:
-joint-identifiability limitation shared by the members:
-evidence that would allow the set to be decoupled:
+refines: opens one part of a broader question
+depends-on: another answer is needed for interpretation
+coupled-with: current evidence cannot identify the answers independently
 ```
 
-Each member keeps its own research-question unit, but links to the shared
-contract instead of duplicating or pretending to isolate joint evidence.
+For a materially coupled set, record one joint prediction, mathematical model,
+experiment/evidence path, per-member answer obligation, identifiability limit,
+and evidence that would permit separation. Do not pretend joint evidence
+isolates one prior.
 
-## Model relations among physical priors
+## Prior Relations
 
-Give important priors stable IDs such as `PR1` and record:
+Record relations only when they change interpretation:
 
 ```text
-conjectured physical structure:
-scope and boundary conditions:
-predicted observable consequence:
-possible falsifier:
-relation to other priors:
-mathematical model or models that represent it:
+independent: testable separately
+dependent: one assumes another
+coupled: only a joint consequence is identifiable
+competing: predict different explanations for the same observation
 ```
 
-Classify prior relations when they matter:
+Each active child must name the root priors it inherits or refines. A child
+prior cannot be disconnected from the parent without an explicit reason.
+
+## Proportional Artifacts
+
+Keep one design for one active question. Add a child directory only when that
+child becomes active. Add a research map only when multiple retained nodes make
+graph navigation necessary. The map owns graph edges and the program frontier;
+the node design owns its local theory; `Experiments and Iterative Evidence`
+owns its current result and next decision.
+
+Add experiment, result/viewer, iteration, or final-report artifacts only when
+the corresponding stage exists. Never create empty placeholders or duplicate
+editable bounded answers.
+
+## Evidence Propagation
+
+After an experiment, update in this order:
 
 ```text
-independent: can be tested and modeled separately
-dependent: one prior assumes another
-coupled: only their joint consequence is currently identifiable
-competing: they predict different explanations for the same observation
+direct result
+-> measurement validity
+-> affected implementation, model, prior, or question layer
+-> bounded answer and claim boundary
+-> affected relations and upward answer
+-> next active question or blocker
 ```
 
-A mathematical model may realize one prior or a coupled set. Do not claim that
-one prior was isolated when the experiment only tested their joint consequence.
+Classify the result before changing the mechanism:
 
-## Preserve the hierarchy on disk
+1. invalid measurement or experiment;
+2. implementation failure;
+3. mathematical-model failure;
+4. physical-prior failure or boundary violation;
+5. research-question failure; or
+6. insufficient evidence.
 
-For one research question, the three working documents may remain directly in
-`docs/`. Once refinement creates multiple retained questions, add:
+A failed implementation does not automatically falsify the prior. A failed
+proxy does not falsify the broader prior unless the evidence rules out the
+other lawful operationalizations.
+
+## Forward Checks
 
 ```text
-docs/research_map.md
-docs/problems/<ID>/design.md
-docs/problems/<ID>/experiment_design.md
-docs/problems/<ID>/visualization_results.md
-docs/problems/<ID>/iterations.md
+FAIL: An inactive child is created with a network, loss, dataset, thresholds,
+      and experiment before any reasoning or evidence activates it.
+
+PASS: The parent records the child question and dependency only; its own design
+      is created after evidence makes it active.
+
+FAIL: Problem Definition contains changing run status and the next experiment.
+
+PASS: Stable question/decomposition remain in Section 1; current evidence and
+      next test remain in Experiments and Iterative Evidence.
 ```
-
-Map existing root documents to `P0` rather than duplicating them only to change
-layout. In `docs/research_map.md`, record:
-
-```text
-node ID and research question
-parent and upward-answer contract
-refinement source: researcher, causal reasoning, or evidence artifact
-refinement, dependency, and coupling edges
-status: unexplored, active, blocked, answered, or retired
-document path, or none (not materialized; question lives in parent design)
-pointer to the authoritative bounded answer, or none (unanswered/unmaterialized)
-program active frontier
-coupled-set contracts and shared evidence paths
-```
-
-`docs/research_map.md` is authoritative for graph edges, coupled-set contracts,
-and the program active frontier. Each node's `design.md` owns its local question,
-priors, models, bounded answer, and local frontier. Each node's `iterations.md`
-is the append-only history for that node. Existing root documents mapped to
-`P0` use `docs/iterations.md`. Do not duplicate editable bounded-answer prose
-in the map. Do not create a child directory until that question becomes active.
-
-## Propagate evidence through the graph
-
-After every experiment, update in this order:
-
-```text
-direct evidence
-  -> validity of the test and measurement
-  -> affected research layer
-  -> current bounded answer and claim boundary
-  -> affected question and prior relations
-  -> answer returned to ancestors
-  -> active frontier
-```
-
-Classify what the evidence changes before modifying the mechanism:
-
-1. **Invalid experiment or measurement:** the test cannot support the intended
-   comparison.
-2. **Computational-implementation update:** the model may be adequate, but the
-   algorithm, code, data path, or numerical method did not realize it.
-3. **Mathematical-model update:** the prior may hold, but the model did not
-   express, identify, or preserve the required structure.
-4. **Physical-prior update:** the conjectured structure was absent, incomplete,
-   coupled to another prior, or outside its stated scope.
-5. **Research-question update:** the importance, scope, objects, or causal
-   decomposition of the question must change.
-6. **Insufficient evidence:** the test did not distinguish these alternatives.
-
-Propagate evidence sideways or downward when siblings, descendants, or shared
-priors depend on the changed claim. A failed implementation must not
-automatically falsify its mathematical model or physical prior.
-
-## Physical-AI example
-
-Assume the researcher supplied the following initial questions during
-inspiration. Record them as a provisional map, not as an exhaustive tree.
-
-```text
-P0 Current research question:
-  How can a physical agent learn physically grounded, viewpoint-consistent
-  visual representations with substantially less training data?
-
-P0 child research questions:
-  P0.1 How can distinguishable visual features be captured across observations?
-  P0.2 How can distinguishable features be grounded in persistent 3D entities?
-  P0.3 How can shared spatial transformations be extracted from sparse grounded
-       features?
-  P0.4 How can invariant or equivariant visual features be generated from the
-       recovered transformations?
-  P0.5 How can the resulting structure improve measured data efficiency?
-
-Relations:
-  P0.2 depends partly on P0.1;
-  end-to-end P0.3 depends on P0.2;
-  P0.4 depends on what P0.3 can recover;
-  P0.5 depends on the joint pipeline and must not hide supervision costs.
-
-Refinement source:
-  researcher-provided initial questions plus the dependency reasoning above;
-  no grandchildren are created until falsification or profiling reveals them.
-```
-
-If the immediate decision is whether the shared-transformation prior is worth
-pursuing, activate `P0.3` with oracle grounded correspondences for a fast
-upper-bound test. If the immediate uncertainty is whether stable physical
-identities exist, activate the coupled frontier `{P0.1, P0.2}`. In either case,
-the active node starts with its research question, not a preferred network,
-solver, or optimizer.

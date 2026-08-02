@@ -1,269 +1,298 @@
-# Research Documentation
+# Research Design Contract
 
-Use this reference when writing or revising a research document.
+Use this reference when writing or reviewing an active research design.
 
 ## Contents
 
-1. Separate current state from history
-2. Write the four-part testable argument
-3. Complete active learnable mathematical models
-4. Complete the conditional literature/prior-art decision
-5. Maintain the program research map
-6. Record each iteration
-7. Map equations and parameters to evidence
+1. Choose the document structure
+2. Enforce section ownership
+3. Complete the mathematical model
+4. Complete the computational implementation
+5. Keep artifacts proportional to the stage
+6. Validate language, mathematics, and rendering
+7. Run forward checks
 
-## Current State And History
+## Choose The Structure
 
-For each active node, separate current theory from research history:
-
-```text
-<node-dir>/design.md:
-  the latest clean research question, physical priors, predicted consequences,
-  model, implementation contract, claim boundary, and bounded answer
-
-<node-dir>/iterations.md:
-  the append-only sequence of research question -> conjecture ->
-  operationalization -> falsification and profiling -> result ->
-  interpretation -> question or conjecture update
-```
-
-The current-state document should be rewritten as understanding improves. The
-iteration ledger should preserve how that understanding changed.
-
-Do not bury failed operationalizations inside the current model. Keep them in
-the ledger as evidence about what was falsified and why.
-
-## Testable Argument
-
-When a research problem becomes more than a quick experiment, write it as:
+Record the choice before drafting:
 
 ```text
-1. Problem Definition
-   current research question
-   importance and scope
-   parent question and required upward answer
-   child research questions and typed relations
-   current bounded answer and claim boundary
-   local frontier or answered/blocked state
-2. Physical Priors
-   conjectured structure and predicted observable consequences
-   relations among independent, dependent, coupled, or competing priors
-3. Mathematical Model
-   variables, state, relations, constraints, and testable predictions
-   for an active selected learnable model: the completion-gate contract
-   for a fixed baseline: the explicit no-learnable-objective declaration
-   then, when selecting computation for a nontrivial open problem:
-   the Literature / Prior-Art Evidence Gate and decision record
-4. Computational Implementation
-   cited adopted/adapted mechanism, falsification, and stage-level profiling
+design structure: FOUR_SECTION_ALLOWED | FIVE_SECTION_REQUIRED
+reason: whether prior art materially changes mechanism choice, adaptation,
+        or admissibility
 ```
 
-Use this subsection format inside the four-part design when helpful:
+Use four core sections for a fully prescribed fixed mechanism or contextual
+prior art. Use five core sections when prior art materially selects, adapts,
+rejects, or changes a mechanism's admissibility. An active child then appends
+`Experiments and Iterative Evidence` after computation—Section 6 in the
+five-section form.
+
+## Section Ownership
+
+| Section | Owns | Must not contain |
+|---|---|---|
+| 1. Problem Definition | selected question, importance, scope, parent/root relation, already revealed children | priors, equations, methods, protocol, or changing run status |
+| 2. Physical Priors | falsifiable external world/workload claims, observable consequences, scope and boundaries | algorithms, thresholds, candidate policies, splits, leakage controls, or evaluation rules |
+| 3. Mathematical Model | variables, admissible state, prior-derived constraints, exact decision or optimization objective | architecture, pipeline, commands, artifacts, literature narrative, or run status |
+| 4. Related Work and Computational Design Decisions | decision-relevant prior work, supervision and hidden-teacher audit, adopt/adapt/baseline/external-only/reject decisions | full mathematics, full pipeline, or claims of new experimental results |
+| 5. Computational Implementation | permitted inputs, outputs, causal mechanism map, architecture, training/inference computation, refusal, and evaluation boundary | inactive future branches, raw commands, hashes, resource allocation, or long run history |
+| 6. Experiments and Iterative Evidence | rolling evidence summary; one scientific record per planned/completed round; claim update and next decision | fabricated results, unmodeled mechanisms, or raw control-plane logs |
+
+In a four-section design, implementation is Section 4 and keeps the same owner.
+Record the prior-art decision as `NOT_APPLICABLE` or contextual immediately
+before it.
+
+### Physical-prior purity
+
+Ask of every proposed prior:
+
+> Would this still be a claim about the world or workload if no experiment or
+> algorithm were ever designed?
+
+If no, move it. Candidate generation, independent recomputation, thresholds,
+data splits, leakage controls, held-out logic, validation rules, and status
+precedence belong to mathematics, implementation, or the experiment contract.
+
+### Child scope
+
+An active child names the root priors it inherits or refines. Every section
+answers that child question only. Remove inactive future variants, downstream
+stages, duplicate no-leakage warnings, experiment manifests, and current status
+from sections that do not own them. Keep one causal chain consistent across the
+document.
+
+## Mathematical Model
+
+Every active fixed or learned model states:
 
 ```text
-Objective: what this part tries to do
-Physical prior: why this step is plausible in the world
-Model: the equation or formal representation
-Implementation contract: the code stage, inputs, outputs, and pass/fail checks
-Evidence: metrics, visual examples, and failure cases
+observed inputs and decision/output variables
+latent or inferred state, when any
+admissible state and hard constraints
+exact goal, utility, likelihood, posterior, or constrained objective
+which physical prior gives rise to each constraint or term
+permitted and forbidden information
+development data allowed to select an operating point
+untouched confirmation metrics and bounded claim
 ```
 
-When a child question reaches the active frontier, make it the current question
-of a new four-part research unit. Keep inactive children as research questions
-and relations only; do not pre-fill their priors, equations, or implementations.
+A fixed model may have no training loss. It still needs an exact decision or
+evaluation objective. For example, development data may choose the strictness
+that maximizes accepted correct-match coverage subject to a predeclared
+precision requirement, followed by one untouched confirmation report.
 
-Do not force a research question into an input-output benchmark specification
-at the inspiration stage. A question may name the capability or object being
-sought. Add operational variables, thresholds, and pass conditions when forming
-the conjecture and experiment. Keep any dataset or numeric threshold supplied
-by the operationalization out of the broader question unless the researcher
-defined it there.
+Return `FAIL` when equations describe desired properties or tests but never
+state what decision is optimized under which constraints.
 
-## Active Learnable Mathematical Models
+### Learned-model annex
 
-When an active stage selects a learnable representation, dynamics model,
-estimator, or policy, read
-[learnable_model_completion.md](learnable_model_completion.md) and record an
-explicit `PASS` or `FAIL` for its completion gate. The Mathematical Model must
-define the observed, latent, learned, and output variables; exact constrained
-objective or declared likelihood/posterior objective; admissible state and hard
-constraints; known degenerate or shortcut solutions and their exclusions;
-permitted supervision and forbidden fields; training versus untouched held-out
-terms; and the objective-to-code/artifact map.
+When parameters are fitted from data, also apply
+[learnable_model_completion.md](learnable_model_completion.md). The mathematical
+model must include trainable variables, exact objective terms and aggregation,
+hard constraints, known shortcut or collapse solutions, their exclusions,
+permitted supervision, forbidden privileged fields, disjoint training and
+held-out roles, and the objective-to-computation map.
 
-Desired-property equations and evaluation residuals do not substitute for the
-objective that fits the learnable parameters. Conversely, do not add a loss to
-an inactive question or fixed diagnostic baseline. For an active fixed
-baseline, state `learnable objective: none`, the mechanism isolated, the claim
-boundary, and which later learnable stage will need the gate.
+Operational, training, development, and confirmation information must be
+separate. Evaluation-only truth cannot enter gradients, pseudo-labels,
+checkpoint selection, candidate construction, matching, fitting, threshold
+selection for an untouched claim, or a per-example decision.
 
-## Literature / Prior-Art Decision
+## Prior-Art Decision
 
-When a nontrivial open research problem is about to select, adapt, compare, or
-reject a computational mechanism, read
-[literature_prior_art_evidence.md](literature_prior_art_evidence.md). Search
-after the mathematical constraints and supervision boundary are explicit, then
-record the exact problem, physical structure, demonstrated benefit,
-assumptions, supervision/data, failures, boundary compatibility, role, and
-adopt/adapt/reject decision for each retained mechanism.
+If selecting or adapting a nontrivial mechanism, apply
+[literature_prior_art_evidence.md](literature_prior_art_evidence.md) after the
+mathematical and supervision boundaries are explicit. Section 4 must explain
+the methods that actually change the decision and end with direct decisions.
+Do not use a citation list or novelty discussion as a substitute.
 
-Computational Implementation must cite that decision record. Keep a compact
-table in the four-part design when possible; create one bounded standalone
-receipt only when the evidence is material. Do not add a mandatory fifth design
-part or proliferate files against the researcher's document request.
+## Computational Implementation
 
-Return `FAIL` and block implementation when a selected mechanism lacks the
-record or has an unresolved supervision conflict. Return `NOT_APPLICABLE` only
-for routine work or a fully prescribed deterministic baseline, with the source
-of that prescription stated. For learned work, this result and the
-Learnable-Model Completion Gate result are independent requirements.
+The implementation must let an independent reader build the same scientific
+computation without inventing an outcome-changing choice. Freeze every such
+choice, define a frozen sweep and its selection rule, or mark the implementation
+`BLOCKED` with the missing decision.
 
-## Research Map
+### Required order for an active learnable implementation
 
-Once the work contains multiple retained research questions, maintain:
+Use this order unless an approved exception is documented:
+
+#### 5.1 Implementation purpose and input/output contract
+
+State the capability being implemented; tensor, state, and unit meanings;
+permitted and forbidden inputs; and output/refusal types.
+
+#### 5.2 Prior-to-mechanism design pipeline
+
+Describe the computation in its causal order. Every stage uses the same local
+structure:
 
 ```text
-docs/research_map.md
-
-node ID and research question
-parent and upward-answer contract
-refinement source: researcher, causal reasoning, or evidence artifact
-refinement, dependency, and coupling edges
-status and document path, or none (not yet materialized)
-pointer to the authoritative bounded answer, or none (unanswered/unmaterialized)
-program active frontier
-coupled-set contracts and shared evidence paths
+Stage name
+Goal: the uncertainty or subproblem this stage resolves.
+How: the exact operation, tensors or state, and relevant parameters.
+Why: the physical prior and mathematical constraint/objective behind the
+     inductive bias, the behavior it promotes, and an important residual
+     limitation when one exists.
 ```
 
-Use stable per-node directories under `docs/problems/<ID>/` for newly active
-questions. Existing root documents may remain mapped to `P0`; do not duplicate
-research records only to normalize paths. The map is authoritative for graph
-relations, coupled-set contracts, and the program frontier. Node documents own
-their local current state and history. Do not maintain a second editable copy
-of a node's bounded answer in the map. Keep an inactive child's question in its
-parent design and do not create its node directory until activation.
+The `Why` carries the full trace from physical claim to mathematical item to
+inductive bias to concrete mechanism. Keep it beside the operation it explains;
+do not replace it with a detached global rationale table or symbol crosswalk.
+Audit in reverse: every significant mechanism must trace to a prior and
+mathematical item, or be labeled `engineering` with a practical rationale and
+no scientific claim.
 
-## Iteration Record
+#### 5.3 Architecture and frozen design parameters
 
-For each iteration, record:
+Specify input encoding, model components and sharing, dimensions, candidate
+geometry, constraints, and every scientific or architectural value needed for
+the first implementation. Give a concise prior/model/evidence rationale or
+label the value as a preregistered engineering baseline. A sweep freezes its
+range, selection data, rule, and rationale.
+
+#### 5.4 Training computation
+
+State candidate and batch construction, scores or probabilities, exact loss
+terms and weights, constraint enforcement, optimizer and schedule, stop rule,
+validation, and checkpoint selection. Map each training computation back to a
+Section 3 item.
+
+#### 5.5 Inference and decision computation
+
+State the ordered inference algorithm, operating-point selection, accepted
+output, refusal/error/break behavior, collision or consistency rules, and state
+passed downstream.
+
+#### 5.6 Evaluation boundary and evidence
+
+State what remains frozen, what evaluator-only truth may inspect after the
+decision, final metrics, observable diagnostic artifacts, and the link to the
+detailed experiment-control contract. Keep commands, absolute paths, hashes,
+resource allocation, and run receipts out of the design.
+
+Return `FAIL` for a missing, swapped, duplicated, or generic subsection. A
+component list such as “shared CNN produces descriptors” is not constructible.
+
+### Reduced fixed implementation
+
+A fixed non-learning implementation may use fewer subsections if the exception
+is stated. It must still contain: purpose and input/output; prior-to-mechanism
+trace; complete algorithm and frozen values; accepted/refusal behavior; and
+evaluation boundary.
+
+## Stage-Conditional Artifacts
+
+Create only what the current stage uses:
+
+- **Design-ready:** one current design; no experiment or viewer is required.
+- **Run-ready:** add an experiment contract with data schema, splits, exact
+  command/configuration, criteria, resource needs, and artifact paths.
+- **Result-ready:** preserve direct metrics and evidence appropriate to the
+  claim. Add visual examples or a viewer when the phenomenon is visual,
+  spatial, temporal, or otherwise easier to inspect visually.
+- **Close-ready:** add final synthesis only when the bounded answer is stable.
+
+Use an iteration ledger or research map only when durable history or multiple
+active nodes make it useful. Do not create empty child directories or duplicate
+editable answers.
+
+## Experiments And Iterative Evidence
+
+Begin Section 6 with a concise rolling summary of what the recorded rounds
+currently support, what remains unknown, and the immediate decision. Derive the
+summary from the rounds; do not maintain a second independent status account.
+
+Use the same structure for every round:
 
 ```text
-Research question: what is being answered in this iteration.
-Physical-structure conjecture: what regularity is believed and under what scope.
-Predicted consequence: what should be observed if the conjecture is correct.
-Physical parameterization: which measurable version of the idea is being tested.
-Operationalization: how the parameterization becomes variables, thresholds, or stages.
-Profiling plan: what intermediate evidence will explain success or failure.
-Result: metrics, artifacts, and representative examples.
-Interpretation: what succeeded, what failed, and why.
-Question or conjecture update: what changes in the current-state document.
-Next uncertainty: the smallest remaining uncertainty to isolate.
-Hierarchy update: what changes in the current node, related nodes and priors,
-the upward answer, and the active frontier.
+Question / hypothesis tested
+Setup / exact model or baseline version and controlled variables
+Training data
+Testing or confirmation data and split
+Results: linked artifacts and metrics, or explicit NOT RUN
+Insight / interpretation, claim-boundary update, and next decision
 ```
 
-If an experiment tests only one possible operationalization of a broader prior,
-say that explicitly. A failed proxy should not be written as a failed prior
-unless the profiling evidence rules out the broader prior.
+A planned round may contain the first four items and `NOT RUN`; its final item
+states the blocker or approval needed. A completed round contains all six and
+must link its evidence. Never infer or fabricate results from a plan.
 
-When the goal changes, record:
+Commands, hashes, machine allocation, environment receipts, and long logs may
+remain in a linked experiment-control document. The main design still carries
+the scientific setup, training data, confirmation data, result, interpretation,
+and resulting claim boundary for every round.
+
+## Plain-Language Audit
+
+Before delivery:
+
+1. Read Problem Definition and Physical Priors without chat history.
+2. Replace every phrase that needs internal context.
+3. Define technical terms at first use.
+4. Remove examples, labels, tables, and caveat chains that do not add meaning.
+5. Summarize each major section in one sentence. If the summary needs project
+   context or contradicts another section, repair the document.
+
+## Mathematics And Rendering
+
+For changed Markdown containing mathematics, always run:
 
 ```text
-Old goal: what the work was trying to optimize.
-Why it failed: what repeated profiling showed.
-Downstream purpose: what the result is actually used for.
-New goal: what should be optimized now.
-Metric change: how success and failure are measured now.
-Accepted errors: which old errors are now acceptable or useful.
-Rejected errors: which errors remain harmful.
+scripts/check_markdown_math.py <changed-markdown-files>
 ```
 
-## Equation And Parameter Rules
+This checks source containers; it does not prove rendering. When rendered
+mathematics is requested or the named primary viewer is available, test one
+inline and one display expression in that exact viewer, then inspect the final
+occurrences for raw commands, code styling, parse errors, clipping, and
+overflow. If the viewer is unavailable, report rendering as unverified and
+continue scientific work that does not depend on that rendering.
 
-Every equation must map to:
+## Forward Checks
 
 ```text
-physical prior
-model variable
-implementation stage
-experiment or profiling artifact
+FAIL — prior purity:
+  “Use a held-out split” appears as a physical prior.
+
+FAIL — mathematical formulation:
+  A fixed matcher has ranking equations but no precision-versus-coverage goal.
+
+FAIL — learned annex:
+  A representation has desired invariance equations but no trainable objective,
+  supervision boundary, anti-collapse control, or held-out separation.
+
+FAIL — constructibility:
+  “A shared CNN produces unit descriptors, then matches them.”
+
+FAIL — traceability:
+  A detailed step list contains a local window but gives only How. It never
+  states the Goal, explains that continuity gives a bounded displacement, or
+  says when the true match can fall outside.
+
+PASS — traceability:
+  Goal: restrict correspondence uncertainty under bounded motion.
+  How: apply the frozen local candidate mask.
+  Why: continuity -> displacement bound -> local mask -> distant candidates
+  cannot win; fast motion or occlusion may invalidate the mask.
+
+FAIL — ownership:
+  Section 3 contains architecture, commands, current run status, and future
+  downstream stages.
+
+FAIL — incomplete experiment record:
+  A results-only table omits the hypothesis, controlled setup, data, and
+  interpretation; or a protocol-only plan silently appears completed.
+
+PASS — experiment round:
+  The round states its question, exact model/controls, training data,
+  confirmation split, linked result or NOT RUN, and insight/claim update.
+
+PASS — evidence boundary:
+  evaluator truth is physically separate and scores only frozen decisions.
 ```
 
-For an active learnable model, every objective term and hard constraint must
-also map to its permitted training fields, exact code path, logged training
-artifact, and distinct held-out falsification artifact. If the document claims
-to learn a representation but has no optimized variables and no constrained
-objective, the mathematical-model review fails even when the source contains
-equations and evaluation tests.
-
-For Markdown research documents, distinguish the LaTeX expression from the
-Markdown container and from the renderer. Delimiters are viewer-specific:
-`$...$`, standalone `$$`, `\(...\)`, `\[...\]`, and fenced blocks are not
-interchangeable, and no one form is a safe universal default.
-
-Use this rendering workflow:
-
-1. Name the primary viewing surface precisely, including the application,
-   extension or renderer, and version when known.
-2. In a disposable file of the same type, test one representative inline
-   expression and one representative multiline display expression.
-3. Open that probe in the primary viewer. Record which container syntax
-   rendered successfully and retain a screenshot or equivalent evidence.
-4. Only after the probe passes, apply that syntax to the full document.
-5. Run `scripts/check_markdown_math.py <changed-markdown-files>` to inventory
-   the math and check source structure. Its success is a source pass, not a
-   rendering pass.
-6. Open the final document in the same viewer and inspect every inline and
-   display occurrence. Compare the count with the source inventory.
-7. Fail the render audit if any command or delimiter is visible, an equation is
-   styled as code, a parse error appears, or notation is clipped or overflows.
-8. Record a render receipt with the viewer, version when known, syntax,
-   equation counts, checker command/result, evidence, and final `RENDER PASS`
-   or `RENDER FAIL`.
-
-The source checker inventories recognized containers without assuming that any
-of them render. After a viewer probe succeeds, its optional profile can make
-the checker reject containers that were not verified:
-
-```json
-{
-  "viewer": "application, renderer or extension, and version",
-  "verified_on": "YYYY-MM-DD",
-  "evidence": "render-receipt or screenshot path",
-  "inline_containers": ["dollar"],
-  "display_containers": ["double-dollar"]
-}
-```
-
-Run the profile-aware check as:
-
-```text
-scripts/check_markdown_math.py \
-  --profile-file <viewer-profile.json> \
-  <changed-markdown-files>
-```
-
-Recognized inline container names are `dollar` and `parenthesis`. Recognized
-display names are `double-dollar`, `double-dollar-inline`, `bracket`,
-`bracket-inline`, `fenced-math`, `fenced-latex`, and `fenced-tex`. A fenced
-container is acceptable only when the target viewer probe and profile permit
-that exact form. A profile records the result of a render probe; it does not
-replace the final visual audit.
-
-If the exact target viewer is unavailable or automation cannot inspect it, say
-that rendering remains incomplete. If none of the minimal probes renders,
-preserve the LaTeX source, stop before bulk conversion, and offer an alternate
-verified artifact or viewer. Never infer successful rendering from balanced
-delimiters, from a source checker, or from a different rendering surface.
-
-Every hyperparameter must have:
-
-```text
-name
-value
-definition
-reason for this value
-effect if too low or too high, when useful
-```
-
-Write simply. Rigor means precise, not fancy.
+Run the stage-aware checklist in
+[research_loop_checklist.md](research_loop_checklist.md) before implementation
+or delivery.

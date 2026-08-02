@@ -1,188 +1,108 @@
-# Learnable-Model Completion
+# Learned-Model Annex
 
-Use this reference when an active research stage selects, specifies, or reviews
-a parameterized representation, dynamics model, estimator, or policy that will
-be learned.
-
-## Contents
-
-1. Decide whether the gate applies
-2. Complete the mathematical model
-3. Declare fixed non-learning baselines
-4. Review the gate result
-5. Run the compact forward test
-
-## Trigger
-
-Apply the gate only after both conditions hold:
-
-1. the research stage is active; and
-2. the stage has selected a parameterized model whose parameters or latent
-   state will be fitted from data.
-
-Do not apply it to an inactive child question, an open physical conjecture, or
-a fixed diagnostic computation. Do not use the gate to insert a loss,
-architecture, solver, dataset, or threshold into the broad research question.
-It formalizes a learnable model only after that model has been selected at the
-active stage.
+Use this annex only when an active stage fits a parameterized representation,
+dynamics model, estimator, or policy from data. It extends the base Mathematical
+Model contract; it does not apply to inactive questions or fixed diagnostics.
 
 ## Completion Contract
 
-The Mathematical Model is incomplete until a reader can recover all eight
-parts below without inventing missing facts.
+### Variables and state
 
-### 1. Variables and state
+Separate observed inputs, latent or inferred variables, learned parameters,
+outputs, and state passed forward. Do not call evaluation truth an observed
+model input.
 
-State separately:
+### Trainable objective
 
-```text
-observed inputs available to the learner
-latent or inferred variables
-learned parameters
-model outputs and state passed forward
-```
+State the exact constrained objective, likelihood, or posterior. Define every
+optimized variable, term, coefficient, aggregation, unit, and normalization
+that affects the trade-off. Name the physical prior or coupled prior set each
+term realizes.
 
-Do not call an evaluation reference an observed model input. Keep deployment,
-training-supervision, and evaluation-only quantities distinct.
+Desired-property equations and evaluation residuals are not a training
+objective.
 
-### 2. Physical-prior mapping
+### Admissible state and constraints
 
-For every term or constraint, name the physical prior or coupled prior set it
-realizes and the observable consequence it is intended to produce. A generic
-regularizer without a structural role is an implementation choice, not a
-physical-prior term.
+State the allowed state space and hard constraints, such as group membership,
+proper rotation, positive depth, probability normalization, causal cutoff, or
+feasible action. Say how computation enforces each one: parameterization,
+projection, constrained solve, or rejection.
 
-### 3. Constrained objective
+### Shortcut and degeneracy audit
 
-Write the exact optimization target, or an explicitly declared likelihood or
-posterior objective. Identify the optimization variables and every term. For
-example, use the relevant form rather than copying this template blindly:
-
-$$
-\min_{\theta,\,z}
-\sum_k \lambda_k\,\mathcal L_k(\theta,z;D_{\mathrm{train}})
-\quad\text{subject to}\quad
-(\theta,z)\in\mathcal A.
-$$
-
-Define each term, coefficient, unit, scale, aggregation, and normalization
-when these affect the tradeoff. If the model uses a likelihood or posterior,
-state the random variables, conditioning information, factorization, and
-assumptions instead of disguising it as an unnamed loss.
-
-### 4. Admissible state and hard constraints
-
-State the allowed state space and hard constraints, such as a proper rotation,
-group membership, positive depth, probability normalization, causal cutoff,
-feasible geometry, or policy action set. State how the later computation
-enforces each constraint: parameterization, projection, constrained solve, or
-explicit rejection.
-
-### 5. Degeneracy and shortcut exclusions
-
-List every known solution that can minimize the objective without realizing
-the intended prior. At minimum check for:
+Check every relevant shortcut:
 
 ```text
 constant or collapsed representation
-identity or label copying
-memorized appearance-to-target lookup
+label, identity, or target copying
+appearance-to-target memorization
 scale, gauge, reflection, or coordinate ambiguity
 future-observation or held-out leakage
-privileged pose, trajectory, correspondence, mask, depth, or identity use
-one term dominating because units or counts differ
+privileged pose, trajectory, correspondence, mask, depth, or identity
+one objective term dominating because units or counts differ
 ```
 
-For each relevant shortcut, name the term, constraint, data split, controlled
-diagnostic, or claim restriction intended to exclude it. If no exclusion is
-known, record the model as incomplete rather than assuming the shortcut away.
+For each relevant shortcut, name the objective term, constraint, data boundary,
+diagnostic, or claim restriction that excludes it. If no lawful exclusion is
+known, mark the model incomplete.
 
-### 6. Supervision and no-leakage schema
+### Supervision and no-leakage boundary
 
-Declare the exact permitted training fields and their provenance. Declare every
-forbidden or privileged field. Use separate schemas or physically separate
-artifacts for:
+Declare separate schemas for:
 
 ```text
 operational/deployment inputs
-permitted training supervision
-evaluation-only references
+permitted training supervision and its provenance
+development information used for checkpoint or operating-point selection
+evaluation-only confirmation truth
 ```
 
-The learner, objective, checkpoint selector, threshold tuner, and operational
-pipeline must reject evaluation-only fields. Any access is a protocol failure,
-even when it improves the metric.
+The learner, pseudo-label generator, checkpoint selector, candidate generator,
+matcher, fitter, and per-example decision must reject evaluation-only fields.
+Any access is a protocol failure, even if it improves the metric.
 
-### 7. Training versus falsification evidence
+### Training versus evidence
 
-Mark every mathematical term as one of:
+Mark each quantity as:
 
-```text
-TRAIN: contributes gradients, fitting, model selection, or threshold selection
-DIAGNOSTIC: inspected during development but does not fit the selected model
-HELD-OUT: untouched until the model, checkpoint, and criteria are frozen
-```
+- `TRAIN`: contributes gradients or fitting;
+- `DEVELOPMENT`: selects a checkpoint or operating point; or
+- `CONFIRMATION`: untouched until the model and decision rule are frozen.
 
-Held-out transform prediction, physical interaction, or another falsification
-metric cannot also be a training term for the same claimed test. If a quantity
-serves both roles on different data, name the disjoint splits explicitly.
+The same example or label cannot both fit and independently confirm the same
+claim.
 
-### 8. Objective-to-computation map
+### Objective-to-computation map
 
-Provide one row per objective term and hard constraint:
+For each objective term and hard constraint, record:
 
-| Mathematical item | Prior realized | Permitted data | Code path | Training artifact | Profiling or falsification artifact |
+| Mathematical item | Prior | Permitted data | Computation | Training signal/artifact | Separate confirmation evidence |
 |---|---|---|---|---|---|
-| named term or constraint | named prior | exact schema/split | function or stage | logged contribution/state | residual, example, or held-out result |
 
-No term may exist only in prose, and no training loss may appear in code without
-a named mathematical and physical role.
+No term may exist only in prose, and no training loss may appear in computation
+without a named mathematical and physical role.
 
-## Fixed Non-Learning Baseline
+## Result
 
-An active fixed diagnostic baseline may deliberately have no learnable
-objective. Its Mathematical Model must say:
+- **PASS:** every clause above is explicit and mutually consistent.
+- **FAIL:** optimized variables, objective, constraints, shortcut controls,
+  supervision, split roles, or the objective-to-computation map are missing.
+- **NOT APPLICABLE:** no active parameterized model is being fitted.
 
-```text
-learnable objective: none
-fixed mechanism being tested
-why fixing it isolates the current physical or computational question
-parameters that are set rather than learned
-evidence the baseline can and cannot provide
-which later selected learnable stage must pass this completion gate
-```
+Do not code or train while this annex is `FAIL`.
 
-This declaration does not exempt a learned successor.
-
-## Gate Review
-
-Return one explicit result:
-
-- **PASS:** all eight parts are present and mutually consistent.
-- **FAIL:** the active stage claims a learnable model but omits an objective,
-  variables, constraints, shortcut exclusions, supervision boundary,
-  train/held-out separation, or implementation mapping.
-- **NOT APPLICABLE:** the stage is inactive/open, or it is a declared fixed
-  non-learning baseline with the required explanation.
-
-Do not code or train an active learnable model while the result is `FAIL`.
-
-## Compact Forward Test
-
-Use this review fixture after revising the skill:
+## Forward Checks
 
 ```text
-Candidate document: an active stage says it will learn a representation
-h_theta. It gives equations saying same-object features should be invariant,
-spatial state should transform predictably, and held-out residuals will test
-both properties. It names a dataset and evaluation metrics, but it does not
-define optimized variables, a constrained objective, anti-collapse terms,
-permitted supervision, or the training/evaluation data boundary.
+FAIL: A document says corresponding features should be invariant and held-out
+      residuals will test them, but it gives no trainable objective,
+      anti-collapse term, lawful supervision, or train/confirmation boundary.
+
+PASS: The document identifies theta, the exact loss and constraints, raw
+      training inputs, forbidden privileged fields, checkpoint data, untouched
+      confirmation truth, collapse controls, and the code path for every term.
+
+NOT APPLICABLE: A fixed geometry diagnostic has no learned parameters. It must
+      still pass the base Mathematical Model and implementation contracts.
 ```
-
-Expected result: **FAIL**. Equations describing desired behavior and evaluation
-tests do not specify what training computes.
-
-False-positive guard: an inactive research question must not be forced to pick
-an objective, and a declared fixed geometry baseline with the complete
-no-learning statement must return **NOT APPLICABLE**, not `FAIL`.

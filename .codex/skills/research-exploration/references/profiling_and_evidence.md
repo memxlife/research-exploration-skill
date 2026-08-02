@@ -35,22 +35,23 @@ final result -> stage evidence -> bottleneck or support -> conjecture update
 
 ## Minimum Experiment Report
 
-Every experiment needs both numbers and visual evidence:
+Every experiment needs direct measurements and evidence appropriate to the
+claim:
 
 ```text
 purpose
 setup
 parameters
 metrics
-good examples
-bad examples
-visualization of the current state
+representative good and bad cases when they help interpretation
+visual evidence when the phenomenon is visual, spatial, or temporal
 interpretation
 next experiment
 ```
 
-For spatial, temporal, or visual work, include visual examples whenever
-possible. Aggregate metrics alone are not enough.
+For spatial, temporal, or visual work, include visual examples when they expose
+failure or structure that aggregate metrics hide. Do not create a viewer when
+text, a table, or a small saved artifact communicates the evidence more clearly.
 
 ## Fast Turnaround
 
