@@ -20,6 +20,10 @@ Before delivering a research document, read it without chat history. Rewrite
 every phrase that needs private project context. Formal completeness without
 first-reader clarity is `FAIL`.
 
+For a research design, apply the enforceable first-reader clarity contract in
+[references/research_documentation.md](references/research_documentation.md)
+and audit it with the stage-aware checklist.
+
 ## Canonical Workflow
 
 Apply only the steps relevant to the current stage:

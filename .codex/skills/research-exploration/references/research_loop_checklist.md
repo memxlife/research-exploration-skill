@@ -22,6 +22,26 @@ loss, dataset, or threshold.
   while every complete round remains preserved exactly once in a final report
   or append-only evidence ledger?
 
+## First-Reader Clarity
+
+Read the document without chat history, source code, or earlier drafts.
+
+- Can the reader state the research question and scope in ordinary words?
+- Can the reader identify the world or workload assumptions and their limits?
+- Can the reader explain the mathematical objective and prior-derived
+  constraints without decoding unexplained notation?
+- Can the reader explain every implementation stage's Goal, How, and Why?
+- Can the reader find the direct result or explicit `NOT RUN` state?
+- Can the reader distinguish what the evidence supports, does not support, and
+  leaves unresolved?
+- Are technical terms, symbols, abbreviations, and internal IDs defined at first
+  use rather than used as substitutes for explanation?
+- Were context-dependent phrases, abstract nominalizations, unnecessary tables,
+  caveat chains, and repeated disclaimers removed or rewritten directly?
+
+Return `FAIL` before delivery if formal completeness is present but any of these
+answers still requires private project context.
+
 ## Physical Priors
 
 - Is every prior a falsifiable external world/workload claim with an observable
@@ -205,4 +225,15 @@ PASS — compacted closure:
   The living design retains a short evidence summary, final claim boundary,
   decision-changing findings, and links. The linked final report or append-only
   ledger preserves every complete round and artifact exactly once.
+
+FAIL — formal but unreadable:
+  A cold reader sees “PR7,” “admissible z,” “M1,” and “R3 PASS,” but cannot tell
+  the world assumption, optimized decision, computation, measured result, or
+  claim boundary without asking for prior project context.
+
+PASS — reader-complete:
+  The question and assumptions are stated directly; the objective and
+  constraints are explained before notation; every stage gives Goal, How, and
+  Why; the result and its boundary are explicit; and every necessary term or
+  label is defined at first use.
 ```

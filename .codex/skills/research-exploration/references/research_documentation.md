@@ -9,7 +9,7 @@ Use this reference when writing or reviewing an active research design.
 3. Complete the mathematical model
 4. Complete the computational implementation
 5. Keep artifacts proportional to the stage
-6. Validate language, mathematics, and rendering
+6. Enforce first-reader clarity and validate mathematics and rendering
 7. Run forward checks
 
 ## Choose The Structure
@@ -241,16 +241,44 @@ linked final report or append-only evidence ledger. Preserve every round and
 its artifacts; compaction is not deletion or reinterpretation. Do not retain the
 same complete history in both the living design and the linked record.
 
-## Plain-Language Audit
+## Plain-Language And First-Reader Clarity Contract
 
-Before delivery:
+Audit the document as a reader who has not seen the chat, code, or earlier
+drafts. The reader must be able to identify, in ordinary words:
 
-1. Read Problem Definition and Physical Priors without chat history.
-2. Replace every phrase that needs internal context.
-3. Define technical terms at first use.
-4. Remove examples, labels, tables, and caveat chains that do not add meaning.
-5. Summarize each major section in one sentence. If the summary needs project
-   context or contradicts another section, repair the document.
+```text
+the research question and its scope
+the world or workload assumptions
+the mathematical decision or optimization objective and its constraints
+each implementation stage's Goal, How, and Why
+the observed or NOT RUN result
+the supported claim, unsupported claim, and remaining boundary
+```
+
+Use these writing rules:
+
+- Lead each section with the concrete question, claim, operation, result, or
+  decision it owns.
+- Use direct subjects and actions. Prefer “the matcher refuses this candidate”
+  to an abstract phrase such as “rejection is instantiated.”
+- Define each necessary technical term, symbol, abbreviation, and internal ID
+  at first use. A label may support navigation; it may not carry the explanation.
+- Replace context-dependent phrases such as “the current route,” “this signal,”
+  “the above mechanism,” or “valid support” with the exact object or a nearby
+  definition when a cold reader could interpret them more than one way.
+- State the physical or causal idea before its equation or implementation
+  detail. Mathematics must sharpen an understood claim, not hide a missing
+  explanation.
+- Prefer one main idea per sentence; split a sentence when doing so makes the
+  logic clearer. Remove examples, tables, labels, caveat chains, and repeated
+  disclaimers that do not make the explanation clearer.
+- Keep detail in the section that owns it; do not make an overview readable only
+  by chasing implementation or experiment-control artifacts.
+
+Return `PASS` only when the cold reader can answer all six reader questions
+without private project context. Return `FAIL` and repair before delivery when
+the document is formally complete but its question, assumptions, objective,
+computation, result, or boundary cannot be explained in plain language.
 
 ## Mathematics And Rendering
 
@@ -315,6 +343,17 @@ PASS — closed-program evidence compaction:
   The living design keeps the final rolling summary, claim boundary,
   decision-changing findings, and links; a final report or append-only ledger
   preserves every complete round and artifact without duplication.
+
+FAIL — formal but opaque:
+  “Under PR7, optimize L over admissible z; M1 realizes the inductive bias and
+  R3 passes.” The labels, objective, mechanism, result, and allowed conclusion
+  require prior project context even if equations and references are present.
+
+PASS — first-reader clarity:
+  The document says that nearby images are assumed to change only a bounded
+  amount, defines the matching objective and constraint, explains each stage's
+  Goal, How, and Why, reports the measured result, and states what that result
+  does and does not support. Necessary labels are defined where they first appear.
 
 PASS — evidence boundary:
   evaluator truth is physically separate and scores only frozen decisions.
