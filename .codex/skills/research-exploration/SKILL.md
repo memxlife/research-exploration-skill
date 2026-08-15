@@ -16,6 +16,13 @@ concrete words. Define a technical term where it first appears. Report direct
 experimental results as soon as they are available; do not delay them for
 viewer or document polish.
 
+Give each active stage one driving question. Keep only the priors, model terms,
+mechanisms, and tests needed to answer it. Move a genuinely separate
+uncertainty to a later child question instead of growing secondary branches in
+the current stage. During early research, language clarity outranks formal
+display: add notation only when it makes the driving decision more testable or
+less ambiguous.
+
 Before delivering a research document, read it without chat history. Rewrite
 every phrase that needs private project context. Formal completeness without
 first-reader clarity is `FAIL`.
@@ -43,6 +50,28 @@ research question and scope
 Do not start with an architecture, solver, loss, benchmark, or implementation
 unless the researcher has already prescribed it. Do not impose research
 artifacts or gates on routine deterministic work.
+
+At every arrow, restate the single driving question in the vocabulary owned by
+that stage. If a section cannot be summarized as one question or decision,
+narrow it before adding detail.
+
+## Rapid Conjecture Loop (Mandatory)
+
+During question discovery and early design, optimize for learning per unit
+time. Before expanding a model or program, record one falsifiable physical or
+workload conjecture and the smallest, fastest experiment that distinguishes it.
+The record must name:
+
+```text
+conjecture or prior
+observation that supports it
+observation that falsifies or materially refines it
+why this test maximizes learning per unit time versus the nearest alternative
+exact conjecture update for every declared outcome
+```
+
+If any item is missing, the early design is `FAIL`: narrow the question before
+adding secondary mechanisms, benchmarks, ablations, or future stages.
 
 ## Stage And Artifact Selection
 
@@ -271,8 +300,16 @@ for hierarchy changes and evidence propagation.
 
 ## Source And Viewer Validation
 
-Always run `scripts/check_markdown_math.py` on changed Markdown research files
-that contain mathematics. This is source validation, not proof of rendering.
+Write Markdown mathematics only with standard `$...$` inline delimiters and
+`$$...$$` display delimiters. Introduce every equation with a plain-language
+causal sentence. Put one relation or definition in each display; split long
+derivations into named intermediate quantities. Do not use raw LaTeX commands
+outside delimiters, deep or nested delimiter constructions, or continuation
+lines that begin with an operator such as `+`, `-`, or `=`.
+
+Always run `scripts/check_markdown_math.py` on every changed Markdown research
+file that contains mathematics. A failure blocks delivery. A source pass is
+not proof of rendering.
 
 When rendered mathematics is a requested deliverable or the named primary
 viewer is available, probe one inline and one display expression in that exact

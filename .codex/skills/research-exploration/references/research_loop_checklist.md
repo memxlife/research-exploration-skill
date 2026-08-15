@@ -4,9 +4,39 @@ Use only the blocks that apply to the current stage. Any applicable missing
 contract is `FAIL`; an inactive future stage is not required to choose a model,
 loss, dataset, or threshold.
 
+## Fast Delivery Audit
+
+Return `FAIL` and revise before delivery if either answer is no:
+
+1. Does the document focus on the most important driving problem using the
+   smallest useful model?
+2. Could an undergraduate explain the causal idea after one careful reading?
+
+Also return `FAIL` if any answer is no:
+
+- Does every active stage name one driving question or decision?
+- Were secondary branches removed, deferred, or promoted to their own child
+  question?
+- Does early work name one falsifiable conjecture or prior and the smallest,
+  fastest experiment that distinguishes it?
+- Are the supporting observation, falsifying or refining observation, and exact
+  conjecture update for every declared outcome stated before expansion?
+- Does the design explain why this test maximizes learning per unit time over
+  the nearest alternative?
+- Does every display follow a plain-language causal sentence and contain only
+  one relation or definition?
+- Are long formulas split into named intermediates, with no deep or nested
+  construction and no continuation line beginning with `+`, `-`, or `=`?
+- Does Markdown math use only `$...$` and `$$...$$`, with no raw LaTeX outside
+  delimiters?
+- Did every changed Markdown research file containing math pass
+  `scripts/check_markdown_math.py`?
+
 ## Question And Document
 
 - Is the current question stated before any mechanism?
+- Does each active stage state one driving question or decision?
+- Were secondary concerns removed when they do not change the current test?
 - Are importance, scope, parent/root relation, and already revealed children
   clear without chat history?
 - Is the four- or five-section structure declared and justified?
@@ -124,6 +154,11 @@ and evaluation boundary.
 ## Experiment And Evidence, When Applicable
 
 - Is the smallest distinguishing test preregistered?
+- For early work, are support, falsification or refinement, and insufficient-
+  evidence outcomes each mapped to an exact next conjecture rather than only a
+  status label?
+- Is the learning-per-unit-time rationale concrete enough to justify deferring
+  the nearest slower or broader test?
 - Are schemas, splits, criteria, metrics, statuses, resources, and artifact
   paths frozen before execution?
 - Is confirmation truth inaccessible to training, checkpoint selection,
@@ -145,6 +180,11 @@ and evaluation boundary.
 ## Source And Viewer, When Applicable
 
 - Did changed Markdown math pass `scripts/check_markdown_math.py`?
+- Does source math use only `$...$` and `$$...$$`?
+- Does a plain-language causal sentence introduce every display?
+- Does each display contain one relation or definition, with named
+  intermediates replacing deep or nested expressions?
+- Are line-leading operators and raw LaTeX outside delimiters absent?
 - If rendered math is in scope, was the exact target viewer probed and the final
   artifact inspected? Otherwise is rendering truthfully marked unverified?
 - If a viewer exists, does every plot define data, metric, unit, axes, result,
@@ -236,4 +276,23 @@ PASS — reader-complete:
   constraints are explained before notation; every stage gives Goal, How, and
   Why; the result and its boundary are explicit; and every necessary term or
   label is defined at first use.
+
+FAIL — renderer-fragile math:
+  A large nested display combines several definitions, begins continuation
+  lines with operators, or contains raw LaTeX outside `$...$` or `$$...$$`.
+
+PASS — renderer-safe math:
+  A causal sentence introduces one definition; named intermediate quantities
+  use separate `$$...$$` displays; each display is explained in plain language;
+  and `scripts/check_markdown_math.py` passes.
+
+FAIL — broad early program without a conjecture loop:
+  An early design proposes several models, datasets, ablations, and future
+  stages but never names the one conjecture, discriminating observations,
+  learning-per-time rationale, or exact update after each outcome.
+
+PASS — rapid conjecture loop:
+  One conjecture names its supporting and falsifying observations; the shortest
+  distinguishing test is justified against the nearest alternative; and every
+  outcome produces a specific revised conjecture or bounded stop decision.
 ```
