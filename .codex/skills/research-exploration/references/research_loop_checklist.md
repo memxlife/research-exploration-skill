@@ -11,6 +11,9 @@ Return `FAIL` and revise before delivery if either answer is no:
 1. Does the document focus on the most important driving problem using the
    smallest useful model?
 2. Could an undergraduate explain the causal idea after one careful reading?
+3. Could a first-year undergraduate read the document without chat history and
+   reconstruct the complete chain from motivation and definitions through the
+   derivation to its conclusion, implication, and limitation?
 
 Also return `FAIL` if any answer is no:
 
@@ -55,6 +58,9 @@ Also return `FAIL` if any answer is no:
 ## First-Reader Clarity
 
 Read the document without chat history, source code, or earlier drafts.
+
+- Does the document read as a self-contained undergraduate textbook chapter
+  unless the user explicitly requested another audience or format?
 
 - Can the reader state the research question and scope in ordinary words?
 - Can the reader identify the world or workload assumptions and their limits?
@@ -154,6 +160,20 @@ and evaluation boundary.
 ## Experiment And Evidence, When Applicable
 
 - Is the smallest distinguishing test preregistered?
+- For a claimed causal comparison, are the exact compared objects and update or
+  perturbation formulas stated separately for both sides?
+- Are direct method-to-method measurements distinguished from target-based
+  quality measurements?
+- Were parameter shapes, input and output dimensions, normalization,
+  aggregation, gradient or perturbation geometry, starting behavior, data, and
+  randomness audited before attributing the difference to one factor?
+- If more than one relevant factor changed, was the smallest matched control
+  added, or did the document state that the comparison cannot isolate one
+  cause?
+- Was each scaling law derived from its own model rather than transferred by
+  analogy, including any power introduced mechanically by normalization?
+- Does a failed baseline, approximation, pairing, or numerical check produce
+  an inconclusive result rather than support or falsification?
 - For early work, are support, falsification or refinement, and insufficient-
   evidence outcomes each mapped to an exact next conjecture rather than only a
   status label?
@@ -295,4 +315,13 @@ PASS — rapid conjecture loop:
   One conjecture names its supporting and falsifying observations; the shortest
   distinguishing test is justified against the nearest alternative; and every
   outcome produces a specific revised conjecture or bounded stop decision.
+
+FAIL — causal attribution from unmatched systems:
+  Two experiments use different losses, parameter shapes, normalizations, and
+  random-update geometry, yet the result is attributed to the loss alone.
+
+PASS — matched mechanism comparison:
+  The comparison states both update-noise formulas, keeps the starting
+  input-output behavior and evaluation fixed, changes one proposed cause, and
+  treats a failed approximation check as inconclusive.
 ```

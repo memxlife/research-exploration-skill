@@ -4,9 +4,10 @@
 
 1. Use profiling to explain results
 2. Record the minimum experiment report
-3. Preserve fast turnaround
-4. Compare against strong evidence
-5. Instrument multi-step pipelines
+3. Match comparisons before attributing a cause
+4. Preserve fast turnaround
+5. Compare against strong evidence
+6. Instrument multi-step pipelines
 
 Use this reference when planning, running, or reviewing experiments.
 
@@ -52,6 +53,57 @@ next experiment
 For spatial, temporal, or visual work, include visual examples when they expose
 failure or structure that aggregate metrics hide. Do not create a viewer when
 text, a table, or a small saved artifact communicates the evidence more clearly.
+
+## Matched Comparisons Before Causal Attribution
+
+A difference between two experiments does not identify its cause when the
+experiments also change parameter shape, data geometry, normalization, or the
+number of independent random terms. Before attributing a result to a loss,
+architecture, mechanism, or dimension, write down the following for each side:
+
+```text
+exact vectors, predictions, decisions, or losses being compared
+exact update, perturbation, or noise formula
+parameter and state shapes
+input and output dimensions
+normalization and aggregation used by every reported metric
+gradient or perturbation geometry
+number and dependence of random terms
+starting input-output behavior
+data, example order, schedules, seeds, and paired randomness
+assumptions required by each approximation or scaling claim
+```
+
+Keep method-to-method measurements separate from target-based measurements.
+For example, a direct prediction difference asks whether two methods agree
+with each other, while task loss asks whether either method agrees with the
+target. One cannot substitute for the other without an explicit derivation.
+
+Derive each prediction from its own equations. A shared symbol such as
+dimension $d$ does not justify copying an exponent or concentration claim from
+one model to another. State how normalization and averaging change the measured
+exponent simply because of the calculation; otherwise a reporting convention
+can be mistaken for a scientific improvement.
+
+If the audit finds more than one relevant difference, use the smallest matched
+control that keeps the starting observable behavior, data, evaluation metric,
+and random-update procedure fixed while changing only the proposed cause. Pair
+random draws when that pairing is mathematically meaningful. When efficient
+sampling replaces explicit random choices, verify the equivalence on a small
+explicit case before the full run.
+
+Interpret the matched result using four outcomes:
+
+```text
+support: the predicted distinction appears and every required assumption check passes
+refine: the mechanism appears, but the measured law or range differs
+falsify: the matched evidence contradicts the prediction while assumptions hold
+inconclusive: a required baseline, approximation, pairing, or numerical check fails
+```
+
+Do not turn an inconclusive assumption check into support or falsification. If
+a matched control is impossible, state that the comparison cannot isolate one
+cause and limit the claim to the observed association.
 
 ## Fast Turnaround
 

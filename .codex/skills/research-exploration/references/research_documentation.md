@@ -30,6 +30,11 @@ five-section form.
 
 ## Section Ownership
 
+Before drafting details, write one driving question or decision for each active
+section. Include only material that changes that answer. A second independent
+question belongs in a new child or later study, not as a branch inside the
+current section.
+
 | Section | Owns | Must not contain |
 |---|---|---|
 | 1. Problem Definition | selected question, importance, scope, parent/root relation, already revealed children | priors, equations, methods, protocol, or changing run status |
@@ -79,8 +84,9 @@ untouched confirmation metrics and bounded claim
 
 A fixed model may have no training loss. It still needs an exact decision or
 evaluation objective. For example, development data may choose the strictness
-that maximizes accepted correct-match coverage subject to a predeclared
-precision requirement, followed by one untouched confirmation report.
+that maximizes accepted correct-match coverage subject to a precision
+requirement chosen before the experiment, followed by one untouched
+confirmation report.
 
 Return `FAIL` when equations describe desired properties or tests but never
 state what decision is optimized under which constraints.
@@ -255,8 +261,29 @@ the observed or NOT RUN result
 the supported claim, unsupported claim, and remaining boundary
 ```
 
+### Undergraduate-textbook default
+
+Unless the user names another audience or format, every design document,
+research note, proof, and derivation must teach its subject at the level of a
+first-year undergraduate textbook. This is a rigor requirement, not a request
+to remove mathematics. The document must:
+
+- state the motivating question before presenting a method or equation;
+- give all background needed to understand the setup;
+- define every term and symbol before its first use;
+- explain why each equation is introduced and how each derivation step follows;
+- carry the mathematics through to a concrete conclusion rather than stopping
+  at a setup equation;
+- explain what the conclusion means, when it applies, and when it does not;
+- remain understandable without Codex adding a separate explanation in chat.
+
+A mathematically correct document that fails any item above is `FAIL` and must
+be rewritten before delivery.
+
 Use these writing rules:
 
+- Begin every section with its single driving question, decision, or result.
+  Remove secondary concerns that do not change the current experiment.
 - Lead each section with the concrete question, claim, operation, result, or
   decision it owns.
 - Use direct subjects and actions. Prefer “the matcher refuses this candidate”
@@ -269,6 +296,9 @@ Use these writing rules:
 - State the physical or causal idea before its equation or implementation
   detail. Mathematics must sharpen an understood claim, not hide a missing
   explanation.
+- During question discovery and active design, prefer a short causal
+  explanation over a formally complete display that does not change a
+  decision. Defer formal detail to a run-ready contract when it becomes needed.
 - Prefer one main idea per sentence; split a sentence when doing so makes the
   logic clearer. Remove examples, tables, labels, caveat chains, and repeated
   disclaimers that do not make the explanation clearer.
@@ -282,14 +312,26 @@ computation, result, or boundary cannot be explained in plain language.
 
 ## Mathematics And Rendering
 
-For changed Markdown containing mathematics, always run:
+Use only standard `$...$` for inline mathematics and `$$...$$` for display
+mathematics. Introduce each equation with a plain-language causal sentence.
+Keep one relation or definition per display. When a formula needs multiple
+steps, define short named intermediates in separate displays and explain each
+one immediately afterward.
+
+Do not use raw LaTeX commands outside math delimiters, `\(...\)`, `\[...\]`,
+fenced math blocks, deep or nested delimiter constructions, or visually fragile
+continuations whose first non-space character is `+`, `-`, or `=`. Do not use
+equation layout as a substitute for a causal explanation.
+
+For every changed Markdown file containing mathematics, always run:
 
 ```text
 scripts/check_markdown_math.py <changed-markdown-files>
 ```
 
-This checks source containers; it does not prove rendering. When rendered
-mathematics is requested or the named primary viewer is available, test one
+Any source-validation failure is `FAIL` and blocks delivery. A source pass does
+not prove rendering. When rendered mathematics is requested or the named
+primary viewer is available, test one
 inline and one display expression in that exact viewer, then inspect the final
 occurrences for raw commands, code styling, parse errors, clipping, and
 overflow. If the viewer is unavailable, report rendering as unverified and

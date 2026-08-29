@@ -16,6 +16,14 @@ concrete words. Define a technical term where it first appears. Report direct
 experimental results as soon as they are available; do not delay them for
 viewer or document polish.
 
+Treat every reader-facing research design, proof note, and technical derivation
+as an undergraduate textbook chapter by default, unless the user explicitly
+requests a different audience or format. Preserve the mathematics, but teach
+it: state why the question matters, establish the concrete setup, define every
+symbol before use, justify each derivation step, and finish with the result's
+meaning and boundary. The document must stand on its own; chat history and a
+later verbal explanation may not supply missing context.
+
 Give each active stage one driving question. Keep only the priors, model terms,
 mechanisms, and tests needed to answer it. Move a genuinely separate
 uncertainty to a later child question instead of growing secondary branches in
@@ -23,9 +31,11 @@ the current stage. During early research, language clarity outranks formal
 display: add notation only when it makes the driving decision more testable or
 less ambiguous.
 
-Before delivering a research document, read it without chat history. Rewrite
-every phrase that needs private project context. Formal completeness without
-first-reader clarity is `FAIL`.
+Before delivering a research document, read it without chat history as a
+first-year undergraduate. Rewrite every phrase that needs private project
+context, uses an undefined symbol, skips a reasoning step, or states a formula
+without its implication. Formal completeness without undergraduate-level
+teaching clarity is `FAIL`.
 
 For a research design, apply the enforceable first-reader clarity contract in
 [references/research_documentation.md](references/research_documentation.md)
@@ -246,6 +256,15 @@ alternatives. Freeze permitted inputs, forbidden fields, splits, criteria,
 status outcomes, metrics, and artifacts. Preserve separate operational,
 training, development, and untouched confirmation schemas when applicable.
 
+When evidence compares two models or mechanisms, audit whether the comparison
+changes anything besides the proposed cause. Check the exact measured objects,
+parameter geometry, normalization and aggregation, starting behavior, data,
+and randomness. If more than one scientifically relevant factor changes, add
+the smallest matched control. If that is impossible, state that the comparison
+cannot isolate one cause. Derive each model's prediction separately; do not
+transfer a scaling law by analogy. Use the matched-comparison contract in
+[references/profiling_and_evidence.md](references/profiling_and_evidence.md).
+
 For each round in the child design, use this reader-facing order:
 
 ```text
@@ -338,7 +357,8 @@ or threshold.
 - `literature_prior_art_evidence.md`: conditional source search and mechanism
   decision record.
 - `algorithm_specification.md`: run-ready algorithm and experiment contract.
-- `profiling_and_evidence.md`: metrics, examples, artifacts, and interpretation.
+- `profiling_and_evidence.md`: metrics, matched comparisons, artifacts, and
+  interpretation.
 - `failure_decomposition.md`: localize a broad failure.
 - `goal_audit.md`: reconsider a repeatedly failing goal or metric.
 - `problem_discovery.md`: establish a new question and candidate structure.
