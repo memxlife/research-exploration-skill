@@ -6,14 +6,15 @@ loss, dataset, or threshold.
 
 ## Fast Delivery Audit
 
-Return `FAIL` and revise before delivery if either answer is no:
+Return `FAIL` and revise before delivery if any answer is no:
 
 1. Does the document focus on the most important driving problem using the
    smallest useful model?
-2. Could an undergraduate explain the causal idea after one careful reading?
-3. Could a first-year undergraduate read the document without chat history and
-   reconstruct the complete chain from motivation and definitions through the
-   derivation to its conclusion, implication, and limitation?
+2. Could a PhD-level reader outside the immediate specialty explain the causal
+   idea after one careful reading?
+3. Could that reader reconstruct the complete chain from motivation and local
+   definitions through the derivation to its conclusion, implication, and
+   limitation without chat history?
 
 Also return `FAIL` if any answer is no:
 
@@ -42,7 +43,8 @@ Also return `FAIL` if any answer is no:
 - Were secondary concerns removed when they do not change the current test?
 - Are importance, scope, parent/root relation, and already revealed children
   clear without chat history?
-- Is the four- or five-section structure declared and justified?
+- Is the compact, four-, or five-section structure proportional to the current
+  question, with no empty or unnecessary sections?
 - Does each section contain only content it owns?
 - Does every child inherit or explicitly refine named root priors?
 - Were inactive variants, downstream work, duplicate warnings, and operational
@@ -59,8 +61,9 @@ Also return `FAIL` if any answer is no:
 
 Read the document without chat history, source code, or earlier drafts.
 
-- Does the document read as a self-contained undergraduate textbook chapter
-  unless the user explicitly requested another audience or format?
+- Does the document read as self-contained, insightful research prose for a
+  PhD-level reader outside the immediate specialty, unless the user requested
+  another audience or format?
 
 - Can the reader state the research question and scope in ordinary words?
 - Can the reader identify the world or workload assumptions and their limits?

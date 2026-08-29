@@ -14,19 +14,27 @@ Use this reference when writing or reviewing an active research design.
 
 ## Choose The Structure
 
-Record the choice before drafting:
+Choose the smallest structure that fits the current question:
 
 ```text
-design structure: FOUR_SECTION_ALLOWED | FIVE_SECTION_REQUIRED
-reason: whether prior art materially changes mechanism choice, adaptation,
-        or admissibility
+design structure: COMPACT | FOUR_SECTION | FIVE_SECTION
+reason: the information that requires this amount of structure
 ```
 
-Use four core sections for a fully prescribed fixed mechanism or contextual
-prior art. Use five core sections when prior art materially selects, adapts,
-rejects, or changes a mechanism's admissibility. An active child then appends
-`Experiments and Iterative Evidence` after computation—Section 6 in the
-five-section form.
+Use `COMPACT` for a single-model toy study, proof, or early diagnostic:
+
+```text
+1. Question
+2. Minimal Model and Prediction
+3. Experiment or Derivation
+4. Result, Insight, and Boundary
+```
+
+Use four core sections when physical priors, mathematics, and implementation
+each need a sustained argument. Use five only when prior art materially changes
+mechanism choice or admissibility. Append `Experiments and Iterative Evidence`
+only when multiple rounds must remain visible. State the choice in one sentence
+and do not create empty sections.
 
 ## Section Ownership
 
@@ -44,9 +52,10 @@ current section.
 | 5. Computational Implementation | permitted inputs, outputs, causal mechanism map, architecture, training/inference computation, refusal, and evaluation boundary | inactive future branches, raw commands, hashes, resource allocation, or long run history |
 | 6. Experiments and Iterative Evidence | rolling evidence summary; one scientific record per planned/completed round; claim update and next decision | fabricated results, unmodeled mechanisms, or raw control-plane logs |
 
-In a four-section design, implementation is Section 4 and keeps the same owner.
-Record the prior-art decision as `NOT_APPLICABLE` or contextual immediately
-before it.
+In a compact design, combine ownership without mixing unrelated questions. In
+a four-section design, implementation is Section 4 and keeps the same owner.
+Record the prior-art decision as `NOT_APPLICABLE` or contextual only when that
+information helps the current decision.
 
 ### Physical-prior purity
 
@@ -261,16 +270,17 @@ the observed or NOT RUN result
 the supported claim, unsupported claim, and remaining boundary
 ```
 
-### Undergraduate-textbook default
+### PhD-reader default
 
 Unless the user names another audience or format, every design document,
-research note, proof, and derivation must teach its subject at the level of a
-first-year undergraduate textbook. This is a rigor requirement, not a request
-to remove mathematics. The document must:
+research note, proof, and derivation must be written for a PhD-level reader
+outside the immediate specialty. This is a rigor and communication requirement,
+not a request to remove mathematics or intellectual depth. The document must:
 
 - state the motivating question before presenting a method or equation;
-- give all background needed to understand the setup;
-- define every term and symbol before its first use;
+- give the problem-specific background needed to understand the setup without
+  reteaching standard technical material;
+- define local notation, nonstandard terms, and ambiguous concepts before use;
 - explain why each equation is introduced and how each derivation step follows;
 - carry the mathematics through to a concrete conclusion rather than stopping
   at a setup equation;
@@ -278,7 +288,8 @@ to remove mathematics. The document must:
 - remain understandable without Codex adding a separate explanation in chat.
 
 A mathematically correct document that fails any item above is `FAIL` and must
-be rewritten before delivery.
+be rewritten before delivery. A readable document that removes the central
+mechanism, non-obvious comparison, or bounded insight also fails.
 
 Use these writing rules:
 

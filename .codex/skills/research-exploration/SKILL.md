@@ -17,12 +17,14 @@ experimental results as soon as they are available; do not delay them for
 viewer or document polish.
 
 Treat every reader-facing research design, proof note, and technical derivation
-as an undergraduate textbook chapter by default, unless the user explicitly
-requests a different audience or format. Preserve the mathematics, but teach
-it: state why the question matters, establish the concrete setup, define every
-symbol before use, justify each derivation step, and finish with the result's
-meaning and boundary. The document must stand on its own; chat history and a
-later verbal explanation may not supply missing context.
+as polished research prose for a PhD-level reader outside the immediate
+specialty, unless the user requests another audience or format. Preserve the
+mathematics and the insight: state why the question matters, establish the
+concrete setup, define local notation and nonstandard concepts, justify the
+steps that carry the argument, and finish with the result's meaning and
+boundary. Do not reteach standard technical material when it does not help the
+intended reader. The document must stand on its own; chat history may not
+supply missing context.
 
 Give each active stage one driving question. Keep only the priors, model terms,
 mechanisms, and tests needed to answer it. Move a genuinely separate
@@ -32,10 +34,11 @@ display: add notation only when it makes the driving decision more testable or
 less ambiguous.
 
 Before delivering a research document, read it without chat history as a
-first-year undergraduate. Rewrite every phrase that needs private project
-context, uses an undefined symbol, skips a reasoning step, or states a formula
-without its implication. Formal completeness without undergraduate-level
-teaching clarity is `FAIL`.
+PhD-level reader outside the immediate specialty. Rewrite every phrase that
+needs private project context, uses undefined local notation, skips a necessary
+reasoning step, obscures the central mechanism, or states a formula without its
+implication. Formal completeness without clear and insightful research prose
+is `FAIL`.
 
 For a research design, apply the enforceable first-reader clarity contract in
 [references/research_documentation.md](references/research_documentation.md)
@@ -82,6 +85,8 @@ exact conjecture update for every declared outcome
 
 If any item is missing, the early design is `FAIL`: narrow the question before
 adding secondary mechanisms, benchmarks, ablations, or future stages.
+This record may be one concise paragraph. Do not create a separate artifact or
+approval gate merely to hold it.
 
 ## Stage And Artifact Selection
 
@@ -102,8 +107,19 @@ changing run history in an iteration record only when that history is useful.
 
 When writing or revising a research design, read
 [references/research_documentation.md](references/research_documentation.md).
-Use four sections when computation is fully prescribed or prior art is only
-contextual:
+Use the smallest structure that makes the current research decision clear. A
+single-model toy study or early diagnostic may use this compact form:
+
+```text
+1. Question
+2. Minimal Model and Prediction
+3. Experiment or Derivation
+4. Result, Insight, and Boundary
+```
+
+Do not create a section that has no decision-relevant content. Use the fuller
+four-section form when physical priors and implementation each require their
+own sustained argument:
 
 ```text
 1. Problem Definition
@@ -112,7 +128,7 @@ contextual:
 4. Computational Implementation
 ```
 
-Use five core sections when prior art materially selects, adapts, rejects, or
+Use five core sections only when prior art materially selects, adapts, rejects, or
 changes the admissibility of a mechanism:
 
 ```text
@@ -123,9 +139,9 @@ changes the admissibility of a mechanism:
 5. Computational Implementation
 ```
 
-An active child then uses **Experiments and Iterative Evidence** after the
-implementation section—Section 6 in the five-section form. Declare the chosen
-structure and reason before drafting.
+An active child may append **Experiments and Iterative Evidence** when more than
+one round must remain visible. Record the chosen structure and its reason in
+one sentence; do not turn the choice into a separate procedure.
 
 ### Section ownership
 
@@ -205,8 +221,8 @@ choice. Every outcome-changing design variable must be frozen, included in a
 frozen sweep, or marked `BLOCKED`. Keep absolute paths, launch commands,
 resource allocation, hashes, and run receipts in the experiment contract.
 
-For every active learnable implementation, use this order unless the document
-records an approved exception:
+For a substantial active learnable implementation, use this order when each
+subsection carries information needed to reproduce or evaluate the model:
 
 ```text
 5.1 Implementation purpose and input/output contract
@@ -219,10 +235,12 @@ records an approved exception:
     experiment-control contract
 ```
 
-Audit each subsection. Missing, swapped, duplicated, or generic subsections are
-`FAIL`. A fixed non-learning implementation may use a documented reduced form,
-but it must preserve input/output, the prior-to-mechanism map, the exact
-algorithm, the decision/refusal rule, and the evaluation boundary.
+Do not force these subsections onto a small toy model or one-step diagnostic.
+For such a study, a compact implementation contract is sufficient when it
+states the inputs and outputs, fixed and learned variables, exact computation
+or update, measurement, and claim boundary. For a substantial implementation
+that selects the fuller structure, a missing or generic required subsection is
+`FAIL`. A fixed non-learning implementation may also use the compact form.
 
 ### Prior-to-inductive-bias traceability
 
