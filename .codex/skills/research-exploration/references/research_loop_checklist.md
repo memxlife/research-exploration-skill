@@ -121,6 +121,17 @@ A fixed non-learning design may use a documented reduced form, but it must
 preserve input/output, causal mechanism map, exact algorithm, decision/refusal,
 and evaluation boundary.
 
+## Conjectures, When Applicable
+
+- Is every proposed explanation labeled as a conjecture until evidence supports
+  it?
+- Did whoever proposed the conjecture also design the test that could falsify
+  it?
+- Is the conjecture split into parts, each with a written prediction and a
+  written result that would prove it wrong, fixed before running?
+- Is each part reported as held or wrong, with no explanation added afterwards
+  to rescue a failed part?
+
 ## Experiment And Evidence, When Applicable
 
 - Is the smallest distinguishing test preregistered?
@@ -203,6 +214,16 @@ FAIL — evidence leakage:
 PASS — bounded evidence:
   raw-video training and validation freeze the model; development truth freezes
   acceptance strictness; untouched confirmation truth scores frozen decisions.
+
+FAIL — conjecture stated as finding:
+  “The outlier forms because the model needs a constant and training pushes
+  one coordinate.” No experiment is named that could show this is wrong, and
+  when challenged the author argues for it instead of testing it.
+
+PASS — owned, falsifiable conjecture:
+  The author states the conjecture in four parts. For each part one run is
+  named, with the predicted result and the result that would refute it fixed
+  in advance. Results are reported part by part as held or wrong.
 
 FAIL — results-only round:
   A metric table has no question, controlled setup, train/confirmation data, or

@@ -210,6 +210,26 @@ unsupported scientific claim. A detailed but how-only pipeline is `FAIL`.
 Use [references/algorithm_specification.md](references/algorithm_specification.md)
 for the separate run-ready experiment contract after the design passes.
 
+## Conjecture Ownership
+
+Whoever makes a conjecture proves it. A conjecture is a starting point, not an
+explanation: its job is to drive falsification so the work finds out which part
+of the current understanding of the problem is wrong.
+
+- State a proposed explanation as a conjecture, never as a finding. Phrases
+  such as “the model wants it”, “training pushes it”, or “it acts as a constant”
+  are labels, not explanations, until an experiment supports them.
+- The person or agent who proposes the conjecture designs the test that could
+  prove it wrong. It is never the other researcher's job to disprove it.
+- Split the conjecture into parts that one experiment can each falsify. For
+  each part, write down before running what the result must show if the part
+  holds and what result proves it wrong.
+- Report each part as held or wrong. When a part fails, say so directly and
+  update the question, prior, model, or claim boundary. Do not add a new
+  explanation afterwards to rescue the failed part.
+- When a conjecture is challenged, answer with the test that would settle it,
+  not with more argument for it.
+
 ## Experiment And Evidence Contract
 
 Before running, define the smallest experiment that distinguishes the current
